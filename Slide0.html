@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boas-vindas ao Workshop Escudo Digital</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 20% 80%, #667eea 0%, transparent 40%),
+                        radial-gradient(circle at 80% 20%, #ff6b6b 0%, transparent 35%),
+                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 45%);
+        }
+        .glow-text {
+            text-shadow: 0 0 15px rgba(102, 126, 234, 0.7), 0 0 30px rgba(102, 126, 234, 0.5);
+        }
+        .content-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .qr-code-container {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            padding: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .qr-code-container:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(102, 126, 234, 0.7);
+        }
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        @keyframes floating {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .slide-in-fwd-center {
+            animation: slide-in-fwd-center 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+        }
+        @keyframes slide-in-fwd-center {
+            0% {
+                transform: translateZ(-1400px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateZ(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans flex items-center justify-center overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 25px, rgba(102, 126, 234, 0.1) 25px, rgba(102, 126, 234, 0.1) 26px), repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(102, 126, 234, 0.1) 25px, rgba(102, 126, 234, 0.1) 26px);"></div>
+
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+
+    <div class="relative z-10 p-6 text-center max-w-4xl mx-auto">
+        <div class="content-card rounded-xl p-8 slide-in-fwd-center">
+            <img src="escudo.png" alt="Logo Escudo Digital" class="w-64 mx-auto mb-6 floating">
+
+            <h1 class="text-5xl font-black glow-text mb-3" style="font-family: 'Orbitron', monospace;">
+                WORKSHOP CYBERSEGURANÇA
+            </h1>
+            <h2 class="text-2xl font-semibold text-cyan-300 mb-2" style="font-family: 'Poppins', sans-serif;">
+                MUNDO SENAI 2025 – 06/05/2025
+            </h2>
+            <p class="text-xl text-gray-300 mb-8" style="font-family: 'Poppins', sans-serif;">
+                Apresentado por: Heber Gustavo Xavier de Castro
+            </p>
+
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold text-yellow-300 mb-2" style="font-family: 'Orbitron', monospace;">CONECTE-SE COM O PALESTRANTE</h3>
+                    <div class="qr-code-container rounded-lg inline-block">
+                        <img src="linkedin.png" alt="QR Code LinkedIn Heber Castro" class="w-40 h-40">
+                    </div>
+                    <p class="text-sm text-gray-400 mt-2">Escaneie para adicionar no LinkedIn</p>
+                </div>
+                <div class="text-left md:border-l-2 border-blue-400 md:pl-8">
+                     <h3 class="text-xl font-semibold text-yellow-300 mb-3" style="font-family: 'Orbitron', monospace;">PREPARE-SE PARA:</h3>
+                    <ul class="space-y-2 text-gray-200" style="font-family: 'Poppins', sans-serif;">
+                        <li class="flex items-center"><i class="fas fa-shield-alt text-green-400 mr-2"></i> Aprender a se proteger online</li>
+                        <li class="flex items-center"><i class="fas fa-lightbulb text-green-400 mr-2"></i> Descobrir os principais perigos</li>
+                        <li class="flex items-center"><i class="fas fa-tools text-green-400 mr-2"></i> Conhecer ferramentas essenciais</li>
+                        <li class="flex items-center"><i class="fas fa-user-secret text-green-400 mr-2"></i> Fortalecer seu Escudo Digital!</li>
+                    </ul>
+                </div>
+            </div>
+             <p class="mt-10 text-2xl font-bold text-cyan-400 typing-effect" style="font-family: 'Orbitron', monospace; animation-delay: 1s; border-right: 3px solid #22d3ee;">
+                Sua jornada para um mundo digital mais seguro começa AGORA!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

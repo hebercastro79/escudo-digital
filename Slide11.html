@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Plano de Ação Pessoal</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 25% 75%, #667eea 0%, transparent 30%),
+                        radial-gradient(circle at 75% 25%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 35%);
+        }
+        
+        .action-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .action-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .priority-high {
+            border: 2px solid rgba(231, 76, 60, 0.5);
+            background: linear-gradient(45deg, rgba(231, 76, 60, 0.15), rgba(192, 57, 43, 0.1));
+        }
+        
+        .priority-medium {
+            border: 2px solid rgba(243, 156, 18, 0.5);
+            background: linear-gradient(45deg, rgba(243, 156, 18, 0.15), rgba(230, 126, 34, 0.1));
+        }
+        
+        .priority-low {
+            border: 2px solid rgba(46, 204, 113, 0.5);
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.15), rgba(39, 174, 96, 0.1));
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .task-completed {
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.3), rgba(39, 174, 96, 0.2));
+            border-color: #2ecc71;
+            transform: scale(0.98);
+        }
+        
+        .task-completed .task-icon {
+            color: #2ecc71;
+            animation: completePulse 0.6s ease-out;
+        }
+        
+        @keyframes completePulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcf7f, #4d9ff5, #9b59b6);
+            border-radius: 4px;
+            transition: width 0.8s ease-out;
+            width: 0%;
+        }
+        
+        .timeline-step {
+            position: relative;
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-step.active {
+            background: rgba(102, 126, 234, 0.2);
+            border-left-color: #667eea;
+        }
+        
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .commitment-badge {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 0 15px rgba(102, 126, 234, 0.4); }
+            50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.8); }
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <!-- Digital grid pattern -->
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 25px, rgba(102, 126, 234, 0.1) 25px, rgba(102, 126, 234, 0.1) 26px), repeating-linear-gradient(0deg, transparent, transparent 25px, rgba(102, 126, 234, 0.1) 25px, rgba(102, 126, 234, 0.1) 26px);"></div>
+    
+    <!-- SENAI Logo -->
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <!-- Floating action icons -->
+    <div class="absolute top-10 left-10 floating-icon text-purple-400 opacity-20">
+        <i class="fas fa-rocket text-2xl"></i>
+    </div>
+    <div class="absolute bottom-10 right-10 floating-icon text-cyan-400 opacity-20" style="animation-delay: 1s;">
+        <i class="fas fa-target text-2xl"></i>
+    </div>
+    
+    <div class="relative z-10 p-4">
+        <!-- Header -->
+        <div class="text-center mb-3 slide-in">
+            <div class="flex items-center justify-center mb-1">
+                <i class="fas fa-clipboard-list text-3xl text-purple-400 mr-3 floating-icon"></i>
+                <h1 class="text-3xl font-black glow-text" style="font-family: 'Orbitron', monospace;">
+                    SEU PLANO DE AÇÃO
+                </h1>
+            </div>
+            <h2 class="text-lg font-semibold text-cyan-300">
+                Crie sua estratégia pessoal de segurança digital
+            </h2>
+        </div>
+        
+        <!-- Progress Tracker -->
+        <div class="bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl p-3 mb-3 slide-in">
+            <div class="flex items-center justify-between mb-2">
+                <div class="font-bold text-lg">🎯 SEU PROGRESSO</div>
+                <div class="text-right">
+                    <div class="text-2xl font-bold" id="progress-percent">0%</div>
+                    <div class="text-xs opacity-80">Concluído</div>
+                </div>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-bar"></div>
+            </div>
+        </div>
+        
+        <!-- Main Action Grid -->
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-12 gap-3">
+                <!-- Priority Actions (Left Side) -->
+                <div class="col-span-8 space-y-2">
+                    <!-- High Priority Row -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="action-card priority-high rounded-lg p-2 slide-in" style="animation-delay: 0.2s;" onclick="completeTask(this, 'antivirus')">
+                            <div class="flex items-center">
+                                <i class="fas fa-shield-virus text-lg text-red-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-red-300">INSTALAR ANTIVÍRUS</div>
+                                    <div class="text-xs text-gray-300">Windows Defender ativo</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card priority-high rounded-lg p-2 slide-in" style="animation-delay: 0.3s;" onclick="completeTask(this, 'password')">
+                            <div class="flex items-center">
+                                <i class="fas fa-key text-lg text-red-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-red-300">SENHAS FORTES</div>
+                                    <div class="text-xs text-gray-300">Trocar senhas fracas</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card priority-high rounded-lg p-2 slide-in" style="animation-delay: 0.4s;" onclick="completeTask(this, 'privacy')">
+                            <div class="flex items-center">
+                                <i class="fas fa-user-shield text-lg text-red-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-red-300">PERFIL PRIVADO</div>
+                                    <div class="text-xs text-gray-300">Todas as redes sociais</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Medium Priority Row -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="action-card priority-medium rounded-lg p-2 slide-in" style="animation-delay: 0.5s;" onclick="completeTask(this, '2fa')">
+                            <div class="flex items-center">
+                                <i class="fas fa-mobile-alt text-lg text-yellow-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-yellow-300">ATIVAR 2FA</div>
+                                    <div class="text-xs text-gray-300">Contas principais</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card priority-medium rounded-lg p-2 slide-in" style="animation-delay: 0.6s;" onclick="completeTask(this, 'manager')">
+                            <div class="flex items-center">
+                                <i class="fas fa-vault text-lg text-yellow-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-yellow-300">GERENCIADOR</div>
+                                    <div class="text-xs text-gray-300">Bitwarden ou similar</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card priority-medium rounded-lg p-2 slide-in" style="animation-delay: 0.7s;" onclick="completeTask(this, 'family')">
+                            <div class="flex items-center">
+                                <i class="fas fa-family text-lg text-yellow-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-yellow-300">FAMILY CENTER</div>
+                                    <div class="text-xs text-gray-300">Discord/Instagram</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Low Priority Row -->
+                    <div class="grid grid-cols-3 gap-2">
+                        <div class="action-card priority-low rounded-lg p-2 slide-in" style="animation-delay: 0.8s;" onclick="completeTask(this, 'backup')">
+                            <div class="flex items-center">
+                                <i class="fas fa-cloud text-lg text-green-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-green-300">BACKUP DADOS</div>
+                                    <div class="text-xs text-gray-300">Google Drive/OneDrive</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card priority-low rounded-lg p-2 slide-in" style="animation-delay: 0.9s;" onclick="completeTask(this, 'vpn')">
+                            <div class="flex items-center">
+                                <i class="fas fa-user-secret text-lg text-green-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-green-300">PESQUISAR VPN</div>
+                                    <div class="text-xs text-gray-300">ProtonVPN gratuito</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-card priority-low rounded-lg p-2 slide-in" style="animation-delay: 1s;" onclick="completeTask(this, 'learning')">
+                            <div class="flex items-center">
+                                <i class="fas fa-graduation-cap text-lg text-green-400 mr-2 task-icon"></i>
+                                <div>
+                                    <div class="font-bold text-xs text-green-300">CONTINUAR ESTUDANDO</div>
+                                    <div class="text-xs text-gray-300">Cybersegurança</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Timeline and Commitment (Right Side) -->
+                <div class="col-span-4 space-y-3">
+                    <!-- Timeline -->
+                    <div class="action-card rounded-lg p-3 slide-in" style="animation-delay: 1.1s;">
+                        <div class="text-center mb-2">
+                            <i class="fas fa-calendar-alt text-xl text-blue-400 mb-1"></i>
+                            <div class="font-bold text-sm text-blue-300">CRONOGRAMA</div>
+                        </div>
+                        <div class="space-y-1 text-xs">
+                            <div class="timeline-step active" id="week1">
+                                <div class="font-semibold">Semana 1: Proteção Básica</div>
+                                <div class="text-gray-400">Antivírus + Senhas + Privacidade</div>
+                            </div>
+                            <div class="timeline-step" id="week2">
+                                <div class="font-semibold">Semana 2: Ferramentas</div>
+                                <div class="text-gray-400">2FA + Gerenciador + Family Center</div>
+                            </div>
+                            <div class="timeline-step" id="week3">
+                                <div class="font-semibold">Semana 3: Avançado</div>
+                                <div class="text-gray-400">Backup + VPN + Conhecimento</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Personal Commitment -->
+                    <div class="action-card rounded-lg p-3 slide-in text-center" style="animation-delay: 1.2s;">
+                        <div class="commitment-badge mx-auto mb-2">
+                            <i class="fas fa-fist-raised text-2xl text-white"></i>
+                        </div>
+                        <div class="font-bold text-sm text-purple-300">MEU COMPROMISSO</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            Vou implementar essas medidas para proteger minha vida digital
+                        </div>
+                        <button onclick="makeCommitment()" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold py-1 px-3 rounded mt-2 transition-colors">
+                            <i class="fas fa-handshake mr-1"></i>EU ME COMPROMETO!
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Motivation -->
+        <div class="mt-3 bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 rounded-xl p-2 slide-in text-center" style="animation-delay: 1.3s;">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-star text-xl text-yellow-300 mr-2"></i>
+                <div class="font-bold text-sm">
+                    🚀 Cada tarefa completada te deixa mais seguro online! 
+                    <span class="text-yellow-300">Comece agora mesmo!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let completedTasks = 0;
+        const totalTasks = 9;
+        let commitmentMade = false;
+        
+        function completeTask(element, taskType) {
+            if (element.classList.contains('task-completed')) return;
+            
+            element.classList.add('task-completed');
+            completedTasks++;
+            
+            const messages = {
+                antivirus: '🛡️ Proteção ativada! Seu dispositivo está mais seguro!',
+                password: '🔐 Excelente! Senhas fortes são sua primeira defesa!',
+                privacy: '👤 Perfeito! Agora você controla quem pode te ver!',
+                '2fa': '📱 Ótimo! Autenticação dupla é uma barreira extra!',
+                manager: '🗝️ Fantástico! Nunca mais vai esquecer senhas!',
+                family: '👨‍👩‍👧‍👦 Segurança compartilhada com a família!',
+                backup: '☁️ Seus dados estão protegidos contra perdas!',
+                vpn: '🔒 Navegação anônima e segura habilitada!',
+                learning: '🎓 Conhecimento é poder! Continue aprendendo!'
+            };
+            
+            // Show feedback
+            const feedback = document.createElement('div');
+            feedback.innerHTML = messages[taskType];
+            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm z-50';
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 2000);
+            
+            updateProgress();
+            updateTimeline();
+        }
+        
+        function updateProgress() {
+            const percentage = Math.round((completedTasks / totalTasks) * 100);
+            document.getElementById('progress-percent').textContent = percentage + '%';
+            document.getElementById('progress-bar').style.width = percentage + '%';
+            
+            if (completedTasks === totalTasks) {
+                setTimeout(() => {
+                    const congratsPopup = document.createElement('div');
+                    congratsPopup.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-6 rounded-xl font-bold z-50 text-center border-2 border-yellow-400';
+                    congratsPopup.innerHTML = `
+                        <div class="text-center">
+                            <i class="fas fa-trophy text-4xl text-yellow-300 mb-3"></i>
+                            <h3 class="text-2xl font-bold text-green-300 mb-2">🎉 MISSÃO CUMPRIDA!</h3>
+                            <div class="text-lg text-white mb-2">Você completou seu plano de ação!</div>
+                            <div class="text-sm text-gray-200">
+                                Agora você está oficial mente preparado para enfrentar o mundo digital com segurança!
+                            </div>
+                        </div>
+                    `;
+                    document.body.appendChild(congratsPopup);
+                    
+                    setTimeout(() => {
+                        if (document.body.contains(congratsPopup)) {
+                            document.body.removeChild(congratsPopup);
+                        }
+                    }, 4000);
+                }, 500);
+            }
+        }
+        
+        function updateTimeline() {
+            if (completedTasks >= 3) {
+                document.getElementById('week1').classList.remove('active');
+                document.getElementById('week2').classList.add('active');
+            }
+            if (completedTasks >= 6) {
+                document.getElementById('week2').classList.remove('active');
+                document.getElementById('week3').classList.add('active');
+            }
+        }
+        
+        function makeCommitment() {
+            if (commitmentMade) return;
+            
+            commitmentMade = true;
+            const button = event.target;
+            button.innerHTML = '<i class="fas fa-check mr-1"></i>COMPROMISSO FIRMADO!';
+            button.className = 'bg-green-600 text-white text-xs font-bold py-1 px-3 rounded mt-2';
+            
+            const commitmentPopup = document.createElement('div');
+            commitmentPopup.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-purple-600 text-white px-6 py-4 rounded-lg font-bold text-sm z-50 text-center max-w-md';
+            commitmentPopup.innerHTML = `
+                <div>
+                    <i class="fas fa-handshake text-2xl text-yellow-300 mb-2"></i>
+                    <div class="text-lg font-bold mb-2">🤝 COMPROMISSO ACEITO!</div>
+                    <div class="text-sm">
+                        Você se comprometeu a implementar essas medidas de segurança.
+                        Lembre-se: pequenas ações fazem uma grande diferença!
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(commitmentPopup);
+            
+            setTimeout(() => {
+                if (document.body.contains(commitmentPopup)) {
+                    document.body.removeChild(commitmentPopup);
+                }
+            }, 3000);
+        }
+        
+        // Add hover effects
+        document.querySelectorAll('.action-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('task-completed')) {
+                    this.style.filter = 'brightness(1.2)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('task-completed')) {
+                    this.style.filter = 'brightness(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

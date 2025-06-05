@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Os Principais Perigos Digitais</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 30% 70%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 70% 30%, #4ecdc4 0%, transparent 25%);
+        }
+        
+        .threat-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .threat-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .danger-red { border-left: 4px solid #ff6b6b; }
+        .warning-yellow { border-left: 4px solid #ffd93d; }
+        .alert-orange { border-left: 4px solid #ff8c42; }
+        .info-blue { border-left: 4px solid #6c5ce7; }
+        .caution-purple { border-left: 4px solid #a29bfe; }
+        .critical-pink { border-left: 4px solid #fd79a8; }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out forwards;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .pulse-icon {
+            animation: pulseIcon 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(102, 126, 234, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.2) 1px, transparent 1px); background-size: 30px 30px;"></div>
+    
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <div class="absolute top-20 left-10 float-animation text-red-400 opacity-30">
+        <i class="fas fa-virus text-2xl"></i>
+    </div>
+    <div class="absolute bottom-20 right-10 float-animation text-yellow-400 opacity-30" style="animation-delay: 1s;">
+        <i class="fas fa-spider text-2xl"></i>
+    </div>
+    
+    <div class="relative z-10 p-6">
+        <div class="text-center mb-6">
+            <h1 class="text-4xl font-black mb-2 glow-text" style="font-family: 'Orbitron', monospace;">
+                ⚠️ OS PERIGOS ESTÃO AQUI
+            </h1>
+            <h2 class="text-xl font-semibold text-cyan-300">
+                Conheça as principais ameaças que rondam seu mundo digital
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
+            <div class="threat-card rounded-xl p-4 danger-red slide-in-left" style="animation-delay: 0.1s;">
+                <div class="text-center">
+                    <div class="text-4xl mb-3 pulse-icon">
+                        <i class="fab fa-discord text-blue-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-red-300">DISCORD PERIGOSO</h3>
+                    <div class="space-y-1 text-sm text-gray-300">
+                        <div>• Servidores extremistas</div>
+                        <div>• Conteúdo sexual</div>
+                        <div>• Predadores online</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="threat-card rounded-xl p-4 warning-yellow slide-in-left" style="animation-delay: 0.2s;">
+                <div class="text-center">
+                    <div class="text-4xl mb-3 pulse-icon">
+                        <i class="fas fa-fish text-yellow-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-yellow-300">PHISHING</h3>
+                    <div class="space-y-1 text-sm text-gray-300">
+                        <div>• E-mails falsos</div>
+                        <div>• Sites clonados</div>
+                        <div>• Roubo de senhas</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="threat-card rounded-xl p-4 alert-orange slide-in-left" style="animation-delay: 0.3s;">
+                <div class="text-center">
+                    <div class="text-4xl mb-3 pulse-icon">
+                        <i class="fas fa-user-secret text-orange-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-orange-300">CYBERBULLYING</h3>
+                    <div class="space-y-1 text-sm text-gray-300">
+                        <div>• Ataques em grupo</div>
+                        <div>• Exposição vexatória</div>
+                        <div>• Pressão psicológica</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="threat-card rounded-xl p-4 info-blue slide-in-right" style="animation-delay: 0.4s;">
+                <div class="text-center">
+                    <div class="text-4xl mb-3 pulse-icon">
+                        <i class="fas fa-eye text-blue-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-blue-300">VAZAMENTO DE DADOS</h3>
+                    <div class="space-y-1 text-sm text-gray-300">
+                        <div>• Fotos íntimas</div>
+                        <div>• Informações pessoais</div>
+                        <div>• Localização em tempo real</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="threat-card rounded-xl p-4 caution-purple slide-in-right" style="animation-delay: 0.5s;">
+                <div class="text-center">
+                    <div class="text-4xl mb-3 pulse-icon">
+                        <i class="fas fa-key text-purple-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-purple-300">SENHAS FRACAS</h3>
+                    <div class="space-y-1 text-sm text-gray-300">
+                        <div>• "123456" ou "senha"</div>
+                        <div>• Mesma senha em tudo</div>
+                        <div>• Dados pessoais óbvios</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="threat-card rounded-xl p-4 critical-pink slide-in-right" style="animation-delay: 0.6s;">
+                <div class="text-center">
+                    <div class="text-4xl mb-3 pulse-icon">
+                        <i class="fas fa-heart-broken text-pink-400"></i>
+                    </div>
+                    <h3 class="font-bold text-lg mb-2 text-pink-300">CHANTAGEM SEXUAL</h3>
+                    <div class="space-y-1 text-sm text-gray-300">
+                        <div>• Sextorsion</div>
+                        <div>• Fotos/vídeos íntimos</div>
+                        <div>• Ameaças e extorsão</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <div class="inline-flex items-center bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full px-8 py-3">
+                <i class="fas fa-skull-crossbones text-white mr-3 text-xl pulse-icon"></i>
+                <span class="text-lg font-bold text-white">
+                    TODOS ESSES PERIGOS PODEM ACONTECER COM VOCÊ! 🚨
+                </span>
+            </div>
+        </div>
+        
+        <div class="flex justify-center mt-4 space-x-6">
+            <div class="bg-white bg-opacity-10 rounded-lg px-4 py-2 backdrop-blur-sm">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-clock text-cyan-400"></i>
+                    <span class="text-sm font-semibold">A qualquer momento</span>
+                </div>
+            </div>
+            <div class="bg-white bg-opacity-10 rounded-lg px-4 py-2 backdrop-blur-sm">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-globe text-green-400"></i>
+                    <span class="text-sm font-semibold">Em qualquer lugar</span>
+                </div>
+            </div>
+            <div class="bg-white bg-opacity-10 rounded-lg px-4 py-2 backdrop-blur-sm">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-users text-purple-400"></i>
+                    <span class="text-sm font-semibold">Com qualquer pessoa</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

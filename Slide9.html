@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ferramentas Essenciais de Proteção</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 25% 25%, #667eea 0%, transparent 30%),
+                        radial-gradient(circle at 75% 75%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 50% 80%, #4ecdc4 0%, transparent 25%);
+        }
+        
+        .tool-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .tool-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        .essential-tool {
+            border: 2px solid rgba(46, 204, 113, 0.4);
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.1), rgba(39, 174, 96, 0.05));
+        }
+        
+        .recommended-tool {
+            border: 2px solid rgba(52, 152, 219, 0.4);
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.05));
+        }
+        
+        .advanced-tool {
+            border: 2px solid rgba(155, 89, 182, 0.4);
+            background: linear-gradient(45deg, rgba(155, 89, 182, 0.1), rgba(142, 68, 173, 0.05));
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tool-icon {
+            animation: toolFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes toolFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        .category-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .essential-badge { background: #2ecc71; }
+        .recommended-badge { background: #3498db; }
+        .advanced-badge { background: #9b59b6; }
+        
+        .interactive-demo {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .demo-active {
+            background: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+        }
+        
+        .protection-level {
+            height: 8px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        .level-weak { width: 30%; background: #e74c3c; }
+        .level-medium { width: 60%; background: #f39c12; }
+        .level-strong { width: 90%; background: #2ecc71; }
+        .level-ultimate { width: 100%; background: #9b59b6; }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <!-- Tech grid pattern -->
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(102, 126, 234, 0.1) 20px, rgba(102, 126, 234, 0.1) 21px);"></div>
+    
+    <!-- SENAI Logo -->
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <!-- Floating tech icons -->
+    <div class="absolute top-12 left-12 tool-icon text-blue-400 opacity-20">
+        <i class="fas fa-shield-alt text-2xl"></i>
+    </div>
+    <div class="absolute bottom-12 right-12 tool-icon text-purple-400 opacity-20" style="animation-delay: 1s;">
+        <i class="fas fa-tools text-2xl"></i>
+    </div>
+    
+    <div class="relative z-10 p-4">
+        <!-- Header -->
+        <div class="text-center mb-4 slide-in">
+            <div class="flex items-center justify-center mb-2">
+                <i class="fas fa-toolbox text-3xl text-orange-400 mr-3 tool-icon"></i>
+                <h1 class="text-3xl font-black glow-text" style="font-family: 'Orbitron', monospace;">
+                    FERRAMENTAS DE PROTEÇÃO
+                </h1>
+            </div>
+            <h2 class="text-lg font-semibold text-cyan-300">
+                Apps e serviços essenciais para sua segurança digital
+            </h2>
+        </div>
+        
+        <!-- Current Protection Level Demo -->
+        <div class="bg-gradient-to-r from-red-600 via-yellow-600 to-green-600 rounded-xl p-3 mb-4 slide-in interactive-demo" onclick="upgradeProtection()">
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="font-bold text-lg">📊 SEU NÍVEL DE PROTEÇÃO ATUAL</div>
+                    <div class="text-sm opacity-90">Clique para ver como as ferramentas aumentam sua segurança!</div>
+                </div>
+                <div class="text-right">
+                    <div class="text-2xl font-bold" id="protection-percent">30%</div>
+                    <div class="protection-level level-weak mt-1" id="protection-bar"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tools Grid -->
+        <div class="grid grid-cols-4 gap-3 mb-4">
+            <!-- Essential Tools -->
+            <div class="tool-card essential-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.2s;" onclick="activateTool(this, 'antivirus')">
+                <div class="category-badge essential-badge">!</div>
+                <div class="text-center">
+                    <i class="fas fa-virus-slash text-2xl text-green-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-green-300">ANTIVÍRUS</div>
+                    <div class="text-xs text-gray-300">Windows Defender / Avast</div>
+                    <div class="text-xs text-green-400 mt-1">ESSENCIAL</div>
+                </div>
+            </div>
+            
+            <div class="tool-card essential-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.3s;" onclick="activateTool(this, 'password')">
+                <div class="category-badge essential-badge">!</div>
+                <div class="text-center">
+                    <i class="fas fa-key text-2xl text-green-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-green-300">GERENCIADOR</div>
+                    <div class="text-xs text-gray-300">Bitwarden / 1Password</div>
+                    <div class="text-xs text-green-400 mt-1">ESSENCIAL</div>
+                </div>
+            </div>
+            
+            <div class="tool-card recommended-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.4s;" onclick="activateTool(this, 'browser')">
+                <div class="category-badge recommended-badge">+</div>
+                <div class="text-center">
+                    <i class="fas fa-globe text-2xl text-blue-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-blue-300">NAVEGAÇÃO</div>
+                    <div class="text-xs text-gray-300">AdBlock / uBlock Origin</div>
+                    <div class="text-xs text-blue-400 mt-1">RECOMENDADO</div>
+                </div>
+            </div>
+            
+            <div class="tool-card recommended-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.5s;" onclick="activateTool(this, 'auth')">
+                <div class="category-badge recommended-badge">+</div>
+                <div class="text-center">
+                    <i class="fas fa-mobile-alt text-2xl text-blue-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-blue-300">2FA</div>
+                    <div class="text-xs text-gray-300">Google Authenticator</div>
+                    <div class="text-xs text-blue-400 mt-1">RECOMENDADO</div>
+                </div>
+            </div>
+            
+            <!-- Second Row -->
+            <div class="tool-card advanced-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.6s;" onclick="activateTool(this, 'vpn')">
+                <div class="category-badge advanced-badge">★</div>
+                <div class="text-center">
+                    <i class="fas fa-user-secret text-2xl text-purple-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-purple-300">VPN</div>
+                    <div class="text-xs text-gray-300">ProtonVPN / NordVPN</div>
+                    <div class="text-xs text-purple-400 mt-1">AVANÇADO</div>
+                </div>
+            </div>
+            
+            <div class="tool-card advanced-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.7s;" onclick="activateTool(this, 'backup')">
+                <div class="category-badge advanced-badge">★</div>
+                <div class="text-center">
+                    <i class="fas fa-cloud text-2xl text-purple-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-purple-300">BACKUP</div>
+                    <div class="text-xs text-gray-300">Google Drive / OneDrive</div>
+                    <div class="text-xs text-purple-400 mt-1">AVANÇADO</div>
+                </div>
+            </div>
+            
+            <div class="tool-card recommended-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.8s;" onclick="activateTool(this, 'messaging')">
+                <div class="category-badge recommended-badge">+</div>
+                <div class="text-center">
+                    <i class="fas fa-comment-dots text-2xl text-blue-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-blue-300">MENSAGENS</div>
+                    <div class="text-xs text-gray-300">Signal / Telegram</div>
+                    <div class="text-xs text-blue-400 mt-1">RECOMENDADO</div>
+                </div>
+            </div>
+            
+            <div class="tool-card essential-tool rounded-xl p-3 slide-in interactive-demo" style="animation-delay: 0.9s;" onclick="activateTool(this, 'parental')">
+                <div class="category-badge essential-badge">!</div>
+                <div class="text-center">
+                    <i class="fas fa-family text-2xl text-green-400 mb-1 tool-icon"></i>
+                    <div class="font-bold text-sm text-green-300">FAMÍLIA</div>
+                    <div class="text-xs text-gray-300">Family Center / Qustodio</div>
+                    <div class="text-xs text-green-400 mt-1">ESSENCIAL</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Free vs Paid Tools -->
+        <div class="grid grid-cols-2 gap-4 mb-3">
+            <div class="tool-card rounded-xl p-3 slide-in" style="animation-delay: 1s;">
+                <div class="text-center">
+                    <i class="fas fa-gift text-2xl text-green-400 mb-1"></i>
+                    <div class="font-bold text-lg text-green-300">🆓 FERRAMENTAS GRATUITAS</div>
+                    <div class="grid grid-cols-2 gap-2 text-xs mt-2">
+                        <div>• Windows Defender</div>
+                        <div>• Bitwarden (básico)</div>
+                        <div>• AdBlock Plus</div>
+                        <div>• Google Auth</div>
+                        <div>• ProtonVPN (limitado)</div>
+                        <div>• Google Drive (15GB)</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="tool-card rounded-xl p-3 slide-in" style="animation-delay: 1.1s;">
+                <div class="text-center">
+                    <i class="fas fa-crown text-2xl text-yellow-400 mb-1"></i>
+                    <div class="font-bold text-lg text-yellow-300">💎 VERSÕES PREMIUM</div>
+                    <div class="text-xs mt-2">
+                        <div class="mb-1">✨ <strong>Mais funcionalidades</strong></div>
+                        <div class="mb-1">🚀 <strong>Melhor performance</strong></div>
+                        <div class="mb-1">🛡️ <strong>Proteção avançada</strong></div>
+                        <div>📞 <strong>Suporte técnico</strong></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom Action -->
+        <div class="bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 rounded-xl p-3 slide-in text-center" style="animation-delay: 1.2s;">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-rocket text-2xl text-white mr-3"></i>
+                <div>
+                    <div class="font-bold text-lg">🎯 COMECE HOJE MESMO!</div>
+                    <div class="text-sm opacity-90">Instale pelo menos 2 ferramentas essenciais (antivírus + gerenciador de senhas)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let protectionLevel = 30;
+        let toolsActivated = 0;
+        
+        function activateTool(element, toolType) {
+            if (element.classList.contains('demo-active')) return;
+            
+            element.classList.add('demo-active');
+            toolsActivated++;
+            
+            const messages = {
+                antivirus: '🛡️ Antivírus ativo! Proteção contra malware +25%',
+                password: '🔐 Gerenciador ativo! Senhas super seguras +20%',
+                browser: '🌐 Navegação protegida! Bloqueio de anúncios +10%',
+                auth: '📱 2FA ativo! Autenticação dupla +15%',
+                vpn: '🔒 VPN ativa! Conexão criptografada +10%',
+                backup: '☁️ Backup ativo! Dados protegidos +10%',
+                messaging: '💬 Mensagens criptografadas! +5%',
+                parental: '👨‍👩‍👧‍👦 Controle parental ativo! +15%'
+            };
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = messages[toolType];
+            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm z-50';
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 2000);
+            
+            // Update protection level
+            const increases = { antivirus: 25, password: 20, browser: 10, auth: 15, vpn: 10, backup: 10, messaging: 5, parental: 15 };
+            protectionLevel = Math.min(100, protectionLevel + increases[toolType]);
+            updateProtectionDisplay();
+        }
+        
+        function upgradeProtection() {
+            const tips = [
+                '💡 DICA: Comece com antivírus e gerenciador de senhas!',
+                '🔧 PRÓXIMO PASSO: Adicione autenticação de dois fatores!',
+                '🚀 AVANÇADO: Use VPN para navegação anônima!',
+                '🏆 EXPERT: Configure backup automático dos seus dados!'
+            ];
+            
+            const randomTip = tips[Math.floor(Math.random() * tips.length)];
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = randomTip;
+            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-6 py-3 rounded-lg font-bold text-sm z-50 max-w-md text-center';
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 3000);
+        }
+        
+        function updateProtectionDisplay() {
+            document.getElementById('protection-percent').textContent = protectionLevel + '%';
+            const bar = document.getElementById('protection-bar');
+            
+            bar.className = 'protection-level mt-1';
+            if (protectionLevel <= 40) {
+                bar.classList.add('level-weak');
+            } else if (protectionLevel <= 70) {
+                bar.classList.add('level-medium');
+            } else if (protectionLevel <= 90) {
+                bar.classList.add('level-strong');
+            } else {
+                bar.classList.add('level-ultimate');
+            }
+        }
+        
+        // Add hover effects
+        document.querySelectorAll('.interactive-demo').forEach(element => {
+            element.addEventListener('mouseenter', function() {
+                if (!this.classList.contains('demo-active')) {
+                    this.style.filter = 'brightness(1.2)';
+                }
+            });
+            
+            element.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('demo-active')) {
+                    this.style.filter = 'brightness(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

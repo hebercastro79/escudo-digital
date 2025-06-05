@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Realidade Digital dos Jovens Brasileiros</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 20% 80%, #ff6b6b 0%, transparent 30%),
+                        radial-gradient(circle at 80% 20%, #4ecdc4 0%, transparent 30%),
+                        radial-gradient(circle at 40% 60%, #667eea 0%, transparent 40%);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .neon-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        
+        .danger-glow {
+            box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+        }
+        
+        .warning-glow {
+            box-shadow: 0 0 20px rgba(255, 193, 7, 0.6);
+        }
+        
+        .info-glow {
+            box-shadow: 0 0 20px rgba(78, 205, 196, 0.6);
+        }
+        
+        .slide-up {
+            animation: slideUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .pulse-number {
+            animation: pulseNumber 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseNumber {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans" style="width: 1280px; min-height: 720px;">
+    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(102, 126, 234, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.3) 1px, transparent 1px); background-size: 40px 40px;"></div>
+    
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <div class="relative z-10 p-8">
+        <div class="text-center mb-8 slide-up">
+            <h1 class="text-5xl font-black mb-4 glow-text" style="font-family: 'Orbitron', monospace;">
+                📊 A REALIDADE DIGITAL DOS JOVENS
+            </h1>
+            <h2 class="text-2xl font-semibold text-cyan-300">
+                Dados que você precisa conhecer sobre segurança online no Brasil
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-12 gap-6 max-w-7xl mx-auto">
+            <div class="col-span-8 space-y-4">
+                <div class="grid grid-cols-2 gap-4 mb-6 slide-up" style="animation-delay: 0.2s;">
+                    <div class="neon-card rounded-xl p-6 danger-glow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-6xl font-black text-red-400 pulse-number">60%</div>
+                                <div class="text-lg font-semibold mt-2">dos adolescentes brasileiros</div>
+                                <div class="text-sm text-gray-300">já sofreram assédio em jogos online</div>
+                            </div>
+                            <i class="fas fa-exclamation-triangle text-4xl text-red-400 floating-icon"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="neon-card rounded-xl p-6 warning-glow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <div class="text-6xl font-black text-yellow-400 pulse-number">32%</div>
+                                <div class="text-lg font-semibold mt-2">dos jovens 15-17 anos</div>
+                                <div class="text-sm text-gray-300">receberam conteúdo sexual online</div>
+                            </div>
+                            <i class="fas fa-eye-slash text-4xl text-yellow-400 floating-icon"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="neon-card rounded-xl p-6 slide-up" style="animation-delay: 0.4s;">
+                    <h3 class="text-xl font-bold mb-4 text-center">
+                        <i class="fas fa-chart-line text-purple-400 mr-2"></i>
+                        Crescimento dos Crimes Cibernéticos no Brasil
+                    </h3>
+                    <div style="height: 250px;">
+                        <canvas id="crimeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-span-4 space-y-4">
+                <div class="neon-card rounded-xl p-4 slide-up info-glow" style="animation-delay: 0.6s;">
+                    <div class="text-center mb-3">
+                        <i class="fab fa-discord text-3xl text-blue-400 mb-2"></i>
+                        <h4 class="font-bold text-lg">Riscos no Discord</h4>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center">
+                            <i class="fas fa-shield-alt text-red-400 mr-2"></i>
+                            <span>Sem verificação de idade eficaz</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-users text-red-400 mr-2"></i>
+                            <span>Servidores com conteúdo impróprio</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-comment text-red-400 mr-2"></i>
+                            <span>Mensagens privadas de desconhecidos</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="neon-card rounded-xl p-4 slide-up" style="animation-delay: 0.8s;">
+                    <h4 class="font-bold text-lg mb-3 text-center">
+                        <i class="fas fa-calendar-alt text-green-400 mr-2"></i>
+                        Brasil 2024
+                    </h4>
+                    <div class="space-y-3 text-sm">
+                        <div class="bg-red-600 bg-opacity-30 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-red-300">52.999</div>
+                            <div>denúncias de abuso sexual infantil</div>
+                        </div>
+                        <div class="bg-yellow-600 bg-opacity-30 rounded-lg p-3">
+                            <div class="text-2xl font-bold text-yellow-300">+13,6%</div>
+                            <div>aumento em golpes digitais</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="neon-card rounded-xl p-4 slide-up" style="animation-delay: 1s;">
+                    <h4 class="font-bold text-lg mb-3 text-center">
+                        <i class="fas fa-user-shield text-orange-400 mr-2"></i>
+                        Por que vocês são alvos?
+                    </h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-start">
+                            <i class="fas fa-brain text-purple-400 mr-2 mt-1"></i>
+                            <span>Cérebro ainda em desenvolvimento</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-heart text-pink-400 mr-2 mt-1"></i>
+                            <span>Mais confiança em desconhecidos</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-gamepad text-blue-400 mr-2 mt-1"></i>
+                            <span>Maior tempo online (jogos/redes)</span>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-share text-green-400 mr-2 mt-1"></i>
+                            <span>Compartilham mais informações</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center slide-up" style="animation-delay: 1.2s;">
+            <div class="inline-flex items-center bg-gradient-to-r from-red-600 to-pink-600 rounded-full px-8 py-3 text-lg font-bold">
+                <i class="fas fa-bolt text-yellow-300 mr-3 text-xl"></i>
+                <span>A boa notícia: 99% dos ataques podem ser evitados com conhecimento! 🛡️</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Animated chart
+        const ctx = document.getElementById('crimeChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['2022', '2023', '2024'],
+                datasets: [{
+                    label: 'Golpes Digitais',
+                    data: [100, 113.6, 125],
+                    borderColor: '#ff6b6b',
+                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }, {
+                    label: 'Assédio Online',
+                    data: [45, 55, 60],
+                    borderColor: '#4ecdc4',
+                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#ffffff',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#ffffff',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#ffffff',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // Animate chart on load
+        setTimeout(() => {
+            chart.update();
+        }, 1000);
+    </script>
+</body>
+</html>

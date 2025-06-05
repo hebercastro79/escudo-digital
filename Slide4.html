@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord: Sua Segurança na Plataforma</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #2c2f36 0%, #36393f 50%, #40444b 100%),
+                        radial-gradient(circle at 20% 80%, #7289da 0%, transparent 30%),
+                        radial-gradient(circle at 80% 20%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 40% 40%, #4ecdc4 0%, transparent 35%);
+        }
+        
+        .discord-card {
+            background: rgba(114, 137, 218, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(114, 137, 218, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .discord-card:hover {
+            transform: translateY(-3px);
+            background: rgba(114, 137, 218, 0.2);
+            box-shadow: 0 10px 30px rgba(114, 137, 218, 0.3);
+        }
+        
+        .danger-zone {
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.2), rgba(255, 82, 82, 0.1));
+            border: 2px solid rgba(255, 107, 107, 0.4);
+        }
+        
+        .safe-zone {
+            background: linear-gradient(45deg, rgba(78, 205, 196, 0.2), rgba(85, 239, 196, 0.1));
+            border: 2px solid rgba(78, 205, 196, 0.4);
+        }
+        
+        .glow-discord {
+            text-shadow: 0 0 20px rgba(114, 137, 218, 0.8);
+        }
+        
+        .slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        
+        .slide-left {
+            animation: slideLeft 0.8s ease-out forwards;
+        }
+        
+        .slide-right {
+            animation: slideRight 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .pulse-warning {
+            animation: pulseWarning 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseWarning {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 107, 107, 0.4); }
+            50% { box-shadow: 0 0 25px rgba(255, 107, 107, 0.8); }
+        }
+        
+        .bounce-icon {
+            animation: bounceIcon 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .interactive-tip {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .interactive-tip:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(114, 137, 218, 0.1) 20px, rgba(114, 137, 218, 0.1) 40px);"></div>
+    
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <div class="absolute top-16 left-16 bounce-icon text-blue-400 opacity-20">
+        <i class="fab fa-discord text-3xl"></i>
+    </div>
+    <div class="absolute bottom-16 right-16 bounce-icon text-purple-400 opacity-20" style="animation-delay: 1s;">
+        <i class="fas fa-shield-alt text-2xl"></i>
+    </div>
+    
+    <div class="relative z-10 p-6">
+        <div class="text-center mb-6 slide-up">
+            <div class="flex items-center justify-center mb-3">
+                <i class="fab fa-discord text-6xl text-blue-400 mr-4 bounce-icon"></i>
+                <h1 class="text-4xl font-black glow-discord" style="font-family: 'Orbitron', monospace;">
+                    DISCORD SEGURO
+                </h1>
+            </div>
+            <h2 class="text-xl font-semibold text-cyan-300">
+                Como se proteger na plataforma favorita dos gamers
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-6 max-w-6xl mx-auto">
+            <div class="space-y-4">
+                <div class="danger-zone rounded-xl p-5 pulse-warning slide-left">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-exclamation-triangle text-4xl text-red-400 mb-2"></i>
+                        <h3 class="text-2xl font-bold text-red-300">⚠️ ZONA DE PERIGO</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-red-600 bg-opacity-30 rounded-lg p-3 interactive-tip">
+                            <div class="flex items-center">
+                                <i class="fas fa-users text-red-400 mr-3"></i>
+                                <div>
+                                    <div class="font-bold text-sm">Servidores Suspeitos</div>
+                                    <div class="text-xs text-gray-300">Conteúdo violento, sexual ou extremista</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-orange-600 bg-opacity-30 rounded-lg p-3 interactive-tip">
+                            <div class="flex items-center">
+                                <i class="fas fa-comment text-orange-400 mr-3"></i>
+                                <div>
+                                    <div class="font-bold text-sm">DMs de Estranhos</div>
+                                    <div class="text-xs text-gray-300">Mensagens privadas não solicitadas</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-yellow-600 bg-opacity-30 rounded-lg p-3 interactive-tip">
+                            <div class="flex items-center">
+                                <i class="fas fa-gift text-yellow-400 mr-3"></i>
+                                <div>
+                                    <div class="font-bold text-sm">Links e Downloads</div>
+                                    <div class="text-xs text-gray-300">Arquivos maliciosos ou sites falsos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="discord-card rounded-xl p-4 slide-left" style="animation-delay: 0.3s;">
+                    <div class="text-center">
+                        <div class="text-3xl font-black text-blue-400">65 MIL</div>
+                        <div class="text-sm text-gray-300">contas brasileiras banidas em 2024</div>
+                        <div class="text-xs text-blue-300 mt-1">por violações de política</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="safe-zone rounded-xl p-5 slide-right">
+                    <div class="text-center mb-4">
+                        <i class="fas fa-shield-check text-4xl text-green-400 mb-2"></i>
+                        <h3 class="text-2xl font-bold text-green-300">🛡️ COMO SE PROTEGER</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="bg-green-600 bg-opacity-30 rounded-lg p-3 interactive-tip">
+                            <div class="flex items-center">
+                                <i class="fas fa-cog text-green-400 mr-3"></i>
+                                <div>
+                                    <div class="font-bold text-sm">Configurações de Privacidade</div>
+                                    <div class="text-xs text-gray-300">Desabilite DMs de não-amigos</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-blue-600 bg-opacity-30 rounded-lg p-3 interactive-tip">
+                            <div class="flex items-center">
+                                <i class="fas fa-family text-blue-400 mr-3"></i>
+                                <div>
+                                    <div class="font-bold text-sm">Central da Família</div>
+                                    <div class="text-xs text-gray-300">Ative com seus pais/responsáveis</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-purple-600 bg-opacity-30 rounded-lg p-3 interactive-tip">
+                            <div class="flex items-center">
+                                <i class="fas fa-flag text-purple-400 mr-3"></i>
+                                <div>
+                                    <div class="font-bold text-sm">Denuncie Sempre</div>
+                                    <div class="text-xs text-gray-300">Conteúdo impróprio ou comportamento suspeito</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="discord-card rounded-xl p-4 slide-right" style="animation-delay: 0.3s;">
+                    <div class="text-center">
+                        <i class="fas fa-lightbulb text-2xl text-yellow-400 mb-2"></i>
+                        <div class="font-bold text-lg text-yellow-300">DICA DE OURO</div>
+                        <div class="text-sm text-gray-300 mt-1">
+                            Nunca compartilhe informações pessoais, mesmo com "amigos" online
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-6 slide-up" style="animation-delay: 0.6s;">
+            <div class="bg-gradient-to-r from-blue-600 via-purple-600 to-blue-600 rounded-xl p-4 mx-auto max-w-4xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <i class="fas fa-question-circle text-3xl text-white mr-4"></i>
+                        <div>
+                            <div class="font-bold text-lg">PERGUNTA INTERATIVA</div>
+                            <div class="text-sm opacity-90">O que você faria se recebesse uma DM suspeita?</div>
+                        </div>
+                    </div>
+                    <div class="flex space-x-4">
+                        <div class="bg-green-500 hover:bg-green-600 rounded-lg px-4 py-2 cursor-pointer transition-colors interactive-tip">
+                            <i class="fas fa-flag mr-2"></i>Denunciar
+                        </div>
+                        <div class="bg-red-500 hover:bg-red-600 rounded-lg px-4 py-2 cursor-pointer transition-colors interactive-tip">
+                            <i class="fas fa-ban mr-2"></i>Bloquear
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-600 rounded-lg px-4 py-2 cursor-pointer transition-colors interactive-tip">
+                            <i class="fas fa-comment mr-2"></i>Contar aos pais
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add click interaction for tips
+        document.querySelectorAll('.interactive-tip').forEach(tip => {
+            tip.addEventListener('click', function() {
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                }, 100);
+            });
+        });
+        
+        // Interactive question responses
+        document.querySelectorAll('.interactive-tip').forEach(button => {
+            if (button.textContent.includes('Denunciar') || button.textContent.includes('Bloquear') || button.textContent.includes('Contar')) {
+                button.addEventListener('click', function() {
+                    const responses = {
+                        'Denunciar': '✅ Correto! Sempre denuncie comportamentos suspeitos!',
+                        'Bloquear': '✅ Boa! Bloquear previne contatos futuros!',
+                        'Contar': '✅ Excelente! Transparência com os pais é fundamental!'
+                    };
+                    
+                    const action = this.textContent.includes('Denunciar') ? 'Denunciar' :
+                                  this.textContent.includes('Bloquear') ? 'Bloquear' : 'Contar';
+                    
+                    // Create temporary feedback
+                    const feedback = document.createElement('div');
+                    feedback.innerHTML = responses[action];
+                    feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-lg z-50';
+                    document.body.appendChild(feedback);
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(feedback);
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

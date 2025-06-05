@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obrigado e Próximos Passos - Escudo Digital</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+                        radial-gradient(circle at 10% 10%, #120078 0%, transparent 50%),
+                        radial-gradient(circle at 90% 90%, #ff6b6b 0%, transparent 50%),
+                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 60%);
+        }
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 1), 0 0 40px rgba(102, 126, 234, 0.8);
+        }
+        .contact-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+        .contact-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+        }
+        .slide-up-fade {
+            animation: slide-up-fade 1s ease-out forwards;
+        }
+        @keyframes slide-up-fade {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .icon-float {
+            animation: icon-float 3s ease-in-out infinite;
+        }
+        @keyframes icon-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .neon-button {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            box-shadow: 0 0 10px #ff6b6b, 0 0 20px #feca57;
+            transition: all 0.3s ease;
+        }
+        .neon-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px #ff6b6b, 0 0 30px #feca57, 0 0 45px #ff6b6b;
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans flex flex-col items-center justify-center overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.2) 0%, transparent 30%), radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.2) 0%, transparent 30%); background-size: 100px 100px;"></div>
+
+    <div class="absolute top-8 right-8 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-28 h-auto">
+    </div>
+
+    <div class="relative z-10 p-8 text-center max-w-5xl mx-auto">
+        <div class="slide-up-fade">
+            <i class="fas fa-hands-helping text-7xl text-yellow-300 mb-6 icon-float"></i>
+            <h1 class="text-6xl font-black glow-text mb-4" style="font-family: 'Orbitron', monospace;">
+                OBRIGADO POR PARTICIPAR!
+            </h1>
+            <h2 class="text-3xl font-semibold text-cyan-300 mb-8" style="font-family: 'Poppins', sans-serif;">
+                Continue fortalecendo seu Escudo Digital!
+            </h2>
+        </div>
+
+        <div class="contact-card rounded-xl p-8 mb-10 slide-up-fade" style="animation-delay: 0.3s;">
+            <h3 class="text-2xl font-bold text-purple-300 mb-6" style="font-family: 'Orbitron', monospace;">
+                Escola SENAI "Engº Octávio Marcondes Ferraz"
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg" style="font-family: 'Poppins', sans-serif;">
+                <div class="flex items-center justify-center md:justify-start">
+                    <i class="fas fa-phone-alt text-green-400 mr-3 text-xl"></i>
+                    <span>(16) 3238-7100</span>
+                </div>
+                <div class="flex items-center justify-center md:justify-start">
+                    <i class="fas fa-map-marker-alt text-red-400 mr-3 text-xl"></i>
+                    <span>Rua Capitão Salomão, 1813 - Campos Elíseos - Ribeirão Preto/SP</span>
+                </div>
+                <a href="https://www.instagram.com/senai_ribeiraopreto/" target="_blank" class="flex items-center justify-center md:justify-start hover:text-pink-400 transition-colors">
+                    <i class="fab fa-instagram text-pink-400 mr-3 text-xl"></i>
+                    <span>@senai_ribeiraopreto</span>
+                </a>
+                <a href="https://www.escolasenai.com.br" target="_blank" class="flex items-center justify-center md:justify-start hover:text-blue-300 transition-colors">
+                    <i class="fas fa-globe text-blue-400 mr-3 text-xl"></i>
+                    <span>www.escolasenai.com.br</span>
+                </a>
+                <a href="https://www.facebook.com/SenaiRibeiraoPreto/" target="_blank" class="flex items-center justify-center md:justify-start col-span-1 md:col-span-2 hover:text-indigo-400 transition-colors">
+                    <i class="fab fa-facebook text-indigo-400 mr-3 text-xl"></i>
+                    <span>/SenaiRibeiraoPreto</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="slide-up-fade" style="animation-delay: 0.6s;">
+            <p class="text-xl text-gray-200 mb-6" style="font-family: 'Poppins', sans-serif;">
+                Lembre-se: a segurança digital é uma jornada contínua. Mantenha-se informado e vigilante!
+            </p>
+            <a href="Slide1.html" class="neon-button text-white font-bold py-3 px-8 rounded-lg text-lg inline-block" style="font-family: 'Orbitron', monospace;">
+                <i class="fas fa-redo-alt mr-2"></i> Rever Conteúdo Inicial
+            </a>
+        </div>
+    </div>
+</body>
+</html>

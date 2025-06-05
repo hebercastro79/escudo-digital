@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacidade nas Redes Sociais</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 20% 30%, #e056fd 0%, transparent 25%),
+                        radial-gradient(circle at 80% 70%, #f39c12 0%, transparent 25%),
+                        radial-gradient(circle at 50% 80%, #3498db 0%, transparent 30%);
+        }
+        
+        .social-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .privacy-unsafe {
+            background: linear-gradient(45deg, rgba(255, 107, 107, 0.15), rgba(231, 76, 60, 0.1));
+            border: 2px solid rgba(255, 107, 107, 0.4);
+        }
+        
+        .privacy-safe {
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.15), rgba(39, 174, 96, 0.1));
+            border: 2px solid rgba(46, 204, 113, 0.4);
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .slide-up {
+            animation: slideUp 0.6s ease-out forwards;
+        }
+        
+        .slide-left {
+            animation: slideLeft 0.8s ease-out forwards;
+        }
+        
+        .slide-right {
+            animation: slideRight 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideLeft {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        @keyframes slideRight {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .toggle-switch {
+            width: 50px;
+            height: 24px;
+            background: #ccc;
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        
+        .toggle-switch.active {
+            background: #4CAF50;
+        }
+        
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: white;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+        
+        .toggle-switch.active::before {
+            transform: translateX(26px);
+        }
+        
+        .pulse-privacy {
+            animation: pulsePrivacy 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulsePrivacy {
+            0%, 100% { box-shadow: 0 0 10px rgba(224, 86, 253, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(224, 86, 253, 0.7); }
+        }
+        
+        .interactive-setting {
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .bounce-icon {
+            animation: bounceIcon 2s ease-in-out infinite;
+        }
+        
+        @keyframes bounceIcon {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 25px, rgba(224, 86, 253, 0.1) 25px, rgba(224, 86, 253, 0.1) 26px);"></div>
+    
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <div class="absolute top-16 left-16 bounce-icon text-pink-400 opacity-20">
+        <i class="fab fa-instagram text-2xl"></i>
+    </div>
+    <div class="absolute bottom-16 right-16 bounce-icon text-blue-400 opacity-20" style="animation-delay: 1s;">
+        <i class="fab fa-tiktok text-2xl"></i>
+    </div>
+    
+    <div class="relative z-10 p-6">
+        <div class="text-center mb-5 slide-up">
+            <div class="flex items-center justify-center mb-2">
+                <i class="fas fa-user-shield text-4xl text-purple-400 mr-3 bounce-icon"></i>
+                <h1 class="text-3xl font-black glow-text" style="font-family: 'Orbitron', monospace;">
+                    PRIVACIDADE NAS REDES
+                </h1>
+            </div>
+            <h2 class="text-lg font-semibold text-cyan-300">
+                Configure suas redes sociais para máxima proteção
+            </h2>
+        </div>
+        
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-2 gap-6 mb-5">
+                <div class="privacy-unsafe rounded-xl p-4 slide-left">
+                    <div class="text-center mb-3">
+                        <i class="fas fa-exclamation-triangle text-3xl text-red-400 mb-1"></i>
+                        <h3 class="text-xl font-bold text-red-300">❌ CONFIGURAÇÃO PERIGOSA</h3>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-between bg-red-600 bg-opacity-20 rounded p-2">
+                            <span>Perfil Público</span>
+                            <div class="toggle-switch active" onclick="toggleDanger(this)"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-red-600 bg-opacity-20 rounded p-2">
+                            <span>Localização Ativa</span>
+                            <div class="toggle-switch active" onclick="toggleDanger(this)"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-red-600 bg-opacity-20 rounded p-2">
+                            <span>DMs de Qualquer Um</span>
+                            <div class="toggle-switch active" onclick="toggleDanger(this)"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-red-600 bg-opacity-20 rounded p-2">
+                            <span>Stories para Todos</span>
+                            <div class="toggle-switch active" onclick="toggleDanger(this)"></div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <div class="text-lg font-bold text-red-300">🎯 ALVO FÁCIL</div>
+                        <div class="text-xs text-gray-300">Qualquer pessoa pode te encontrar e atacar</div>
+                    </div>
+                </div>
+                
+                <div class="privacy-safe rounded-xl p-4 slide-right">
+                    <div class="text-center mb-3">
+                        <i class="fas fa-shield-check text-3xl text-green-400 mb-1"></i>
+                        <h3 class="text-xl font-bold text-green-300">✅ CONFIGURAÇÃO SEGURA</h3>
+                    </div>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex items-center justify-between bg-green-600 bg-opacity-20 rounded p-2">
+                            <span>Perfil Privado</span>
+                            <div class="toggle-switch" onclick="toggleSafe(this)"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-green-600 bg-opacity-20 rounded p-2">
+                            <span>Localização Desabilitada</span>
+                            <div class="toggle-switch" onclick="toggleSafe(this)"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-green-600 bg-opacity-20 rounded p-2">
+                            <span>DMs Apenas de Amigos</span>
+                            <div class="toggle-switch" onclick="toggleSafe(this)"></div>
+                        </div>
+                        <div class="flex items-center justify-between bg-green-600 bg-opacity-20 rounded p-2">
+                            <span>Stories para Amigos</span>
+                            <div class="toggle-switch" onclick="toggleSafe(this)"></div>
+                        </div>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <div class="text-lg font-bold text-green-300">🛡️ PROTEGIDO</div>
+                        <div class="text-xs text-gray-300">Apenas pessoas autorizadas te veem</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-4 gap-3 mb-5">
+                <div class="social-card rounded-xl p-3 slide-up interactive-setting" style="animation-delay: 0.6s;" onclick="showTips('instagram')">
+                    <div class="text-center">
+                        <i class="fab fa-instagram text-2xl text-pink-400 mb-1"></i>
+                        <div class="font-bold text-sm">INSTAGRAM</div>
+                        <div class="text-xs text-gray-300">Contas de Adolescente</div>
+                    </div>
+                </div>
+                
+                <div class="social-card rounded-xl p-3 slide-up interactive-setting" style="animation-delay: 0.7s;" onclick="showTips('tiktok')">
+                    <div class="text-center">
+                        <i class="fab fa-tiktok text-2xl text-blue-400 mb-1"></i>
+                        <div class="font-bold text-sm">TIKTOK</div>
+                        <div class="text-xs text-gray-300">Controle de Privacidade</div>
+                    </div>
+                </div>
+                
+                <div class="social-card rounded-xl p-3 slide-up interactive-setting" style="animation-delay: 0.8s;" onclick="showTips('whatsapp')">
+                    <div class="text-center">
+                        <i class="fab fa-whatsapp text-2xl text-green-400 mb-1"></i>
+                        <div class="font-bold text-sm">WHATSAPP</div>
+                        <div class="text-xs text-gray-300">Status e "Visto por último"</div>
+                    </div>
+                </div>
+                
+                <div class="social-card rounded-xl p-3 slide-up interactive-setting" style="animation-delay: 0.9s;" onclick="showTips('facebook')">
+                    <div class="text-center">
+                        <i class="fab fa-facebook text-2xl text-blue-600 mb-1"></i>
+                        <div class="font-bold text-sm">FACEBOOK</div>
+                        <div class="text-xs text-gray-300">Quem pode ver seus posts</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-gradient-to-r from-purple-600 via-pink-600 to-orange-600 rounded-xl p-4 pulse-privacy slide-up" style="animation-delay: 1s;">
+                <h3 class="text-xl font-bold mb-3 text-center">🚨 REGRAS DE OURO DA PRIVACIDADE</h3>
+                <div class="grid grid-cols-3 gap-4 text-sm">
+                    <div class="bg-black bg-opacity-30 rounded-lg p-3">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-map-marker-alt text-red-400 mr-2"></i>
+                            <span class="font-bold">LOCALIZAÇÃO</span>
+                        </div>
+                        <div class="text-xs">NUNCA compartilhe sua localização em tempo real</div>
+                    </div>
+                    
+                    <div class="bg-black bg-opacity-30 rounded-lg p-3">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-school text-yellow-400 mr-2"></i>
+                            <span class="font-bold">ESCOLA</span>
+                        </div>
+                        <div class="text-xs">Não mostre uniforme, nome da escola ou horários</div>
+                    </div>
+                    
+                    <div class="bg-black bg-opacity-30 rounded-lg p-3">
+                        <div class="flex items-center mb-1">
+                            <i class="fas fa-users text-blue-400 mr-2"></i>
+                            <span class="font-bold">AMIGOS</span>
+                        </div>
+                        <div class="text-xs">Aceite apenas pessoas que você conhece PESSOALMENTE</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 slide-up" style="animation-delay: 1.2s;">
+            <div class="bg-gradient-to-r from-red-500 to-pink-500 rounded-full px-6 py-2">
+                <div class="flex items-center text-sm font-bold">
+                    <i class="fas fa-clock text-yellow-300 mr-2"></i>
+                    <span>32% dos jovens já receberam conteúdo sexual online - PROTEJA-SE! 🛡️</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function toggleDanger(element) {
+            element.classList.toggle('active');
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = '⚠️ Configuração PERIGOSA ativada!';
+            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-500 text-white px-4 py-2 rounded-lg font-bold text-sm z-50';
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 1500);
+        }
+        
+        function toggleSafe(element) {
+            element.classList.toggle('active');
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = '✅ Excelente! Configuração SEGURA ativada!';
+            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-4 py-2 rounded-lg font-bold text-sm z-50';
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 1500);
+        }
+        
+        function showTips(platform) {
+            const tips = {
+                instagram: '📱 Instagram: Ative "Contas de Adolescente" para proteção automática!',
+                tiktok: '🎵 TikTok: Defina "Quem pode me encontrar" como "Amigos" apenas!',
+                whatsapp: '💬 WhatsApp: Oculte "Visto por último" e status de desconhecidos!',
+                facebook: '👥 Facebook: Configure posts como "Amigos" por padrão!'
+            };
+            
+            const feedback = document.createElement('div');
+            feedback.innerHTML = tips[platform];
+            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 text-white px-6 py-3 rounded-lg font-bold text-sm z-50 max-w-md text-center';
+            document.body.appendChild(feedback);
+            
+            setTimeout(() => {
+                if (document.body.contains(feedback)) {
+                    document.body.removeChild(feedback);
+                }
+            }, 3000);
+        }
+        
+        // Interactive hover effects
+        document.querySelectorAll('.interactive-setting').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

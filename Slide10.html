@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casos Reais: Como Reagir</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .cyber-bg {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 20% 20%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 80% 80%, #4ecdc4 0%, transparent 25%),
+                        radial-gradient(circle at 60% 40%, #667eea 0%, transparent 30%);
+        }
+        
+        .case-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .case-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .case-danger {
+            border: 2px solid rgba(231, 76, 60, 0.5);
+            background: linear-gradient(45deg, rgba(231, 76, 60, 0.1), rgba(192, 57, 43, 0.05));
+        }
+        
+        .case-warning {
+            border: 2px solid rgba(243, 156, 18, 0.5);
+            background: linear-gradient(45deg, rgba(243, 156, 18, 0.1), rgba(230, 126, 34, 0.05));
+        }
+        
+        .case-info {
+            border: 2px solid rgba(52, 152, 219, 0.5);
+            background: linear-gradient(45deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.05));
+        }
+        
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+        }
+        
+        .slide-in {
+            animation: slideIn 0.6s ease-out forwards;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .case-active {
+            background: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 25px rgba(102, 126, 234, 0.6);
+            border-color: rgba(102, 126, 234, 0.8);
+        }
+        
+        .response-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(102, 126, 234, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            max-width: 500px;
+            width: 90%;
+            z-index: 100;
+            color: white;
+            animation: popupAppear 0.3s ease-out;
+        }
+        
+        @keyframes popupAppear {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        
+        .scenario-icon {
+            animation: scenarioFloat 2s ease-in-out infinite;
+        }
+        
+        @keyframes scenarioFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-2px); }
+        }
+        
+        .thinking-dots {
+            animation: thinkingPulse 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes thinkingPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .correct-response {
+            background: linear-gradient(45deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.1));
+            border: 2px solid rgba(46, 204, 113, 0.5);
+        }
+        
+        .wrong-response {
+            background: linear-gradient(45deg, rgba(231, 76, 60, 0.2), rgba(192, 57, 43, 0.1));
+            border: 2px solid rgba(231, 76, 60, 0.5);
+        }
+    </style>
+</head>
+<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
+    <!-- Circuit pattern background -->
+    <div class="absolute inset-0 opacity-5" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(102, 126, 234, 0.1) 15px, rgba(102, 126, 234, 0.1) 16px);"></div>
+    
+ 
+    <!-- SENAI Logo -->
+    <div class="absolute top-6 right-6 z-20">
+        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+    </div>
+    
+    <!-- Floating case study icons -->
+    <div class="absolute top-10 left-10 scenario-icon text-orange-400 opacity-20">
+        <i class="fas fa-exclamation-circle text-2xl"></i>
+    </div>
+    <div class="absolute bottom-10 right-10 scenario-icon text-cyan-400 opacity-20" style="animation-delay: 1s;">
+        <i class="fas fa-lightbulb text-2xl"></i>
+    </div>
+    
+    <div class="relative z-10 p-4">
+        <!-- Header -->
+        <div class="text-center mb-4 slide-in">
+            <div class="flex items-center justify-center mb-1">
+                <i class="fas fa-users text-3xl text-orange-400 mr-3 scenario-icon"></i>
+                <h1 class="text-3xl font-black glow-text" style="font-family: 'Orbitron', monospace;">
+                    CASOS REAIS
+                </h1>
+            </div>
+            <h2 class="text-lg font-semibold text-cyan-300">
+                Situações que acontecem todos os dias - Como você reagiria?
+            </h2>
+        </div>
+        
+        <!-- Interactive Scenarios -->
+        <div class="max-w-6xl mx-auto">
+            <!-- Main Scenario Grid -->
+            <div class="grid grid-cols-3 gap-3 mb-4">
+                <!-- Scenario 1: Phishing -->
+                <div class="case-card case-danger rounded-xl p-3 slide-in" style="animation-delay: 0.2s;" onclick="showCase('phishing')">
+                    <div class="text-center">
+                        <i class="fas fa-fish text-2xl text-red-400 mb-1 scenario-icon"></i>
+                        <div class="font-bold text-sm text-red-300">CASO 1: EMAIL SUSPEITO</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            "Sua conta Netflix será cancelada! Clique aqui para renovar"
+                        </div>
+                        <div class="thinking-dots text-yellow-300 text-xs mt-2">
+                            🤔 O que fazer?
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 2: Discord Stranger -->
+                <div class="case-card case-warning rounded-xl p-3 slide-in" style="animation-delay: 0.3s;" onclick="showCase('discord')">
+                    <div class="text-center">
+                        <i class="fab fa-discord text-2xl text-blue-400 mb-1 scenario-icon"></i>
+                        <div class="font-bold text-sm text-yellow-300">CASO 2: DESCONHECIDO NO DISCORD</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            Alguém te chama para conversa privada e pede fotos
+                        </div>
+                        <div class="thinking-dots text-yellow-300 text-xs mt-2">
+                            🤔 Como reagir?
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 3: Cyberbullying -->
+                <div class="case-card case-danger rounded-xl p-3 slide-in" style="animation-delay: 0.4s;" onclick="showCase('bullying')">
+                    <div class="text-center">
+                        <i class="fas fa-comment-slash text-2xl text-purple-400 mb-1 scenario-icon"></i>
+                        <div class="font-bold text-sm text-red-300">CASO 3: GRUPO ATACANDO</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            Colegas criaram grupo para falar mal de você online
+                        </div>
+                        <div class="thinking-dots text-yellow-300 text-xs mt-2">
+                            🤔 Qual a resposta?
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 4: Fake Prize -->
+                <div class="case-card case-warning rounded-xl p-3 slide-in" style="animation-delay: 0.5s;" onclick="showCase('prize')">
+                    <div class="text-center">
+                        <i class="fas fa-gift text-2xl text-green-400 mb-1 scenario-icon"></i>
+                        <div class="font-bold text-sm text-yellow-300">CASO 4: PRÊMIO FALSO</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            "Parabéns! Você ganhou um iPhone! Informe seus dados"
+                        </div>
+                        <div class="thinking-dots text-yellow-300 text-xs mt-2">
+                            🤔 É real ou golpe?
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 5: Password Sharing -->
+                <div class="case-card case-info rounded-xl p-3 slide-in" style="animation-delay: 0.6s;" onclick="showCase('password')">
+                    <div class="text-center">
+                        <i class="fas fa-key text-2xl text-blue-400 mb-1 scenario-icon"></i>
+                        <div class="font-bold text-sm text-blue-300">CASO 5: MELHOR AMIGO</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            Seu melhor amigo pede sua senha do Instagram
+                        </div>
+                        <div class="thinking-dots text-yellow-300 text-xs mt-2">
+                            🤔 Pode confiar?
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Scenario 6: Public WiFi -->
+                <div class="case-card case-info rounded-xl p-3 slide-in" style="animation-delay: 0.7s;" onclick="showCase('wifi')">
+                    <div class="text-center">
+                        <i class="fas fa-wifi text-2xl text-orange-400 mb-1 scenario-icon"></i>
+                        <div class="font-bold text-sm text-blue-300">CASO 6: WIFI PÚBLICO</div>
+                        <div class="text-xs text-gray-300 mt-1">
+                            No shopping, quer acessar sua conta bancária
+                        </div>
+                        <div class="thinking-dots text-yellow-300 text-xs mt-2">
+                            🤔 É seguro?
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Real-time Response Simulator -->
+            <div class="bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 rounded-xl p-3 slide-in" style="animation-delay: 0.8s;">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="font-bold text-lg">🎯 SIMULADOR DE RESPOSTA RÁPIDA</div>
+                        <div class="text-sm opacity-90">Clique nos casos acima para ver as respostas corretas e erradas!</div>
+                    </div>
+                    <div class="text-right">
+                        <div class="bg-black bg-opacity-30 rounded-lg p-2">
+                            <div class="text-lg font-bold" id="score-display">0/6</div>
+                            <div class="text-xs">Casos Resolvidos</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quick Tips Banner -->
+            <div class="mt-3 bg-gradient-to-r from-green-600 to-blue-600 rounded-xl p-2 slide-in text-center" style="animation-delay: 1s;">
+                <div class="flex items-center justify-center">
+                    <i class="fas fa-brain text-xl text-white mr-2"></i>
+                    <div class="font-bold text-sm">
+                        💡 DICA: Na dúvida, sempre PAUSE, PENSE e PEÇA AJUDA! 
+                        <span class="text-yellow-300">Melhor prevenir que remediar!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let casesResolved = 0;
+        
+        function showCase(caseType) {
+            const cases = {
+                phishing: {
+                    title: '🎣 CASO: EMAIL FALSO NETFLIX',
+                    problem: 'Você recebeu: "Sua conta será cancelada em 24h! Clique aqui para renovar: netflix-renovacao.net"',
+                    correct: '✅ RESPOSTA CORRETA:\n• NÃO clique no link\n• Acesse diretamente o site oficial da Netflix\n• Verifique sua conta lá\n• Denuncie o email como spam',
+                    wrong: '❌ RESPOSTA ERRADA:\n• Clicar no link\n• Inserir seus dados\n• Entrar em pânico\n• Compartilhar com amigos',
+                    lesson: '🎯 LIÇÃO: Empresas legítimas NUNCA pedem dados por email!'
+                },
+                discord: {
+                    title: '💬 CASO: ESTRANHO NO DISCORD',
+                    problem: 'Usuário desconhecido te manda DM: "Oi, você é muito bonito(a). Manda uma foto sua?"',
+                    correct: '✅ RESPOSTA CORRETA:\n• NÃO responda\n• Bloqueie imediatamente\n• Denuncie o usuário\n• Conte para seus pais\n• Configure DMs apenas para amigos',
+                    wrong: '❌ RESPOSTA ERRADA:\n• Mandar foto\n• Continuar conversando\n• "Só uma foto não faz mal"\n• Dar informações pessoais',
+                    lesson: '🎯 LIÇÃO: Nunca compartilhe fotos ou dados com desconhecidos online!'
+                },
+                bullying: {
+                    title: '😢 CASO: CYBERBULLYING EM GRUPO',
+                    problem: 'Descobriu que colegas criaram grupo "Falando mal da Maria" e postam memes maldosos sobre você.',
+                    correct: '✅ RESPOSTA CORRETA:\n• Faça prints como evidência\n• NÃO responda com raiva\n• Conte para adultos de confiança\n• Denuncie nas plataformas\n• Procure apoio psicológico se necessário',
+                    wrong: '❌ RESPOSTA ERRADA:\n• Revidar com ataques\n• Criar grupo contra eles\n• Fingir que não viu\n• Guardar tudo para si',
+                    lesson: '🎯 LIÇÃO: Cyberbullying é CRIME! Busque ajuda sempre!'
+                },
+                prize: {
+                    title: '🎁 CASO: PRÊMIO MILAGROSO',
+                    problem: 'Pop-up aparece: "PARABÉNS! Você é o visitante 1.000.000! Ganhou um iPhone 15! Clique aqui!"',
+                    correct: '✅ RESPOSTA CORRETA:\n• Feche o pop-up imediatamente\n• NÃO clique em nada\n• Se parece bom demais, é golpe\n• Empresas não dão prêmios assim\n• Analise sempre com ceticismo',
+                    wrong: '❌ RESPOSTA ERRADA:\n• Clicar para "ver se é real"\n• Fornecer dados pessoais\n• Baixar arquivos solicitados\n• Compartilhar com amigos',
+                    lesson: '🎯 LIÇÃO: Se parece bom demais para ser verdade, provavelmente é golpe!'
+                },
+                password: {
+                    title: '🔐 CASO: MELHOR AMIGO PEDE SENHA',
+                    problem: 'Seu melhor amigo: "Me empresta tua senha do Insta? Quero ver umas coisas lá, prometo que não mexo em nada!"',
+                    correct: '✅ RESPOSTA CORRETA:\n• "Desculpa, não compartilho senhas"\n• Explique que é por segurança\n• Ofereça mostrar no seu celular\n• Mantenha amizade, mas seja firme\n• Senhas são pessoais e intransferíveis',
+                    wrong: '❌ RESPOSTA ERRADA:\n• "Tá bom, é só dessa vez"\n• Dar a senha por confiança\n• "Entre que eu te passo"\n• Sentir culpa por recusar',
+                    lesson: '🎯 LIÇÃO: Senhas são como escova de dente - não se empresta nem para o melhor amigo!'
+                },
+                wifi: {
+                    title: '📶 CASO: WIFI PÚBLICO NO SHOPPING',
+                    problem: 'No shopping, precisa acessar sua conta bancária. Há WiFi público gratuito disponível.',
+                    correct: '✅ RESPOSTA CORRETA:\n• Use seus dados móveis\n• Se precisar muito, use VPN\n• NUNCA acesse bancos em WiFi público\n• Aguarde chegar em casa\n• Use aplicativos com autenticação extra',
+                    wrong: '❌ RESPOSTA ERRADA:\n• "WiFi grátis, por que não?"\n• Acessar conta bancária direto\n• Ignorar avisos de segurança\n• Fazer compras online\n• Deixar WiFi conectado sempre',
+                    lesson: '🎯 LIÇÃO: WiFi público = perigo público! Use apenas para navegação básica!'
+                }
+            };
+            
+            const caseData = cases[caseType];
+            if (!caseData) return;
+            
+            // Mark case as active
+            const allCards = document.querySelectorAll('.case-card');
+            allCards.forEach(card => card.classList.remove('case-active'));
+            event.currentTarget.classList.add('case-active');
+            
+            // Create popup
+            const popup = document.createElement('div');
+            popup.className = 'response-popup';
+            popup.innerHTML = `
+                <div class="text-center mb-4">
+                    <h3 class="text-xl font-bold text-cyan-300">${caseData.title}</h3>
+                </div>
+                <div class="mb-4 p-3 bg-gray-800 rounded-lg">
+                    <div class="text-sm text-gray-300">${caseData.problem}</div>
+                </div>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="correct-response rounded-lg p-3">
+                        <div class="text-sm font-semibold text-green-300 mb-2">${caseData.correct.split(':')[0]}:</div>
+                        <div class="text-xs text-gray-300">${caseData.correct.split(':')[1]}</div>
+                    </div>
+                    <div class="wrong-response rounded-lg p-3">
+                        <div class="text-sm font-semibold text-red-300 mb-2">${caseData.wrong.split(':')[0]}:</div>
+                        <div class="text-xs text-gray-300">${caseData.wrong.split(':')[1]}</div>
+                    </div>
+                    <div class="bg-blue-600 bg-opacity-30 rounded-lg p-3">
+                        <div class="text-sm font-bold text-blue-300">${caseData.lesson}</div>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button onclick="closeCase()" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        <i class="fas fa-check mr-2"></i>Entendi!
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(popup);
+            
+            // Update score
+            if (!event.currentTarget.dataset.resolved) {
+                event.currentTarget.dataset.resolved = 'true';
+                casesResolved++;
+                updateScore();
+            }
+        }
+        
+        function closeCase() {
+            const popup = document.querySelector('.response-popup');
+            if (popup) {
+                popup.style.animation = 'popupAppear 0.3s ease-out reverse';
+                setTimeout(() => {
+                    if (document.body.contains(popup)) {
+                        document.body.removeChild(popup);
+                    }
+                }, 300);
+            }
+            
+            // Remove active state
+            const activeCard = document.querySelector('.case-active');
+            if (activeCard) {
+                activeCard.classList.remove('case-active');
+            }
+        }
+        
+        function updateScore() {
+            document.getElementById('score-display').textContent = `${casesResolved}/6`;
+            
+            if (casesResolved === 6) {
+                setTimeout(() => {
+                    const congratsPopup = document.createElement('div');
+                    congratsPopup.className = 'response-popup';
+                    congratsPopup.innerHTML = `
+                        <div class="text-center">
+                            <i class="fas fa-trophy text-4xl text-yellow-400 mb-3"></i>
+                            <h3 class="text-2xl font-bold text-green-300 mb-3">🎉 PARABÉNS!</h3>
+                            <div class="text-lg text-white mb-3">Você analisou todos os casos!</div>
+                            <div class="text-sm text-gray-300 mb-4">
+                                Agora você está mais preparado para enfrentar situações reais online.
+                                Continue sempre vigilante e use o que aprendeu!
+                            </div>
+                            <button onclick="closeCase()" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                                <i class="fas fa-graduation-cap mr-2"></i>Sou um Expert em Cybersegurança!
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(congratsPopup);
+                }, 1000);
+            }
+        }
+        
+        // Close popup when clicking outside
+        document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('response-popup')) {
+                closeCase();
+            }
+        });
+        
+        // Add hover effects
+        document.querySelectorAll('.case-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.filter = 'brightness(1.2)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('case-active')) {
+                    this.style.filter = 'brightness(1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
