@@ -29,42 +29,26 @@
             overflow: hidden;
             border-radius: 10px;
             margin-bottom: 15px;
-            background-color: #000; /* Fundo padrão */
+            background-color: #000; /* Fundo padrão para o iframe container */
             transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
         }
 
-        /* Estilo para o modo tela cheia - COM TESTE DE FUNDO LIMA */
+        /* Estilo para o modo tela cheia */
         .presentation-container:-webkit-full-screen {
-            width: 100vw !important;
-            height: 100vh !important;
-            border: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            background-color: lime !important; /* TESTE */
+            width: 100vw !important; height: 100vh !important; border: none !important;
+            border-radius: 0 !important; margin: 0 !important; background-color: #000 !important;
         }
         .presentation-container:-moz-full-screen {
-            width: 100vw !important;
-            height: 100vh !important;
-            border: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            background-color: lime !important; /* TESTE */
+            width: 100vw !important; height: 100vh !important; border: none !important;
+            border-radius: 0 !important; margin: 0 !important; background-color: #000 !important;
         }
         .presentation-container:-ms-fullscreen {
-            width: 100vw !important;
-            height: 100vh !important;
-            border: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            background-color: lime !important; /* TESTE */
+            width: 100vw !important; height: 100vh !important; border: none !important;
+            border-radius: 0 !important; margin: 0 !important; background-color: #000 !important;
         }
         .presentation-container:fullscreen {
-            width: 100vw !important;
-            height: 100vh !important;
-            border: none !important;
-            border-radius: 0 !important;
-            margin: 0 !important;
-            background-color: lime !important; /* TESTE */
+            width: 100vw !important; height: 100vh !important; border: none !important;
+            border-radius: 0 !important; margin: 0 !important; background-color: #000 !important;
         }
 
         iframe {
@@ -73,9 +57,8 @@
             border: none;
         }
 
-        /* Controles e Título Principal */
         .controls, .header-title {
-            transition: opacity 0.3s ease, visibility 0.3s ease; /* Adicionado visibility */
+            transition: opacity 0.3s ease, visibility 0.3s ease;
             visibility: visible;
             opacity: 1;
         }
@@ -97,8 +80,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Esconder controles e título em tela cheia */
-        /* Usando o seletor de irmão geral (~) para o título, pois não é adjacente */
         body:has(.presentation-container:fullscreen) .controls,
         body:has(.presentation-container:fullscreen) .header-title,
         body:has(.presentation-container:-webkit-full-screen) .controls,
@@ -108,82 +89,98 @@
         body:has(.presentation-container:-ms-fullscreen) .controls,
         body:has(.presentation-container:-ms-fullscreen) .header-title {
             opacity: 0;
-            visibility: hidden; /* Garante que não ocupa espaço e não é interativo */
+            visibility: hidden;
             pointer-events: none;
         }
 
-
         .nav-button {
-            background-color: #667eea;
-            color: white;
-            padding: 10px 18px;
-            border: none;
-            border-radius: 5px;
-            font-family: 'Orbitron', monospace;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s ease;
+            background-color: #667eea; color: white; padding: 10px 18px;
+            border: none; border-radius: 5px; font-family: 'Orbitron', monospace;
+            font-weight: bold; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease;
             box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
         }
-        .nav-button:hover {
-            background-color: #5a67d8;
-            transform: translateY(-2px);
-        }
+        .nav-button:hover { background-color: #5a67d8; transform: translateY(-2px); }
         .nav-button:disabled {
-            background-color: #4a5568;
-            cursor: not-allowed;
-            opacity: 0.7;
-            box-shadow: none;
-            transform: translateY(0);
+            background-color: #4a5568; cursor: not-allowed; opacity: 0.7;
+            box-shadow: none; transform: translateY(0);
         }
         #slide-info {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.1em;
-            color: #93c5fd;
-            min-width: 150px;
+            font-family: 'Orbitron', monospace; font-size: 1.1em;
+            color: #93c5fd; min-width: 160px;
             text-align: center;
         }
         select {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-            padding: 8px 12px;
-            border-radius: 5px;
-            border: 1px solid rgba(102, 126, 234, 0.5);
+            background-color: rgba(255, 255, 255, 0.1); color: white; padding: 8px 12px;
+            border-radius: 5px; border: 1px solid rgba(102, 126, 234, 0.5);
             font-family: 'Poppins', sans-serif;
         }
-        option {
-            background-color: #1e293b;
-            color: white;
-        }
-        .fullscreen-button {
-            background-color: #34d399;
-        }
-        .fullscreen-button:hover {
-            background-color: #10b981;
-        }
+        option { background-color: #1e293b; color: white; }
+        .fullscreen-button { background-color: #34d399; }
+        .fullscreen-button:hover { background-color: #10b981; }
     </style>
 </head>
 <body>
     <h1 class="header-title">Apresentação: Escudo Digital</h1>
     <div class="presentation-container" id="presentationContainer">
-        <iframe id="slideFrame" src="Slide0.html" title="Slide da Apresentação"></iframe>
+        <iframe id="slideFrame" src="SlideInicio.html" title="Slide da Apresentação"></iframe>
     </div>
 
     <div class="controls">
         <button id="prevButton" class="nav-button"><i class="fas fa-arrow-left mr-2"></i> Anterior</button>
         <select id="slideSelector"></select>
-        <span id="slide-info">Slide 1 / 14</span>
+        <span id="slide-info">Slide 1 / 20</span>
         <button id="nextButton" class="nav-button">Próximo <i class="fas fa-arrow-right ml-2"></i></button>
         <button id="fullscreenButton" class="nav-button fullscreen-button"><i class="fas fa-expand mr-2"></i> Tela Cheia</button>
     </div>
 
     <script>
         const slideFiles = [
-            "Slide0.html", "Slide1.html", "Slide2.html", "Slide3.html",
-            "Slide4.html", "Slide5.html", "Slide6.html", "Slide7.html",
-            "Slide8.html", "Slide9.html", "Slide10.html", "Slide11.html",
-            "Slide12.html", "Slide13.html"
+            "SlideInicio.html", // 0
+            "Slide1.html",      // 1
+            "Slide2.html",      // 2
+            "Slide3.html",      // 3
+            "Slide4.html",      // 4
+            "Slide5.html",      // 5
+            "Slide6.html",      // 6
+            "Slide7.html",      // 7
+            "Slide8.html",      // 8
+            "Slide9.html",      // 9
+            "Slide10.html",     // 10
+            "Slide11.html",     // 11
+            "Slide12.html",     // 12 - Você está Preparado
+            "Slide13.html",     // 13 - Obrigado SENAI
+            "Slide14.html",     // 14 - Celular Seguro
+            "Slide15.html",     // 15 - WhatsApp
+            "Slide16.html",     // 16 - Instagram
+            "Slide17.html",     // 17 - Contas Bancárias
+            "Slide18.html",     // 18 - E-mail
+            "SlideFinal.html"   // 19 - Desconecte-se
         ];
+
+        // Nomes amigáveis para o seletor de slides, correspondendo à ordem em slideFiles
+        const slideDisplayNames = [
+            "Capa Inicial",                             // SlideInicio.html
+            "O que é Segurança Digital?",               // Slide1.html
+            "Por que se preocupar?",                    // Slide2.html
+            "Senhas Fortes",                            // Slide3.html
+            "Autenticação de Dois Fatores (2FA)",       // Slide4.html
+            "Phishing e Engenharia Social",             // Slide5.html
+            "Malware e Antivírus",                      // Slide6.html
+            "Cyberbullying: Proteja-se",                // Slide7.html
+            "Privacidade Online: Seus Dados",           // Slide8.html (antes era Slide9.html no seu código anterior)
+            "Backup de Dados: Não Perca Nada",          // Slide9.html (antes era Slide10.html)
+            "Redes Wi-Fi Seguras",                      // Slide10.html (antes era Slide11.html)
+            "Conhecendo seu Escudo Digital",            // Slide11.html (Este é um palpite, ajuste se o conteúdo do Slide11 for outro. Era o "slide de teste")
+            "Você Está Preparado!",                     // Slide12.html
+            "Obrigado e Contatos SENAI",                // Slide13.html
+            "Celular Seguro: Sua Fortaleza",            // Slide14.html
+            "WhatsApp Blindado",                        // Slide15.html
+            "Instagram Inabalável",                     // Slide16.html
+            "Contas Bancárias Protegidas",              // Slide17.html
+            "E-mail: A Chave Mestra",                   // Slide18.html
+            "Desconecte-se para Reconectar"             // SlideFinal.html
+        ];
+
 
         let currentSlideIndex = 0;
         const slideFrame = document.getElementById('slideFrame');
@@ -213,33 +210,44 @@
             slideFiles.forEach((file, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                let displayName = file.replace('.html', '').replace('Slide', 'Slide ');
-                if (index === 0) displayName = "Boas-vindas";
-                else if (index === 1) displayName = "Capa";
-                else if (index === slideFiles.length -1) displayName = "Encerramento";
+                const displayName = slideDisplayNames[index] || file.replace('.html', '').replace('Slide', 'Slide ');
                 option.textContent = `${index + 1}. ${displayName}`;
                 slideSelector.appendChild(option);
             });
+             slideSelector.value = currentSlideIndex;
         }
+        
+        slideSelector.addEventListener('change', (event) => {
+            loadSlide(parseInt(event.target.value));
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentSlideIndex > 0) {
+                loadSlide(currentSlideIndex - 1);
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (currentSlideIndex < slideFiles.length - 1) {
+                loadSlide(currentSlideIndex + 1);
+            }
+        });
 
         fullscreenButton.addEventListener('click', () => {
-            // Verificamos se já estamos em tela cheia pelo elemento que foi para tela cheia
             if (!document.fullscreenElement &&
                 !document.webkitFullscreenElement &&
                 !document.mozFullScreenElement &&
                 !document.msFullscreenElement) {
-                // Entrar em tela cheia
                 if (presentationContainer.requestFullscreen) {
                     presentationContainer.requestFullscreen();
-                } else if (presentationContainer.webkitRequestFullscreen) { /* Safari, Chrome */
+                } else if (presentationContainer.webkitRequestFullscreen) {
                     presentationContainer.webkitRequestFullscreen();
-                } else if (presentationContainer.mozRequestFullScreen) { /* Firefox */
+                } else if (presentationContainer.mozRequestFullScreen) {
                     presentationContainer.mozRequestFullScreen();
-                } else if (presentationContainer.msRequestFullscreen) { /* IE/Edge */
+                } else if (presentationContainer.msRequestFullscreen) {
                     presentationContainer.msRequestFullscreen();
                 }
             } else {
-                // Sair da tela cheia
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
                 } else if (document.webkitExitFullscreen) {
@@ -252,33 +260,33 @@
             }
         });
 
-        // Função para lidar com a mudança de estado da tela cheia
         function handleFullscreenChange() {
             const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
-            console.log("Fullscreen state changed. Is fullscreen:", isFullscreen); // Log para depuração
-
             if (isFullscreen) {
                 fullscreenButton.innerHTML = '<i class="fas fa-compress mr-2"></i> Sair Tela Cheia';
-                 // O CSS :fullscreen e :has(:fullscreen) deve cuidar de esconder os controles
             } else {
                 fullscreenButton.innerHTML = '<i class="fas fa-expand mr-2"></i> Tela Cheia';
-                // O CSS deve cuidar de reexibir os controles
             }
         }
 
-        // Adiciona listeners para o evento de mudança de tela cheia
         document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange); // Para Chrome, Safari, Opera
-        document.addEventListener('mozfullscreenchange', handleFullscreenChange);    // Para Firefox
-        document.addEventListener('MSFullscreenChange', handleFullscreenChange);     // Para IE/Edge
-
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
         document.addEventListener('keydown', (event) => {
-            if (document.activeElement.tagName === 'SELECT') return; // Não interfere se o select estiver focado
+            if (document.activeElement.tagName === 'SELECT' || document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+                if (event.key === 'Escape') {
+                    if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                        fullscreenButton.click();
+                    }
+                }
+                return;
+            }
 
             if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
                 if (!nextButton.disabled) loadSlide(currentSlideIndex + 1);
-                if (event.key === ' ') event.preventDefault(); // Evita scroll da página com espaço
+                if (event.key === ' ') event.preventDefault();
             } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
                 if (!prevButton.disabled) loadSlide(currentSlideIndex - 1);
             } else if (event.key === 'Home') {
@@ -287,6 +295,10 @@
                 loadSlide(slideFiles.length - 1);
             } else if (event.key.toLowerCase() === 'f') {
                 fullscreenButton.click();
+            } else if (event.key === 'Escape') {
+                 if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+                    fullscreenButton.click();
+                }
             }
         });
 

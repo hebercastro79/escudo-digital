@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contas Bancárias: Seu Dinheiro Protegido</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+        body {
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; padding: 1rem; box-sizing: border-box; position: relative;
+            font-family: 'Poppins', sans-serif; color: #e2e8f0;
+        }
+        .cyber-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* Tons de azul escuro, dourado e um toque de verde para finanças e segurança */
+            background: linear-gradient(135deg, #0a2239 0%, #0f3057 50%, #00587a 100%), /* Azul petróleo/marinho */
+                        radial-gradient(circle at 20% 20%, #ffd700 0%, transparent 25%), /* Dourado */
+                        radial-gradient(circle at 80% 80%, #22c55e 0%, transparent 25%); /* Verde segurança */
+            filter: saturate(1.1);
+        }
+        .grid-pattern-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            opacity: 0.08;
+            /* Padrão de "cofre" ou linhas de dados */
+            background-image:
+                repeating-linear-gradient(45deg, rgba(255,215,0,0.1) 0, rgba(255,215,0,0.1) 2px, transparent 2px, transparent 25px),
+                repeating-linear-gradient(-45deg, rgba(255,215,0,0.1) 0, rgba(255,215,0,0.1) 2px, transparent 2px, transparent 25px);
+        }
+
+        .main-content-wrapper {
+            position: relative; z-index: 1; width: 95%; max-width: 1200px;
+            margin: 1.5rem auto; display: flex; flex-direction: column;
+            gap: clamp(1.2rem, 2.5vh, 1.8rem);
+        }
+
+        .header-senai { position: absolute; top: clamp(1rem, 2vh, 1.5rem); right: clamp(1rem, 2vh, 1.5rem); z-index: 20; }
+        .logo-senai-img { width: clamp(80px, 10vh, 96px); height: auto; }
+
+        .slide-header .title-icon { font-size: clamp(1.8rem, 4vh, 2.25rem); margin-right: 0.75rem; }
+        .slide-header h1 {
+            font-size: clamp(1.7rem, 3.8vw, 2.25rem); margin-bottom: clamp(0.2rem, 0.4vh, 0.4rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1rem, 2.2vw, 1.25rem); font-family: 'Poppins', sans-serif;
+            color: #eab308; /* Amarelo/Dourado */
+        }
+        .glow-text-banco { text-shadow: 0 0 10px #ffd700, 0 0 20px #eab308, 0 0 30px #00587a; }
+
+        .neon-card {
+            background: rgba(15, 48, 87, 0.6); /* Azul escuro do bg, mais opaco */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 0, 0.25); /* Borda dourada */
+            padding: clamp(1rem, 2vh, 1.5rem); border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover:not(.no-hover):not(.fraud-alert-card) {
+            transform: translateY(-3px);
+            background: rgba(15, 48, 87, 0.75);
+            border-color: rgba(255,215,0,0.4);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 15px rgba(255,215,0,0.3);
+        }
+        
+        .bank-safety-tip { /* Para cards de dicas de segurança bancária */
+            display: flex;
+            align-items: center; /* Alinha ícone e texto verticalmente */
+            gap: 1rem;
+        }
+        .bank-safety-tip .icon-area {
+            flex-shrink: 0;
+            font-size: clamp(2rem, 5vh, 2.5rem);
+            width: clamp(40px, 8vw, 50px); /* Largura fixa para o ícone */
+            text-align: center;
+        }
+        .bank-safety-tip .content .title {
+            font-weight: 700;
+            font-size: clamp(0.95rem, 1.9vh, 1.1rem);
+            margin-bottom: 0.25rem;
+        }
+        .bank-safety-tip .content .description {
+            font-size: clamp(0.8rem, 1.5vh, 0.9rem);
+            color: #d1d5db; /* Cinza claro */
+            line-height: 1.45;
+        }
+        .bank-safety-tip .content .learn-more {
+            display: inline-block;
+            font-size: clamp(0.7rem, 1.2vh, 0.75rem);
+            font-weight: 500;
+            text-decoration: underline;
+            margin-top: 0.4rem;
+            cursor: pointer;
+        }
+        .bank-safety-tip .content .learn-more:hover { opacity: 0.8; }
+
+        /* Cores para ícones/títulos dos cards de dicas */
+        .tip-text-green { color: #22c55e; }
+        .tip-text-blue { color: #3b82f6; }
+        .tip-text-purple { color: #a855f7; }
+        .tip-text-red { color: #ef4444; }
+        .tip-text-orange { color: #f97316; }
+        .tip-text-teal { color: #14b8a6; }
+
+        .fraud-alert-card { /* Card de Alerta de Fraude */
+            background: linear-gradient(135deg, #c0392b, #e74c3c); /* Vermelho alerta */
+            border: 2px solid #f39c12; /* Borda laranja/amarela para destaque */
+            color: white;
+            text-align: center;
+        }
+        .fraud-alert-card .icon { font-size: clamp(2rem, 5vh, 2.6rem); margin-bottom: 0.6rem; }
+        .fraud-alert-card .title {
+            font-family: 'Orbitron', monospace; font-weight: 900; /* Mais forte */
+            font-size: clamp(1.2rem, 2.4vh, 1.45rem);
+        }
+        .fraud-alert-card .text {
+            font-size: clamp(0.9rem, 1.7vh, 1rem); margin-top: 0.4rem;
+            line-height: 1.5;
+        }
+        .fraud-alert-card .action-call a {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            margin-top: 0.8rem;
+            border-radius: 0.375rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .fraud-alert-card .action-call a:hover { background-color: rgba(255,255,255,0.35); }
+
+        .golden-rule-banner {
+            background: linear-gradient(to right, #ffd700, #f0b90b, #eab308); /* Gradiente dourado */
+            color: #1f2937; /* Texto escuro para contraste com dourado */
+            padding: clamp(1rem, 2vh, 1.3rem);
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        .golden-rule-banner .icon { font-size: clamp(1.5rem, 3vh, 1.8rem); margin-right: 0.6rem; }
+        .golden-rule-banner .text {
+            font-size: clamp(0.95rem, 1.8vh, 1.1rem);
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+        }
+
+
+        .slide-in { animation: slideInBanco 0.7s ease-out forwards; opacity: 0; }
+        @keyframes slideInBanco {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .icon-secure-pulse { animation: iconSecurePulseAnim 2.8s ease-in-out infinite; }
+        @keyframes iconSecurePulseAnim {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; }
+        }
+        
+        .feedback-popup {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            color: white; padding: clamp(0.7rem,1.5vh,0.9rem) clamp(1rem,2vw,1.3rem);
+            border-radius: 0.375rem; font-weight: 600;
+            font-size: clamp(0.8rem,1.5vh,0.9rem); z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0;
+            animation: fadeInOutFeedbackBanco 4s ease-in-out;
+            min-width: 320px; text-align: left; /* Alinhado à esquerda para mais texto */
+        }
+        .feedback-popup h5 { font-family: 'Orbitron', monospace; font-size: 1.05em; margin-bottom: 0.3rem; text-align: center; }
+        .feedback-popup hr { border-color: rgba(255,255,255,0.3); margin: 0.4rem 0; }
+        .feedback-popup.success { background-color: #166534; } /* Verde escuro */
+        .feedback-popup.info { background-color: #075985; } /* Azul escuro */
+        .feedback-popup.warning { background-color: #b45309; } /* Laranja escuro/Marrom */
+        @keyframes fadeInOutFeedbackBanco {
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+            8%, 92% { opacity: 1; transform: translate(-50%, 0px); } /* Mais tempo visível */
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-in">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-landmark text-yellow-400 icon-secure-pulse title-icon"></i>
+                <h1 class="font-black glow-text-banco">
+                    CONTAS BANCÁRIAS
+                </h1>
+            </div>
+            <h2 class="font-semibold">
+                Seu dinheiro protegido no mundo digital
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 w-full">
+            <div class="neon-card bank-safety-tip slide-in" style="animation-delay: 0.1s;">
+                <div class="icon-area tip-text-green"><i class="fas fa-mobile-alt"></i></div>
+                <div class="content">
+                    <div class="title tip-text-green">Apenas Apps e Sites Oficiais</div>
+                    <div class="description">Use apps das lojas oficiais. Acesse o internet banking digitando o endereço no navegador, nunca por links de e-mail/SMS.</div>
+                    <span class="learn-more tip-text-green" onclick="showBankInfo('officialChannels')">Por quê?</span>
+                </div>
+            </div>
+            <div class="neon-card bank-safety-tip slide-in" style="animation-delay: 0.2s;">
+                <div class="icon-area tip-text-blue"><i class="fas fa-shield-virus"></i></div>
+                <div class="content">
+                    <div class="title tip-text-blue">Dispositivo Seguro e Privado</div>
+                    <div class="description">Mantenha seu celular/PC com antivírus e sistema atualizados. Evite transações em dispositivos de terceiros ou Wi-Fi público.</div>
+                    <span class="learn-more tip-text-blue" onclick="showBankInfo('secureDevice')">Mais Detalhes</span>
+                </div>
+            </div>
+            <div class="neon-card bank-safety-tip slide-in" style="animation-delay: 0.3s;">
+                <div class="icon-area tip-text-purple"><i class="fas fa-key"></i></div>
+                <div class="content">
+                    <div class="title tip-text-purple">Senhas Fortes e 2FA</div>
+                    <div class="description">Use senhas exclusivas para cada banco. Ative autenticação de dois fatores (2FA) ou tokens de segurança sempre que disponíveis.</div>
+                    <span class="learn-more tip-text-purple" onclick="showBankInfo('passwords2FA')">Como Criar?</span>
+                </div>
+            </div>
+            <div class="neon-card bank-safety-tip slide-in" style="animation-delay: 0.4s;">
+                <div class="icon-area tip-text-red"><i class="fas fa-user-secret"></i></div>
+                <div class="content">
+                    <div class="title tip-text-red">Dados Pessoais são Secretos</div>
+                    <div class="description">Bancos NUNCA ligam ou enviam mensagens pedindo senhas, tokens, CVV, ou para instalar apps. Desligue e contate o banco por canais oficiais.</div>
+                    <span class="learn-more tip-text-red" onclick="showBankInfo('secretData')">Golpe Comum!</span>
+                </div>
+            </div>
+            <div class="neon-card bank-safety-tip slide-in" style="animation-delay: 0.5s;">
+                <div class="icon-area tip-text-orange"><i class="fas fa-bell"></i></div>
+                <div class="content">
+                    <div class="title tip-text-orange">Ative Notificações de Transação</div>
+                    <div class="description">Habilite alertas por SMS/e-mail para cada compra ou movimentação. Monitore seu extrato regularmente.</div>
+                    <span class="learn-more tip-text-orange" onclick="showBankInfo('notifications')">Como Ajuda?</span>
+                </div>
+            </div>
+            <div class="neon-card bank-safety-tip slide-in" style="animation-delay: 0.6s;">
+                <div class="icon-area tip-text-teal"><i class="fas fa-credit-card"></i></div>
+                <div class="content">
+                    <div class="title tip-text-teal">Cuidado com o Cartão</div>
+                    <div class="description">Não perca o cartão de vista em pagamentos. Para compras online, verifique a segurança do site (HTTPS) e use cartões virtuais.</div>
+                    <span class="learn-more tip-text-teal" onclick="showBankInfo('cardCare')">Cartão Virtual?</span>
+                </div>
+            </div>
+        </div>
+            
+        <div class="neon-card fraud-alert-card slide-in no-hover" style="animation-delay: 0.7s;">
+            <i class="fas fa-exclamation-triangle icon"></i>
+            <div class="title">ALERTA DE FRAUDE: O QUE FAZER?</div>
+            <div class="text">Se suspeitar de fraude ou transação não reconhecida: <br>1. Contate IMEDIATAMENTE seu banco pelos canais oficiais. <br>2. Bloqueie cartões e acessos, se necessário. <br>3. Registre um Boletim de Ocorrência.</div>
+            <div class="action-call">
+                <a href="https://www.delegaciavirtual.sinesp.gov.br/" target="_blank" rel="noopener noreferrer">Delegacia Virtual</a>
+            </div>
+        </div>
+            
+        <div class="golden-rule-banner slide-in" style="animation-delay: 0.8s;">
+            <p class="text"><i class="fas fa-gavel icon"></i>REGRA DE OURO: Na dúvida, NÃO clique, NÃO informe, NÃO transfira! Contate seu banco.</p>
+        </div>
+    </div>
+    
+    <script>
+        function showFeedback(message, type = 'info', duration = 4000) {
+            const existingPopup = document.querySelector('.feedback-popup');
+            if (existingPopup) existingPopup.remove();
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-popup ${type}`;
+            // Adiciona um título padrão ao popup
+            let titleText = "";
+            if (type === 'success') titleText = "Dica de Segurança Aplicada!";
+            else if (type === 'info') titleText = "Informação Importante!";
+            else if (type === 'warning') titleText = "Ponto de Atenção!";
+            
+            feedback.innerHTML = `<h5>${titleText}</h5><hr/>${message}`;
+            document.body.appendChild(feedback);
+            setTimeout(() => { if (feedback.parentNode) feedback.remove(); }, duration);
+        }
+
+        const bankMessages = {
+            'officialChannels': "<strong>Por quê?</strong> Sites falsos (phishing) e apps maliciosos podem roubar seus dados de acesso. Sempre baixe da Play Store/App Store e digite o endereço do banco (ex: www.seubanco.com.br) manualmente.",
+            'secureDevice': "<strong>Wi-Fi Público:</strong> São vulneráveis a interceptação de dados. Evite! <br><strong>Dispositivos de Terceiros:</strong> Podem ter keyloggers ou malwares. Use apenas seus dispositivos pessoais e protegidos.",
+            'passwords2FA': "<strong>Senha Forte:</strong> Misture letras (maiúsculas/minúsculas), números e símbolos. Ex: `Mc@FéF0rt&23!`. <br><strong>2FA:</strong> Adiciona uma camada extra de segurança, como um código enviado ao seu celular ou gerado por um app. Essencial!",
+            'secretData': "<strong>Engenharia Social:</strong> Golpistas se passam por funcionários do banco para te enganar e obter seus dados. O banco já tem suas informações e nunca pedirá senhas completas ou tokens por telefone/mensagem.",
+            'notifications': "<strong>Detecção Rápida:</strong> Se receber um alerta de uma compra que não fez, você pode agir rapidamente para bloquear o cartão e contestar a transação, minimizando perdas.",
+            'cardCare': "<strong>Cartão Virtual:</strong> Muitos bancos oferecem cartões virtuais com número diferente, CVV temporário ou para uma única compra. Ideal para compras online, pois se os dados vazarem, seu cartão físico principal fica seguro."
+        };
+
+        function showBankInfo(type) {
+            const message = bankMessages[type];
+            if (message) {
+                let popupType = 'info';
+                if (type === 'officialChannels' || type ==='secureDevice' || type === 'passwords2FA') popupType = 'success';
+                if (type === 'secretData') popupType = 'warning';
+                
+                showFeedback(message, popupType, 7000); // Popups mais longos para detalhes bancários
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp Blindado: Comunicação Segura</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+        body {
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; padding: 1rem; box-sizing: border-box; position: relative;
+            font-family: 'Poppins', sans-serif; color: #e2e8f0;
+        }
+        .cyber-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* Tons de verde escuro e azulado para WhatsApp, com um toque de segurança */
+            background: linear-gradient(135deg, #075e54 0%, #128c7e 50%, #25d366 100%), /* Verdes WhatsApp */
+                        radial-gradient(circle at 15% 85%, #0ea5e9 0%, transparent 35%), /* Ciano suave */
+                        radial-gradient(circle at 85% 20%, #10b981 0%, transparent 35%); /* Verde esmeralda */
+        }
+        .grid-pattern-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            opacity: 0.05;
+            background-image:
+                repeating-linear-gradient(45deg, transparent, transparent 15px, rgba(255, 255, 255, 0.1) 15px, rgba(255, 255, 255, 0.1) 17px),
+                repeating-linear-gradient(-45deg, transparent, transparent 15px, rgba(255, 255, 255, 0.1) 15px, rgba(255, 255, 255, 0.1) 17px);
+            background-size: 40px 40px;
+        }
+
+        .main-content-wrapper {
+            position: relative; z-index: 1; width: 95%; max-width: 1200px;
+            margin: 1.5rem auto; display: flex; flex-direction: column;
+            gap: clamp(1.2rem, 2.5vh, 1.8rem);
+        }
+
+        .header-senai { position: absolute; top: clamp(1rem, 2vh, 1.5rem); right: clamp(1rem, 2vh, 1.5rem); z-index: 20; }
+        .logo-senai-img { width: clamp(80px, 10vh, 96px); height: auto; }
+
+        .slide-header .title-icon { font-size: clamp(1.8rem, 4vh, 2.25rem); margin-right: 0.75rem; }
+        .slide-header h1 {
+            font-size: clamp(1.7rem, 3.8vw, 2.25rem); margin-bottom: clamp(0.2rem, 0.4vh, 0.4rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1rem, 2.2vw, 1.25rem); font-family: 'Poppins', sans-serif;
+            color: #a7f3d0; /* Verde menta claro */
+        }
+        .glow-text-whatsapp { text-shadow: 0 0 15px rgba(37, 211, 102, 0.8), 0 0 25px rgba(37, 211, 102, 0.6); }
+
+        .neon-card {
+            background: rgba(18, 140, 126, 0.5); /* Verde WhatsApp semi-transparente */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(37, 211, 102, 0.4); /* Borda verde WhatsApp */
+            padding: clamp(1rem, 2vh, 1.5rem); border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover:not(.no-hover):not(.critical-alert-card-wa) {
+            transform: translateY(-3px);
+            background: rgba(18, 140, 126, 0.7);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 15px rgba(37, 211, 102, 0.5);
+        }
+        
+        .feature-card { /* Para cards de funcionalidades de segurança */
+            display: flex; align-items: flex-start; /* Alinha itens ao topo */
+            gap: 1rem;
+        }
+        .feature-card .icon-wrapper {
+            flex-shrink: 0;
+            font-size: clamp(1.8rem, 4vh, 2.2rem);
+            padding-top: 0.2rem; /* Alinha melhor com o texto */
+        }
+        .feature-card .content .title {
+            font-weight: 700;
+            font-size: clamp(1rem, 2vh, 1.15rem);
+            margin-bottom: 0.25rem;
+        }
+        .feature-card .content .description {
+            font-size: clamp(0.8rem, 1.5vh, 0.9rem);
+            color: #e0f2f1; /* Verde muito claro/branco */
+            line-height: 1.5;
+        }
+        .feature-card .content .action-link {
+            display: inline-block;
+            font-size: clamp(0.75rem, 1.3vh, 0.8rem);
+            font-weight: 600;
+            color: #66ffc2; /* Verde neon */
+            margin-top: 0.5rem;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+        .feature-card .content .action-link:hover { color: #a7ffda; }
+
+        /* Cores para ícones/títulos dos feature-cards */
+        .text-feature-blue { color: #60a5fa; } /* Azul claro */
+        .text-feature-purple { color: #c084fc; } /* Roxo claro */
+        .text-feature-red { color: #f87171; } /* Vermelho claro */
+        .text-feature-orange { color: #fb923c; } /* Laranja claro */
+        .text-feature-pink { color: #f472b6; } /* Rosa claro */
+        .text-feature-lime { color: #a3e635; } /* Verde limão */
+
+        .step-by-step-guide {
+            background-color: rgba(7, 94, 84, 0.3); /* Verde mais escuro e sutil */
+            padding: clamp(0.8rem, 1.5vh, 1.2rem);
+            border-radius: 0.5rem;
+        }
+        .step-by-step-guide h4 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(0.9rem, 1.8vh, 1.05rem);
+            color: #a7f3d0;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+        .step-by-step-guide ol {
+            list-style-type: decimal;
+            margin-left: 1.2rem;
+            font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+            color: #d1fae5; /* Verde bem claro */
+        }
+        .step-by-step-guide ol li { margin-bottom: 0.3rem; }
+        .step-by-step-guide ol li::marker { font-weight: bold; color: #66ffc2; }
+
+        .critical-alert-card-wa { /* Renomeado para WhatsApp */
+            background: linear-gradient(45deg, #f97316, #ea580c); /* Laranja para aviso */
+            border: 1px solid #fb923c;
+            text-align: center;
+        }
+        .critical-alert-card-wa .icon { font-size: clamp(1.8rem, 3.5vh, 2.2rem); margin-bottom: 0.5rem; }
+        .critical-alert-card-wa .title {
+            font-family: 'Orbitron', monospace; font-weight: bold;
+            font-size: clamp(1.1rem, 2.2vh, 1.3rem); color: white;
+        }
+        .critical-alert-card-wa .text {
+            font-size: clamp(0.85rem, 1.6vh, 0.95rem); margin-top: 0.3rem;
+            color: #ffedd5; /* Laranja muito claro */
+        }
+
+        .final-reminder-wa {
+            text-align: center;
+            padding: clamp(0.8rem, 1.5vh, 1rem);
+            background-color: rgba(7, 94, 84, 0.6); /* Verde escuro WhatsApp */
+            border-radius: 0.5rem;
+            border-top: 3px solid #25d366; /* Linha verde WhatsApp */
+        }
+        .final-reminder-wa p {
+            font-size: clamp(0.9rem, 1.8vh, 1.1rem);
+            font-weight: 600;
+            color: #e0f2f1;
+        }
+        .final-reminder-wa i { margin-right: 0.5rem; color: #66ffc2; }
+
+
+        .slide-in { animation: slideInWhatsApp 0.7s ease-out forwards; opacity: 0; }
+        @keyframes slideInWhatsApp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .icon-bounce-whatsapp { animation: iconBounceWhatsAppAnim 2.5s ease-in-out infinite; }
+        @keyframes iconBounceWhatsAppAnim {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(-5deg); }
+            75% { transform: translateY(-5px) rotate(5deg); }
+        }
+        
+        .feedback-popup {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            color: white; padding: clamp(0.7rem,1.5vh,0.9rem) clamp(1rem,2vw,1.3rem);
+            border-radius: 0.375rem; font-weight: 600;
+            font-size: clamp(0.8rem,1.5vh,0.9rem); z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0;
+            animation: fadeInOutFeedbackWhatsApp 3s ease-in-out;
+            min-width: 280px; text-align: center;
+        }
+        .feedback-popup.success { background-color: #128c7e; } /* Verde WhatsApp */
+        .feedback-popup.info { background-color: #0ea5e9; } /* Azul */
+        .feedback-popup.warning { background-color: #f97316; } /* Laranja */
+        @keyframes fadeInOutFeedbackWhatsApp {
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+            10%, 90% { opacity: 1; transform: translate(-50%, 0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-in">
+            <div class="flex items-center justify-center">
+                <i class="fab fa-whatsapp text-green-400 icon-bounce-whatsapp title-icon"></i>
+                <h1 class="font-black glow-text-whatsapp">
+                    WHATSAPP BLINDADO
+                </h1>
+            </div>
+            <h2 class="font-semibold">
+                Mantenha suas conversas e conta protegidas
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 w-full">
+            <!-- Verificação em Duas Etapas -->
+            <div class="neon-card feature-card slide-in" style="animation-delay: 0.1s;">
+                <div class="icon-wrapper text-feature-blue">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="content">
+                    <div class="title text-feature-blue">Verificação em Duas Etapas (PIN)</div>
+                    <div class="description">A camada MAIS IMPORTANTE! Adiciona um PIN de 6 dígitos que será solicitado ao registrar seu número novamente.</div>
+                    <div class="action-link" onclick="showWhatsAppGuide('pinActivation')">Como ativar?</div>
+                </div>
+            </div>
+
+            <!-- Controle de Privacidade -->
+            <div class="neon-card feature-card slide-in" style="animation-delay: 0.2s;">
+                <div class="icon-wrapper text-feature-purple">
+                    <i class="fas fa-eye-slash"></i>
+                </div>
+                <div class="content">
+                    <div class="title text-feature-purple">Controle Quem Vê Suas Infos</div>
+                    <div class="description">Ajuste quem pode ver sua foto de perfil, visto por último, recado e status. Menos exposição, mais segurança.</div>
+                    <div class="action-link" onclick="showWhatsAppGuide('privacySettings')">Onde configurar?</div>
+                </div>
+            </div>
+
+            <!-- Sessões Web/Desktop -->
+            <div class="neon-card feature-card slide-in" style="animation-delay: 0.3s;">
+                <div class="icon-wrapper text-feature-orange">
+                    <i class="fas fa-desktop-alt"></i>
+                </div>
+                <div class="content">
+                    <div class="title text-feature-orange">Gerencie Aparelhos Conectados</div>
+                    <div class="description">Verifique regularmente os computadores e outros dispositivos conectados à sua conta. Desconecte os suspeitos.</div>
+                    <div class="action-link" onclick="showWhatsAppGuide('connectedDevices')">Verificar agora</div>
+                </div>
+            </div>
+
+            <!-- Bloqueie e Denuncie -->
+            <div class="neon-card feature-card slide-in" style="animation-delay: 0.4s;">
+                <div class="icon-wrapper text-feature-pink">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <div class="content">
+                    <div class="title text-feature-pink">Bloqueie e Denuncie Contatos</div>
+                    <div class="description">Recebeu spam, ameaças ou mensagens de números desconhecidos? Bloqueie e denuncie para o WhatsApp analisar.</div>
+                    <div class="action-link" onclick="showWhatsAppTip('blockReport')">Por que é importante?</div>
+                </div>
+            </div>
+        </div>
+            
+        <!-- Alerta Crítico -->
+        <div class="neon-card critical-alert-card-wa slide-in no-hover" style="animation-delay: 0.5s;">
+            <i class="fas fa-key text-white icon"></i>
+            <div class="title">NUNCA COMPARTILHE SEUS CÓDIGOS!</div>
+            <div class="text">O WhatsApp NUNCA pedirá seu código de confirmação (SMS) ou o PIN da verificação em duas etapas. Golpistas sim! Fique alerta!</div>
+        </div>
+
+        <!-- Guia Passo a Passo (Oculto/Revelado por JS ou sempre visível) -->
+        <div id="whatsappGuideSection" class="neon-card slide-in no-hover" style="animation-delay: 0.6s; display: none;"> <!-- Inicia oculto -->
+            <div class="step-by-step-guide">
+                <h4 id="guideTitle">Guia de Configuração</h4>
+                <ol id="guideSteps">
+                    <!-- Conteúdo preenchido por JavaScript -->
+                </ol>
+            </div>
+        </div>
+            
+        <div class="final-reminder-wa slide-in" style="animation-delay: 0.7s;">
+            <p><i class="fas fa-shield-check"></i>Sua segurança no WhatsApp depende da sua atenção e dessas configurações!</p>
+        </div>
+    </div>
+    
+    <script>
+        function showFeedback(message, type = 'info', duration = 3500) {
+            const existingPopup = document.querySelector('.feedback-popup');
+            if (existingPopup) existingPopup.remove();
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-popup ${type}`;
+            feedback.innerHTML = message;
+            document.body.appendChild(feedback);
+            setTimeout(() => { if (feedback.parentNode) feedback.remove(); }, duration);
+        }
+
+        const guides = {
+            pinActivation: {
+                title: "Como Ativar a Verificação em Duas Etapas (PIN)",
+                steps: [
+                    "Abra o WhatsApp e vá em <strong>Configurações</strong> (ou Ajustes).",
+                    "Toque em <strong>Conta</strong>.",
+                    "Selecione <strong>Confirmação em duas etapas</strong> (ou Verificação em duas etapas).",
+                    "Toque em <strong>ATIVAR</strong>.",
+                    "Crie um <strong>PIN de 6 dígitos</strong> que você não esqueça.",
+                    "Confirme o PIN.",
+                    "Forneça um <strong>endereço de e-mail</strong> para recuperação caso esqueça o PIN (opcional, mas altamente recomendado). Confirme o e-mail.",
+                    "Pronto! Sua conta está mais segura."
+                ]
+            },
+            privacySettings: {
+                title: "Configurando Sua Privacidade",
+                steps: [
+                    "Em Configurações, vá em <strong>Conta</strong> > <strong>Privacidade</strong>.",
+                    "Ajuste as opções: <strong>Visto por último e online</strong>, <strong>Foto do perfil</strong>, <strong>Recado</strong>, <strong>Status</strong>.",
+                    "Para cada, escolha entre: Todos, Meus Contatos, Meus Contatos Exceto..., Ninguém.",
+                    "Considere também desativar <strong>Confirmações de Leitura</strong> se desejar mais privacidade (você também não verá a dos outros)."
+                ]
+            },
+            connectedDevices: {
+                title: "Verificando Aparelhos Conectados",
+                steps: [
+                    "Em Configurações, toque em <strong>Aparelhos conectados</strong>.",
+                    "Você verá uma lista de todas as sessões ativas (WhatsApp Web/Desktop).",
+                    "Se reconhecer todas, ótimo. Se houver alguma suspeita, toque na sessão e escolha <strong>DESCONECTAR</strong>.",
+                    "É uma boa prática verificar isso periodicamente."
+                ]
+            }
+        };
+
+        const tips = {
+            blockReport: "<strong>Bloquear</strong> impede que o contato envie mais mensagens ou ligue para você. <strong>Denunciar</strong> envia as últimas mensagens do contato para o WhatsApp para análise. Isso ajuda a combater spam e contas maliciosas. Se for um contato conhecido que parece ter sido clonado, avise-o por outro meio."
+        };
+
+        function showWhatsAppGuide(guideKey) {
+            const guideData = guides[guideKey];
+            const guideSection = document.getElementById('whatsappGuideSection');
+            const guideTitleEl = document.getElementById('guideTitle');
+            const guideStepsEl = document.getElementById('guideSteps');
+
+            if (guideData && guideSection && guideTitleEl && guideStepsEl) {
+                guideTitleEl.innerHTML = `<i class="fas fa-cogs mr-2"></i>${guideData.title}`;
+                guideStepsEl.innerHTML = guideData.steps.map(step => `<li>${step}</li>`).join('');
+                guideSection.style.display = 'block';
+                // Scroll para a seção do guia
+                guideSection.scrollIntoView({ behavior: 'smooth', block: 'center' }); 
+                showFeedback("Guia carregado abaixo. Siga os passos!", "info", 2000);
+            }
+        }
+
+        function showWhatsAppTip(tipKey) {
+            const tipMessage = tips[tipKey];
+            if (tipMessage) {
+                showFeedback(`<strong><i class="fas fa-info-circle mr-2"></i> Dica Importante</strong><hr class="my-1 border-gray-500">${tipMessage}`, 'info', 8000);
+            }
+        }
+
+    </script>
+</body>
+</html>
