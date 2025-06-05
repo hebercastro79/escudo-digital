@@ -19,53 +19,72 @@
             min-height: 100vh;
             margin: 0;
             padding: 10px;
-            overflow: hidden; /* Para evitar scrollbars da página principal */
+            overflow: hidden;
         }
         .presentation-container {
-            width: 1280px; /* Largura fixa dos seus slides */
-            height: 720px; /* Altura fixa dos seus slides */
+            width: 1280px;
+            height: 720px;
             border: 3px solid rgba(102, 126, 234, 0.5);
             box-shadow: 0 0 30px rgba(102, 126, 234, 0.3);
             overflow: hidden;
             border-radius: 10px;
             margin-bottom: 15px;
-            background-color: #000;
-            transition: width 0.3s ease, height 0.3s ease; /* Adicionado para suavizar a transição */
+            background-color: #000; /* Fundo padrão */
+            transition: width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
         }
-        /* Estilo para o modo tela cheia */
-        .presentation-container:-webkit-full-screen { /* Chrome, Safari, Opera */
-            width: 100vw!important;
-            height: 100vh!important;
-            border: none!important;
-            border-radius: 0!important;
-            margin: 0!important;
+
+        /* Estilo para o modo tela cheia - COM TESTE DE FUNDO LIMA */
+        .presentation-container:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            background-color: lime !important; /* TESTE */
         }
-        .presentation-container:-moz-full-screen { /* Firefox */
-            width: 100vw!important;
-            height: 100vh!important;
-            border: none!important;
-            border-radius: 0!important;
-            margin: 0!important;
+        .presentation-container:-moz-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            background-color: lime !important; /* TESTE */
         }
-        .presentation-container:-ms-fullscreen { /* IE/Edge */
-            width: 100vw!important;
-            height: 100vh!important;
-            border: none!important;
-            border-radius: 0!important;
-            margin: 0!important;
+        .presentation-container:-ms-fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            background-color: lime !important; /* TESTE */
         }
-        .presentation-container:fullscreen { /* Padrão */
-            width: 100vw!important;
-            height: 100vh!important;
-            border: none!important;
-            border-radius: 0!important;
-            margin: 0!important;
+        .presentation-container:fullscreen {
+            width: 100vw !important;
+            height: 100vh !important;
+            border: none !important;
+            border-radius: 0 !important;
+            margin: 0 !important;
+            background-color: lime !important; /* TESTE */
         }
 
         iframe {
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        /* Controles e Título Principal */
+        .controls, .header-title {
+            transition: opacity 0.3s ease, visibility 0.3s ease; /* Adicionado visibility */
+            visibility: visible;
+            opacity: 1;
+        }
+        .header-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5em;
+            color: #cbd5e1;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
         }
         .controls {
             display: flex;
@@ -76,16 +95,21 @@
             backdrop-filter: blur(10px);
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            /* Esconder controles em tela cheia */
-            transition: opacity 0.3s ease;
         }
-        .presentation-container:fullscreen + .controls {
+
+        /* Esconder controles e título em tela cheia */
+        /* Usando o seletor de irmão geral (~) para o título, pois não é adjacente */
+        body:has(.presentation-container:fullscreen) .controls,
+        body:has(.presentation-container:fullscreen) .header-title,
+        body:has(.presentation-container:-webkit-full-screen) .controls,
+        body:has(.presentation-container:-webkit-full-screen) .header-title,
+        body:has(.presentation-container:-moz-full-screen) .controls,
+        body:has(.presentation-container:-moz-full-screen) .header-title,
+        body:has(.presentation-container:-ms-fullscreen) .controls,
+        body:has(.presentation-container:-ms-fullscreen) .header-title {
             opacity: 0;
+            visibility: hidden; /* Garante que não ocupa espaço e não é interativo */
             pointer-events: none;
-        }
-        .presentation-container:fullscreen ~ .header-title { /* Esconde o título também */
-             opacity: 0;
-             pointer-events: none;
         }
 
 
@@ -131,21 +155,12 @@
             background-color: #1e293b;
             color: white;
         }
-        .header-title {
-            font-family: 'Orbitron', monospace;
-            font-size: 1.5em;
-            color: #cbd5e1;
-            margin-bottom: 10px;
-            text-shadow: 0 0 10px rgba(102, 126, 234, 0.5);
-            transition: opacity 0.3s ease; /* Para esconder em tela cheia */
-        }
         .fullscreen-button {
             background-color: #34d399;
         }
         .fullscreen-button:hover {
             background-color: #10b981;
         }
-
     </style>
 </head>
 <body>
@@ -208,61 +223,69 @@
         }
 
         fullscreenButton.addEventListener('click', () => {
-            if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+            // Verificamos se já estamos em tela cheia pelo elemento que foi para tela cheia
+            if (!document.fullscreenElement &&
+                !document.webkitFullscreenElement &&
+                !document.mozFullScreenElement &&
+                !document.msFullscreenElement) {
+                // Entrar em tela cheia
                 if (presentationContainer.requestFullscreen) {
                     presentationContainer.requestFullscreen();
-                } else if (presentationContainer.mozRequestFullScreen) {
-                    presentationContainer.mozRequestFullScreen();
-                } else if (presentationContainer.webkitRequestFullscreen) {
+                } else if (presentationContainer.webkitRequestFullscreen) { /* Safari, Chrome */
                     presentationContainer.webkitRequestFullscreen();
-                } else if (presentationContainer.msRequestFullscreen) {
+                } else if (presentationContainer.mozRequestFullScreen) { /* Firefox */
+                    presentationContainer.mozRequestFullScreen();
+                } else if (presentationContainer.msRequestFullscreen) { /* IE/Edge */
                     presentationContainer.msRequestFullscreen();
                 }
             } else {
+                // Sair da tela cheia
                 if (document.exitFullscreen) {
                     document.exitFullscreen();
-                } else if (document.mozCancelFullScreen) {
-                    document.mozCancelFullScreen();
                 } else if (document.webkitExitFullscreen) {
                     document.webkitExitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
                 } else if (document.msExitFullscreen) {
                     document.msExitFullscreen();
                 }
             }
         });
 
-        document.addEventListener('fullscreenchange', handleFullscreenChange);
-        document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-        document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-        document.addEventListener('msfullscreenchange', handleFullscreenChange);
-
+        // Função para lidar com a mudança de estado da tela cheia
         function handleFullscreenChange() {
-            const isFullscreen = !!(document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
-            const controls = document.querySelector('.controls');
-            const headerTitle = document.querySelector('.header-title');
+            const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement);
+            console.log("Fullscreen state changed. Is fullscreen:", isFullscreen); // Log para depuração
 
             if (isFullscreen) {
-                // O CSS já cuida de expandir .presentation-container
-                // O CSS já cuida de esconder .controls e .header-title
                 fullscreenButton.innerHTML = '<i class="fas fa-compress mr-2"></i> Sair Tela Cheia';
+                 // O CSS :fullscreen e :has(:fullscreen) deve cuidar de esconder os controles
             } else {
-                // O CSS já cuida de retornar .presentation-container ao tamanho original
-                // O CSS já cuida de reexibir .controls e .header-title
                 fullscreenButton.innerHTML = '<i class="fas fa-expand mr-2"></i> Tela Cheia';
+                // O CSS deve cuidar de reexibir os controles
             }
         }
 
+        // Adiciona listeners para o evento de mudança de tela cheia
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        document.addEventListener('webkitfullscreenchange', handleFullscreenChange); // Para Chrome, Safari, Opera
+        document.addEventListener('mozfullscreenchange', handleFullscreenChange);    // Para Firefox
+        document.addEventListener('MSFullscreenChange', handleFullscreenChange);     // Para IE/Edge
+
+
         document.addEventListener('keydown', (event) => {
+            if (document.activeElement.tagName === 'SELECT') return; // Não interfere se o select estiver focado
+
             if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
                 if (!nextButton.disabled) loadSlide(currentSlideIndex + 1);
-                event.preventDefault(); // Evita scroll da página com espaço
+                if (event.key === ' ') event.preventDefault(); // Evita scroll da página com espaço
             } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
                 if (!prevButton.disabled) loadSlide(currentSlideIndex - 1);
             } else if (event.key === 'Home') {
                 loadSlide(0);
             } else if (event.key === 'End') {
                 loadSlide(slideFiles.length - 1);
-            } else if (event.key.toLowerCase() === 'f') { // Tecla F para tela cheia
+            } else if (event.key.toLowerCase() === 'f') {
                 fullscreenButton.click();
             }
         });
