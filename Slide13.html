@@ -9,18 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         html, body {
-            height: 100%;
+            height: 100%; /* Garante que o html e body tentem usar a altura do seu container (iframe) */
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow-x: hidden; /* Previne rolagem horizontal */
+            overflow-y: auto;   /* Permite rolagem vertical SE o conteúdo for maior que a altura */
         }
         body {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start; /* Alinha o conteúdo ao topo */
-            min-height: 100vh;
+            justify-content: flex-start; /* Conteúdo alinhado ao topo */
+            min-height: 100%; /* Garante que o body preencha no mínimo a altura do html (que é 100% do iframe) */
+            /* Removido min-height: 100vh; pois pode ser problemático em iframes */
             padding: 1rem;
             box-sizing: border-box;
             position: relative;
@@ -28,25 +29,23 @@
             color: #e2e8f0;
         }
         .cyber-bg {
-            position: fixed;
+            position: fixed; /* Fixo para não rolar com o conteúdo do body */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -2;
-            /* Azul escuro com toques de ciano e roxo para tecnologia/segurança */
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%),
-                        radial-gradient(circle at 20% 80%, #0ea5e9 0%, transparent 30%), /* Ciano */
-                        radial-gradient(circle at 80% 30%, #8b5cf6 0%, transparent 30%); /* Roxo/Violeta */
+                        radial-gradient(circle at 20% 80%, #0ea5e9 0%, transparent 30%),
+                        radial-gradient(circle at 80% 30%, #8b5cf6 0%, transparent 30%);
         }
         .grid-pattern-overlay {
-            position: fixed;
+            position: fixed; /* Fixo */
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.06; /* Sutil */
-            /* Padrão de circuito/digital */
+            opacity: 0.06;
             background-image:
                 linear-gradient(rgba(0, 128, 255, 0.1) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 128, 255, 0.1) 1px, transparent 1px);
@@ -59,14 +58,16 @@
             z-index: 1;
             width: 95%;
             max-width: 1200px;
-            margin: 1.5rem auto;
+            margin: 1.5rem auto; /* Centraliza e dá espaço no topo/fundo */
             display: flex;
             flex-direction: column;
-            gap: clamp(1.2rem, 2.5vh, 1.8rem); /* Espaçamento entre seções */
+            align-items: center; /* Centraliza filhos horizontalmente */
+            gap: clamp(1.2rem, 2.5vh, 1.8rem);
+            /* Sem min-height aqui, ele deve crescer com o conteúdo */
         }
 
         .header-senai {
-            position: absolute;
+            position: absolute; /* Relativo ao body do slide */
             top: clamp(1rem, 2vh, 1.5rem);
             right: clamp(1rem, 2vh, 1.5rem);
             z-index: 20;
@@ -88,14 +89,14 @@
         .slide-header h2 {
             font-size: clamp(1rem, 2.2vw, 1.25rem);
             font-family: 'Poppins', sans-serif;
-            color: #94a3b8; /* Cinza azulado claro */
+            color: #94a3b8;
         }
         .glow-text-celular { text-shadow: 0 0 15px rgba(14, 165, 233, 0.7), 0 0 25px rgba(14, 165, 233, 0.5); }
 
         .neon-card {
-            background: rgba(51, 65, 85, 0.4); /* Azul acinzentado escuro semi-transparente */
+            background: rgba(51, 65, 85, 0.4);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(14, 165, 233, 0.3); /* Borda ciano sutil */
+            border: 1px solid rgba(14, 165, 233, 0.3);
             padding: clamp(1rem, 2vh, 1.5rem);
             border-radius: 0.75rem;
             transition: all 0.3s ease;
@@ -106,7 +107,7 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.4);
         }
         
-        .tip-card { /* Para os cards menores de dicas */
+        .tip-card {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -115,26 +116,25 @@
         .tip-card .icon {
             font-size: clamp(2rem, 5vh, 2.5rem);
             margin-bottom: 0.75rem;
-            line-height: 1; /* Evita espaçamento extra do ícone */
+            line-height: 1;
         }
         .tip-card .title {
-            font-weight: 700; /* bold */
+            font-weight: 700;
             font-size: clamp(0.9rem, 1.8vh, 1.1rem);
             margin-bottom: 0.3rem;
         }
         .tip-card .description {
             font-size: clamp(0.75rem, 1.4vh, 0.85rem);
-            color: #cbd5e1; /* Cinza claro */
+            color: #cbd5e1;
             line-height: 1.4;
         }
 
-        /* Cores para os ícones/títulos dos cards de dicas */
-        .text-icon-green { color: #22c55e; } /* Verde */
-        .text-icon-blue { color: #3b82f6; } /* Azul */
-        .text-icon-purple { color: #a855f7; } /* Roxo */
-        .text-icon-red { color: #ef4444; } /* Vermelho */
-        .text-icon-yellow { color: #eab308; } /* Amarelo */
-        .text-icon-orange { color: #f97316; } /* Laranja */
+        .text-icon-green { color: #22c55e; }
+        .text-icon-blue { color: #3b82f6; }
+        .text-icon-purple { color: #a855f7; }
+        .text-icon-red { color: #ef4444; }
+        .text-icon-yellow { color: #eab308; }
+        .text-icon-orange { color: #f97316; }
 
         .interactive-checklist .check-item {
             display: flex;
@@ -152,8 +152,8 @@
             transform: translateX(5px);
         }
         .interactive-checklist .check-item.completed {
-            background-color: rgba(34, 197, 94, 0.2); /* Verde transparente */
-            border-left: 4px solid #22c55e; /* Borda verde */
+            background-color: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
         }
         .interactive-checklist .check-item.completed .icon-status {
             color: #22c55e;
@@ -169,7 +169,7 @@
         }
 
         .critical-alert-card {
-            background: linear-gradient(45deg, #ef4444, #b91c1c); /* Vermelho para alerta */
+            background: linear-gradient(45deg, #ef4444, #b91c1c);
             border: 1px solid #f87171;
             text-align: center;
             padding: clamp(1rem, 2vh, 1.5rem);
@@ -186,18 +186,18 @@
         .critical-alert-card .text {
             font-size: clamp(0.85rem, 1.6vh, 0.95rem);
             margin-top: 0.3rem;
-            color: #fef2f2; /* Vermelho muito claro */
+            color: #fef2f2;
         }
 
-        .action-button-celular { /* Botão para "Saiba Mais" ou ação final */
+        .action-button-celular {
             display: inline-block;
-            background: linear-gradient(to right, #0ea5e9, #3b82f6); /* Gradiente azul */
+            background: linear-gradient(to right, #0ea5e9, #3b82f6);
             color: white;
             font-family: 'Orbitron', monospace;
             font-weight: bold;
             font-size: clamp(0.9rem, 1.8vh, 1.1rem);
             padding: clamp(0.6rem, 1.2vh, 0.8rem) clamp(1.2rem, 2.5vw, 1.8rem);
-            border-radius: 9999px; /* full */
+            border-radius: 9999px;
             box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
             transition: all 0.3s ease;
             text-align: center;
@@ -208,45 +208,42 @@
         }
         .action-button-celular i { margin-right: 0.5rem; }
 
-        /* Animações */
-        .slide-in { animation: slideInCelular 0.7s ease-out forwards; opacity: 0; } /* Renomeado */
+        .slide-in { animation: slideInCelular 0.7s ease-out forwards; opacity: 0; }
         @keyframes slideInCelular {
             from { opacity: 0; transform: translateY(25px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .icon-pulse-celular { animation: iconPulseCelularAnim 2s ease-in-out infinite; } /* Renomeado */
+        .icon-pulse-celular { animation: iconPulseCelularAnim 2s ease-in-out infinite; }
         @keyframes iconPulseCelularAnim {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
         }
         
-        /* Feedback Popup */
         .feedback-popup {
-            position: fixed;
-            top: 20px; /* Mais para cima */
+            position: fixed; /* Fixo na tela do slide */
+            top: 20px;
             left: 50%;
             transform: translateX(-50%);
             color: white;
             padding: clamp(0.7rem, 1.5vh, 0.9rem) clamp(1rem, 2vw, 1.3rem);
-            border-radius: 0.375rem; /* rounded-md */
+            border-radius: 0.375rem;
             font-weight: 600;
             font-size: clamp(0.8rem, 1.5vh, 0.9rem);
-            z-index: 100; /* Acima de tudo */
+            z-index: 100;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
             opacity: 0;
-            animation: fadeInOutFeedbackCelular 3s ease-in-out; /* Renomeado */
+            animation: fadeInOutFeedbackCelular 3s ease-in-out;
             min-width: 280px;
             text-align: center;
         }
-        .feedback-popup.success { background-color: #16a34a; } /* Verde */
-        .feedback-popup.info { background-color: #2563eb; } /* Azul */
-        .feedback-popup.warning { background-color: #ca8a04; } /* Amarelo escuro */
+        .feedback-popup.success { background-color: #16a34a; }
+        .feedback-popup.info { background-color: #2563eb; }
+        .feedback-popup.warning { background-color: #ca8a04; }
         @keyframes fadeInOutFeedbackCelular {
-            0%, 100% { opacity: 0; transform: translate(-50%, -20px); } /* Inicia de cima */
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
             10%, 90% { opacity: 1; transform: translate(-50%, 0px); }
         }
-
     </style>
 </head>
 <body>
@@ -260,7 +257,7 @@
     <div class="main-content-wrapper">
         <div class="text-center slide-header slide-in">
             <div class="flex items-center justify-center">
-                <i class="fas fa-mobile-shield text-cyan-400 icon-pulse-celular title-icon"></i> <!-- fas fa-mobile-alt -->
+                <i class="fas fa-mobile-shield text-cyan-400 icon-pulse-celular title-icon"></i>
                 <h1 class="font-black glow-text-celular">
                     CELULAR SEGURO
                 </h1>
@@ -270,7 +267,6 @@
             </h2>
         </div>
         
-        <!-- Seção de Dicas Principais em Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
             <div class="neon-card tip-card slide-in" style="animation-delay: 0.1s;" onclick="showDetailInfo('downloads')">
                 <i class="fas fa-cloud-download-alt text-icon-green icon"></i>
@@ -288,12 +284,12 @@
                 <div class="description">Use senhas, PINs complexos ou biometria. Configure bloqueio automático.</div>
             </div>
             <div class="neon-card tip-card slide-in" style="animation-delay: 0.4s;" onclick="showDetailInfo('publicwifi')">
-                <i class="fas fa-wifi-slash text-icon-red icon"></i> <!-- fa-wifi -> fa-wifi-slash -->
+                <i class="fas fa-wifi-slash text-icon-red icon"></i>
                 <div class="title text-icon-red">Cuidado com Wi-Fi Público</div>
                 <div class="description">Evite transações sensíveis. Use VPN se precisar de acesso seguro.</div>
             </div>
             <div class="neon-card tip-card slide-in" style="animation-delay: 0.5s;" onclick="showDetailInfo('smishing')">
-                <i class="fas fa-comment-alt-exclamation text-icon-yellow icon"></i> <!-- fa-comments-dollar -> fa-comment-alt-exclamation -->
+                <i class="fas fa-comment-alt-exclamation text-icon-yellow icon"></i>
                 <div class="title text-icon-yellow">SMS/Mensagens Suspeitas</div>
                 <div class="description">Não clique em links de desconhecidos ou ofertas irreais (phishing/smishing).</div>
             </div>
@@ -304,7 +300,6 @@
             </div>
         </div>
             
-        <!-- Checklist Interativo -->
         <div class="neon-card slide-in no-hover" style="animation-delay: 0.7s;">
             <h3 class="text-xl font-semibold text-cyan-300 mb-4 text-center" style="font-family: 'Orbitron', monospace;">
                 <i class="fas fa-tasks mr-2"></i>CHECKLIST DE SEGURANÇA RÁPIDA
@@ -329,22 +324,23 @@
             </div>
         </div>
             
-        <!-- Alerta Crítico / Dica Importante -->
         <div class="critical-alert-card neon-card slide-in no-hover" style="animation-delay: 0.8s;">
             <i class="fas fa-shield-virus text-white icon"></i>
             <div class="title text-white">ANTIVÍRUS É ALIADO!</div>
             <div class="text">Considere um bom app antivírus para Android. O iOS tem segurança robusta, mas atenção a links e downloads é sempre vital.</div>
         </div>
             
-        <div class="text-center mt-2 slide-in" style="animation-delay: 0.9s;">
+        <div class="text-center mt-2 slide-in" style="animation-delay: 0.9s;"> <!-- Reduzido o margin-top para economizar espaço se necessário -->
             <a href="javascript:void(0);" onclick="showFinalRecap()" class="action-button-celular">
-                <i class="fas fa-lightbulb-on"></i> <!-- fas fa-rocket -->
+                <i class="fas fa-lightbulb-on"></i>
                 <span>DICAS FINAIS PARA MÁXIMA PROTEÇÃO</span>
             </a>
         </div>
     </div>
     
     <script>
+        // Seu JavaScript existente (showFeedback, toggleChecklistItem, detailMessages, showDetailInfo, getColorForType, showFinalRecap)
+        // permanece o mesmo.
         function showFeedback(message, type = 'info', duration = 3000) {
             const existingPopup = document.querySelector('.feedback-popup');
             if (existingPopup) existingPopup.remove();
@@ -384,19 +380,13 @@
         };
 
         function showDetailInfo(type) {
+            const titleElement = document.querySelector(`.tip-card[onclick="showDetailInfo('${type}')"] .title`);
+            const titleText = titleElement ? titleElement.textContent : "Dica"; // Pega o título do card
             const message = detailMessages[type];
             if (message) {
-                showFeedback(`<strong><i class="fas fa-info-circle mr-2"></i> Detalhe: ${document.querySelector(`.tip-card .title[class*="text-icon-${getColorForType(type)}"]`).textContent}</strong><hr class="my-1 border-gray-500">${message}`, 'info', 7000); // Popup mais longo para detalhes
+                // Usando o estilo de popup já definido para este slide
+                showFeedback(`<strong><i class="fas fa-info-circle mr-2"></i> Detalhe: ${titleText}</strong><hr class="my-1 border-gray-500">${message}`, 'info', 7000);
             }
-        }
-
-        function getColorForType(type) {
-            // Mapeia o tipo para a classe de cor para buscar o título correto
-            const colorMap = {
-                downloads: 'green', updates: 'blue', screenlock: 'purple', 
-                publicwifi: 'red', smishing: 'yellow', simpin: 'orange'
-            };
-            return colorMap[type] || 'default';
         }
 
         function showFinalRecap() {
@@ -413,18 +403,8 @@
                     <div class="mt-3 text-center text-yellow-300 font-semibold text-xs">Sua vigilância é a primeira linha de defesa!</div>
                 </div>
             `;
-            showFeedback(recapHtml, 'info', 10000); // Popup bem longo para o recap
+            showFeedback(recapHtml, 'info', 10000);
         }
-
-        // Para animações de entrada ao rolar, se necessário no futuro (se a página ficar maior)
-        // const observer = new IntersectionObserver((entries) => {
-        //     entries.forEach(entry => {
-        //         if (entry.isIntersecting) {
-        //             entry.target.classList.add('visible');
-        //         }
-        //     });
-        // }, { threshold: 0.1 });
-        // document.querySelectorAll('.slide-in').forEach(el => observer.observe(el));
     </script>
 </body>
 </html>
