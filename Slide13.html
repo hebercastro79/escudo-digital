@@ -8,105 +8,269 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Para consistência com o slide base, pode ser ajustado se scroll for necessário */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
         .cyber-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
-                        radial-gradient(circle at 10% 10%, #120078 0%, transparent 50%),
-                        radial-gradient(circle at 90% 90%, #ff6b6b 0%, transparent 50%),
-                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 60%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 50%, #00c9ff 100%),
+                        radial-gradient(circle at 15% 85%, #ff6b6b 0%, transparent 40%),
+                        radial-gradient(circle at 85% 15%, #feca57 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 45%);
+            animation: bgShift 15s ease-in-out infinite alternate;
         }
-        .glow-text {
-            text-shadow: 0 0 20px rgba(102, 126, 234, 1), 0 0 40px rgba(102, 126, 234, 0.8);
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
-        .contact-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            transition: all 0.3s ease;
+
+        .grid-pattern-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.07;
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.1) 30px, rgba(255, 255, 255, 0.1) 32px),
+                              repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.1) 30px, rgba(255, 255, 255, 0.1) 32px);
+            animation: gridPulse 10s linear infinite;
+            z-index: -1;
         }
-        .contact-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 35px rgba(0,0,0,0.4);
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.07; transform: scale(1); }
+            50% { opacity: 0.12; transform: scale(1.02); }
         }
-        .slide-up-fade {
-            animation: slide-up-fade 1s ease-out forwards;
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1000px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(1.5rem, 3vh, 2.5rem); /* Aumentado o gap para espaçar os blocos */
         }
-        @keyframes slide-up-fade {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .header-senai {
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
         }
-        .icon-float {
-            animation: icon-float 3s ease-in-out infinite;
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
         }
-        @keyframes icon-float {
+
+        .main-icon-container { /* Adaptado de .main-shield-container */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .decorative-icon-wrapper { /* Adaptado de .cyber-shield-main */
+            width: clamp(100px, 18vh, 130px); /* Um pouco menor que o escudo */
+            height: clamp(100px, 18vh, 130px);
+            border-radius: 1.5rem; /* Quadrado com cantos arredondados em vez de círculo */
+            background: linear-gradient(45deg, #feca57, #ff8c42, #ff6b6b); /* Cores mais quentes para "obrigado" */
+            display: flex; align-items: center; justify-content: center;
+            animation: iconWrapperPulse 2.5s ease-in-out infinite; /* Animação de pulso mais sutil */
+            position: relative;
+            box-shadow: 0 0 20px rgba(255,255,255,0.2), 0 0 35px rgba(255, 150, 50, 0.4);
+        }
+        @keyframes iconWrapperPulse { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.05) rotate(5deg); } } /* Leve rotação e pulso */
+        
+        .decorative-icon-wrapper::before {
+            content: ''; position: absolute; inset: 4px; border-radius: 1.25rem; /* Mantém cantos arredondados */
+            background: rgba(20, 30, 50, 0.85);
+        }
+        .decorative-icon-wrapper i {
+            position: relative; z-index: 1;
+            color: #feca57; /* Amarelo */
+            font-size: clamp(3rem, 7vh, 3.8rem);
+            animation: icon-float 3s ease-in-out infinite; /* Mantém a animação de flutuação original */
+        }
+        @keyframes icon-float { /* Do Slide 13 original */
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
         }
-        .neon-button {
-            background: linear-gradient(45deg, #ff6b6b, #feca57);
-            box-shadow: 0 0 10px #ff6b6b, 0 0 20px #feca57;
+
+        .main-title h1 { /* Adaptado de .victory-header h1 */
+            font-size: clamp(2.3rem, 5.5vw, 3.2rem); /* Levemente menor para "Obrigado" */
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(254, 202, 87, 0.8), 0 0 45px rgba(255, 107, 107, 0.6); /* Sombras com tons de amarelo/laranja */
+            animation: titleGlowThankYou 2s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlowThankYou { /* Adaptado de victoryTextGlow */
+            from { text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(254, 202, 87, 0.8), 0 0 45px rgba(255, 107, 107, 0.6); }
+            to { text-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 40px rgba(254, 202, 87, 1), 0 0 60px rgba(255, 107, 107, 0.8), 0 0 5px #fff; }
+        }
+        .main-title h2 { /* Adaptado de .victory-header h2 */
+            font-size: clamp(1.2rem, 2.8vw, 1.65rem);
+            font-weight: 700;
+            color: #a7f3d0; /* Verde menta claro, mantido */
+        }
+
+        .contact-info-card { /* Adaptado de .final-message-box e .neon-card */
+            background: rgba(10, 20, 40, 0.5); /* Fundo mais escuro para contraste */
+            backdrop-filter: blur(10px); /* Aumentar o blur */
+            border-radius: 0.75rem;
+            padding: clamp(1.2rem, 3vh, 1.8rem);
+            text-align: left; /* Alinhar texto à esquerda para informações de contato */
+            width: 100%;
+            max-width: 700px; /* Limitar largura do card de contato */
+            border: 1px solid rgba(102, 126, 234, 0.4);
+            box-shadow: 0 0 25px rgba(102, 126, 234, 0.2);
+        }
+        .contact-info-card h3 {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.1rem, 2.5vh, 1.4rem);
+            font-weight: 700;
+            color: #feca57; /* Amarelo para o título do card */
+            margin-bottom: clamp(0.8rem, 2vh, 1.2rem);
+            text-align: center; /* Centralizar o título do card */
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Ajustar para melhor encaixe */
+            gap: clamp(0.75rem, 1.8vh, 1rem);
+        }
+        .contact-item {
+            display: flex;
+            align-items: center;
+            font-size: clamp(0.85rem, 1.8vh, 0.95rem);
+            padding: 0.3rem 0;
+        }
+        .contact-item i {
+            margin-right: 0.75rem;
+            font-size: clamp(1.1rem, 2.2vh, 1.3rem);
+            width: 20px; /* Para alinhar os ícones */
+            text-align: center;
+        }
+        .contact-item a {
+            color: #e2e8f0;
+            transition: color 0.2s ease;
+        }
+        .contact-item a:hover {
+            color: #feca57; /* Amarelo no hover */
+        }
+
+        .final-remarks {
+            text-align: center;
+            font-size: clamp(0.9rem, 2vh, 1.1rem);
+            color: #cbd5e1; /* Um pouco mais claro */
+            max-width: 600px;
+        }
+
+        .action-button-link { /* Estilo do .final-call-to-action */
+            background: linear-gradient(to right, #feca57, #ff8c42);
+            color: #1a1a2e;
+            font-weight: bold;
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(0.9rem, 2vh, 1.15rem);
+            padding: clamp(0.7rem, 1.6vh, 0.9rem) clamp(1.3rem, 3.5vw, 2.2rem);
+            border-radius: 9999px;
+            box-shadow: 0 5px 15px rgba(255,150,50,0.3);
             transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            animation: finalButtonPulse 2s ease-in-out infinite;
         }
-        .neon-button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px #ff6b6b, 0 0 30px #feca57, 0 0 45px #ff6b6b;
-        }
+        @keyframes finalButtonPulse { 0%,100% {transform: scale(1); box-shadow: 0 5px 15px rgba(255,150,50,0.3);} 50% {transform: scale(1.03); box-shadow: 0 8px 25px rgba(255,150,50,0.5);} }
+        .action-button-link:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,150,50,0.4); }
+        .action-button-link i { margin-right: 0.6rem; }
+        
+        .slide-up-final { animation: slideUpFinal 0.8s ease-out forwards; opacity:0; transform: translateY(30px); }
+        @keyframes slideUpFinal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="cyber-bg min-h-screen text-white font-sans flex flex-col items-center justify-center overflow-hidden" style="width: 1280px; min-height: 720px;">
-    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.2) 0%, transparent 30%), radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.2) 0%, transparent 30%); background-size: 100px 100px;"></div>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
 
-    <div class="absolute top-8 right-8 z-20">
-        <img src="senai.png" alt="Logo SENAI" class="w-28 h-auto">
-    </div>
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
 
-    <div class="relative z-10 p-8 text-center max-w-5xl mx-auto">
-        <div class="slide-up-fade">
-            <i class="fas fa-hands-helping text-7xl text-yellow-300 mb-6 icon-float"></i>
-            <h1 class="text-6xl font-black glow-text mb-4" style="font-family: 'Orbitron', monospace;">
-                OBRIGADO POR PARTICIPAR!
-            </h1>
-            <h2 class="text-3xl font-semibold text-cyan-300 mb-8" style="font-family: 'Poppins', sans-serif;">
-                Continue fortalecendo seu Escudo Digital!
-            </h2>
+    <div class="main-content-wrapper">
+        <div class="text-center main-title slide-up-final">
+            <div class="main-icon-container mb-3"> <!-- mb-3 adicionado -->
+                <div class="decorative-icon-wrapper">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+            </div>
+            <h1>OBRIGADO POR PARTICIPAR!</h1>
+            <h2 class="text-cyan-300 mt-1">Continue fortalecendo seu Escudo Digital!</h2>
         </div>
-
-        <div class="contact-card rounded-xl p-8 mb-10 slide-up-fade" style="animation-delay: 0.3s;">
-            <h3 class="text-2xl font-bold text-purple-300 mb-6" style="font-family: 'Orbitron', monospace;">
-                Escola SENAI "Engº Octávio Marcondes Ferraz"
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg" style="font-family: 'Poppins', sans-serif;">
-                <div class="flex items-center justify-center md:justify-start">
-                    <i class="fas fa-phone-alt text-green-400 mr-3 text-xl"></i>
+        
+        <div class="contact-info-card slide-up-final" style="animation-delay: 0.3s;">
+            <h3>Escola SENAI "Engº Octávio Marcondes Ferraz"</h3>
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt text-green-400"></i>
                     <span>(16) 3238-7100</span>
                 </div>
-                <div class="flex items-center justify-center md:justify-start">
-                    <i class="fas fa-map-marker-alt text-red-400 mr-3 text-xl"></i>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt text-red-400"></i>
                     <span>Rua Capitão Salomão, 1813 - Campos Elíseos - Ribeirão Preto/SP</span>
                 </div>
-                <a href="https://www.instagram.com/senai_ribeiraopreto/" target="_blank" class="flex items-center justify-center md:justify-start hover:text-pink-400 transition-colors">
-                    <i class="fab fa-instagram text-pink-400 mr-3 text-xl"></i>
-                    <span>@senai_ribeiraopreto</span>
-                </a>
-                <a href="https://www.escolasenai.com.br" target="_blank" class="flex items-center justify-center md:justify-start hover:text-blue-300 transition-colors">
-                    <i class="fas fa-globe text-blue-400 mr-3 text-xl"></i>
-                    <span>www.escolasenai.com.br</span>
-                </a>
-                <a href="https://www.facebook.com/SenaiRibeiraoPreto/" target="_blank" class="flex items-center justify-center md:justify-start col-span-1 md:col-span-2 hover:text-indigo-400 transition-colors">
-                    <i class="fab fa-facebook text-indigo-400 mr-3 text-xl"></i>
-                    <span>/SenaiRibeiraoPreto</span>
-                </a>
+                <div class="contact-item">
+                    <i class="fab fa-instagram text-pink-400"></i>
+                    <a href="https://www.instagram.com/senai_ribeiraopreto/" target="_blank">@senai_ribeiraopreto</a>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-globe text-blue-400"></i>
+                    <a href="https://www.escolasenai.com.br" target="_blank">www.escolasenai.com.br</a>
+                </div>
+                <div class="contact-item md:col-span-2 justify-center md:justify-start"> <!-- Ocupa duas colunas em md, centraliza por padrão -->
+                     <i class="fab fa-facebook text-indigo-400"></i>
+                    <a href="https://www.facebook.com/SenaiRibeiraoPreto/" target="_blank">/SenaiRibeiraoPreto</a>
+                </div>
             </div>
         </div>
-
-        <div class="slide-up-fade" style="animation-delay: 0.6s;">
-            <p class="text-xl text-gray-200 mb-6" style="font-family: 'Poppins', sans-serif;">
+            
+        <div class="final-remarks slide-up-final" style="animation-delay: 0.6s;">
+            <p>
                 Lembre-se: a segurança digital é uma jornada contínua. Mantenha-se informado e vigilante!
             </p>
-            <a href="Slide1.html" class="neon-button text-white font-bold py-3 px-8 rounded-lg text-lg inline-block" style="font-family: 'Orbitron', monospace;">
-                <i class="fas fa-redo-alt mr-2"></i> Rever Conteúdo Inicial
+        </div>
+            
+        <div class="slide-up-final" style="animation-delay: 0.9s;">
+            <a href="Slide1.html" class="action-button-link">
+                <i class="fas fa-redo-alt"></i>
+                <span>REVER CONTEÚDO INICIAL</span>
             </a>
         </div>
     </div>
+    
+    <!-- O JavaScript para fogos de artifício foi removido pois este slide é de agradecimento/contato -->
+    <script>
+        // Se houver alguma interatividade específica para este slide, pode ser adicionada aqui.
+        // Por exemplo, animações ao rolar (se o overflow:hidden for removido e houver mais conteúdo).
+    </script>
 </body>
 </html>

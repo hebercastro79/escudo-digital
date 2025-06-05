@@ -8,210 +8,318 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Permitir scroll vertical se necessário, mas esconder horizontal */
+            overflow-y: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinha ao topo para permitir scroll */
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
         .cyber-bg {
+            position: fixed; /* Fixo para não rolar com o conteúdo */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
-                        radial-gradient(circle at 30% 70%, #ff6b6b 0%, transparent 25%),
-                        radial-gradient(circle at 70% 30%, #4ecdc4 0%, transparent 25%);
+                        radial-gradient(circle at 20% 80%, #ff6b6b 0%, transparent 30%),
+                        radial-gradient(circle at 80% 20%, #4ecdc4 0%, transparent 30%),
+                        radial-gradient(circle at 40% 60%, #667eea 0%, transparent 40%);
         }
-        
-        .threat-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+        .grid-pattern-overlay {
+            position: fixed; /* Fixo para não rolar com o conteúdo */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: linear-gradient(rgba(102, 126, 234, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
         }
-        
-        .threat-card:hover {
-            transform: translateY(-5px) scale(1.03);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1200px;
+            margin: 2rem auto; /* Aumenta margem superior para não colar no topo */
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1.5rem, 3vh, 2rem); /* Espaçamento entre seções */
         }
-        
-        .danger-red { border-left: 4px solid #ff6b6b; }
-        .warning-yellow { border-left: 4px solid #ffd93d; }
-        .alert-orange { border-left: 4px solid #ff8c42; }
-        .info-blue { border-left: 4px solid #6c5ce7; }
-        .caution-purple { border-left: 4px solid #a29bfe; }
-        .critical-pink { border-left: 4px solid #fd79a8; }
-        
+
+        .header-senai {
+            position: absolute; /* Relativo ao body ou viewport */
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .slide-header h1 {
+            font-size: clamp(1.875rem, 4vw, 2.8rem);
+            margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            font-family: 'Poppins', sans-serif;
+        }
+
         .glow-text {
             text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
         }
-        
-        .slide-in-left {
-            animation: slideInLeft 0.8s ease-out forwards;
+        .neon-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            padding: clamp(1rem, 2vh, 1.5rem);
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: all 0.3s ease;
         }
-        
-        .slide-in-right {
-            animation: slideInRight 0.8s ease-out forwards;
+        .neon-card:hover {
+            transform: translateY(-5px) scale(1.02); /* Sutil hover do Slide 3 */
+            background: rgba(255, 255, 255, 0.15);
         }
+
+        /* Glows do Slide 1 */
+        .danger-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 107, 107, 0.6); }
+        .warning-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 193, 7, 0.6); }
+        .info-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(78, 205, 196, 0.6); }
         
+        /* Novos glows baseados nas cores do Slide 3 */
+        .orange-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 140, 66, 0.6); } /* ff8c42 */
+        .purple-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(162, 155, 254, 0.5); } /* a29bfe */
+        .pink-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(253, 121, 168, 0.5); } /* fd79a8 */
+
+
+        .threat-card-content .icon-container {
+            font-size: clamp(2rem, 5vh, 2.5rem); /* text-4xl do slide 3 */
+            margin-bottom: 0.75rem; /* mb-3 */
+        }
+        .threat-card-content h3 {
+            font-size: clamp(1.1rem, 2vh, 1.25rem); /* text-lg do slide 3 */
+            font-weight: 700; /* font-bold */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .threat-card-content .description-item {
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem); /* text-sm do slide 3 */
+            color: #cbd5e1; /* text-gray-300 */
+        }
+
+
+        .final-banner {
+            margin-top: clamp(1rem, 2vh, 1.5rem); /* Padrão Slide 1 */
+        }
+        .final-banner-content { /* Estilo do Slide 3 para o banner */
+            padding: clamp(0.75rem, 1.8vh, 1rem) clamp(1.5rem, 4vw, 2rem); /* px-8 py-3 do Slide 3 */
+            font-size: clamp(0.9rem, 2vh, 1.125rem); /* text-lg do Slide 3 */
+        }
+        .final-banner-content i {
+            font-size: clamp(1.1rem, 2.2vh, 1.25rem); /* text-xl do Slide 3 */
+            margin-right: 0.75rem; /* mr-3 */
+        }
+
+        .info-boxes-container {
+            display: flex;
+            justify-content: center;
+            gap: clamp(1rem, 2vw, 1.5rem); /* space-x-6 */
+            margin-top: clamp(1rem, 2vh, 1.5rem); /* mt-4 */
+            flex-wrap: wrap; /* Para telas menores */
+        }
+        .info-box {
+            background: rgba(255, 255, 255, 0.08); /* bg-white bg-opacity-10 do Slide 3 */
+            backdrop-filter: blur(5px); /* backdrop-blur-sm */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: clamp(0.5rem, 1vh, 0.75rem) clamp(0.75rem, 1.5vw, 1rem); /* px-4 py-2 */
+            display: flex;
+            align-items: center;
+            gap: 0.5rem; /* space-x-2 */
+        }
+        .info-box i {
+            font-size: clamp(0.875rem, 1.8vh, 1rem);
+        }
+        .info-box span {
+            font-size: clamp(0.75rem, 1.5vh, 0.875rem); /* text-sm */
+            font-weight: 600; /* font-semibold */
+        }
+
+        /* Animações do Slide 1 */
+        .slide-up { animation: slideUp 0.8s ease-out forwards; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Animações do Slide 3 */
+        .slide-in-left { animation: slideInLeft 0.8s ease-out forwards; }
+        .slide-in-right { animation: slideInRight 0.8s ease-out forwards; }
         @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-50px); }
+            from { opacity: 0; transform: translateX(-40px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        
         @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(50px); }
+            from { opacity: 0; transform: translateX(40px); }
             to { opacity: 1; transform: translateX(0); }
         }
-        
-        .pulse-icon {
-            animation: pulseIcon 2s ease-in-out infinite;
-        }
-        
+        .pulse-icon { animation: pulseIcon 2s ease-in-out infinite; }
         @keyframes pulseIcon {
             0%, 100% { transform: scale(1); opacity: 1; }
             50% { transform: scale(1.1); opacity: 0.8; }
         }
-        
-        .float-animation {
-            animation: float 3s ease-in-out infinite;
-        }
-        
+        .float-animation { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
         }
+        
+        /* Bordas laterais coloridas do Slide 3 para os neon-cards */
+        .border-l-danger-red { border-left: 4px solid #ff6b6b; }
+        .border-l-warning-yellow { border-left: 4px solid #ffd93d; }
+        .border-l-alert-orange { border-left: 4px solid #ff8c42; }
+        .border-l-info-blue { border-left: 4px solid #6c5ce7; }
+        .border-l-caution-purple { border-left: 4px solid #a29bfe; }
+        .border-l-critical-pink { border-left: 4px solid #fd79a8; }
+
     </style>
 </head>
-<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
-    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(102, 126, 234, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.2) 1px, transparent 1px); background-size: 30px 30px;"></div>
-    
-    <div class="absolute top-6 right-6 z-20">
-        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <!-- Ícones flutuantes decorativos do Slide 3 -->
+    <div class="absolute top-20 left-10 float-animation text-red-400 opacity-30 z-0" style="font-size: clamp(1.5rem, 3vh, 2rem);">
+        <i class="fas fa-virus"></i>
     </div>
-    
-    <div class="absolute top-20 left-10 float-animation text-red-400 opacity-30">
-        <i class="fas fa-virus text-2xl"></i>
+    <div class="absolute bottom-20 right-10 float-animation text-yellow-400 opacity-30 z-0" style="animation-delay: 1s; font-size: clamp(1.5rem, 3vh, 2rem);">
+        <i class="fas fa-spider"></i>
     </div>
-    <div class="absolute bottom-20 right-10 float-animation text-yellow-400 opacity-30" style="animation-delay: 1s;">
-        <i class="fas fa-spider text-2xl"></i>
-    </div>
-    
-    <div class="relative z-10 p-6">
-        <div class="text-center mb-6">
-            <h1 class="text-4xl font-black mb-2 glow-text" style="font-family: 'Orbitron', monospace;">
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-up">
+            <h1 class="font-black glow-text">
                 ⚠️ OS PERIGOS ESTÃO AQUI
             </h1>
-            <h2 class="text-xl font-semibold text-cyan-300">
+            <h2 class="font-semibold text-cyan-300">
                 Conheça as principais ameaças que rondam seu mundo digital
             </h2>
         </div>
-        
-        <div class="grid grid-cols-3 gap-4 max-w-6xl mx-auto">
-            <div class="threat-card rounded-xl p-4 danger-red slide-in-left" style="animation-delay: 0.1s;">
-                <div class="text-center">
-                    <div class="text-4xl mb-3 pulse-icon">
-                        <i class="fab fa-discord text-blue-400"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2 text-red-300">DISCORD PERIGOSO</h3>
-                    <div class="space-y-1 text-sm text-gray-300">
-                        <div>• Servidores extremistas</div>
-                        <div>• Conteúdo sexual</div>
-                        <div>• Predadores online</div>
-                    </div>
+
+        <!-- Grid de Ameaças -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full">
+            <div class="neon-card danger-glow border-l-danger-red slide-in-left threat-card-content text-center" style="animation-delay: 0.1s;">
+                <div class="icon-container pulse-icon">
+                    <i class="fab fa-discord text-blue-400"></i>
+                </div>
+                <h3 class="text-red-300">DISCORD PERIGOSO</h3>
+                <div class="space-y-1">
+                    <div class="description-item">• Servidores extremistas</div>
+                    <div class="description-item">• Conteúdo sexual</div>
+                    <div class="description-item">• Predadores online</div>
                 </div>
             </div>
             
-            <div class="threat-card rounded-xl p-4 warning-yellow slide-in-left" style="animation-delay: 0.2s;">
-                <div class="text-center">
-                    <div class="text-4xl mb-3 pulse-icon">
-                        <i class="fas fa-fish text-yellow-400"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2 text-yellow-300">PHISHING</h3>
-                    <div class="space-y-1 text-sm text-gray-300">
-                        <div>• E-mails falsos</div>
-                        <div>• Sites clonados</div>
-                        <div>• Roubo de senhas</div>
-                    </div>
+            <div class="neon-card warning-glow border-l-warning-yellow slide-in-left threat-card-content text-center" style="animation-delay: 0.2s;">
+                <div class="icon-container pulse-icon">
+                    <i class="fas fa-fish text-yellow-400"></i>
+                </div>
+                <h3 class="text-yellow-300">PHISHING</h3>
+                <div class="space-y-1">
+                    <div class="description-item">• E-mails falsos</div>
+                    <div class="description-item">• Sites clonados</div>
+                    <div class="description-item">• Roubo de senhas</div>
                 </div>
             </div>
             
-            <div class="threat-card rounded-xl p-4 alert-orange slide-in-left" style="animation-delay: 0.3s;">
-                <div class="text-center">
-                    <div class="text-4xl mb-3 pulse-icon">
-                        <i class="fas fa-user-secret text-orange-400"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2 text-orange-300">CYBERBULLYING</h3>
-                    <div class="space-y-1 text-sm text-gray-300">
-                        <div>• Ataques em grupo</div>
-                        <div>• Exposição vexatória</div>
-                        <div>• Pressão psicológica</div>
-                    </div>
+            <div class="neon-card orange-glow border-l-alert-orange slide-in-left threat-card-content text-center" style="animation-delay: 0.3s;">
+                <div class="icon-container pulse-icon">
+                    <i class="fas fa-user-secret text-orange-400"></i>
+                </div>
+                <h3 class="text-orange-300">CYBERBULLYING</h3>
+                <div class="space-y-1">
+                    <div class="description-item">• Ataques em grupo</div>
+                    <div class="description-item">• Exposição vexatória</div>
+                    <div class="description-item">• Pressão psicológica</div>
                 </div>
             </div>
             
-            <div class="threat-card rounded-xl p-4 info-blue slide-in-right" style="animation-delay: 0.4s;">
-                <div class="text-center">
-                    <div class="text-4xl mb-3 pulse-icon">
-                        <i class="fas fa-eye text-blue-400"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2 text-blue-300">VAZAMENTO DE DADOS</h3>
-                    <div class="space-y-1 text-sm text-gray-300">
-                        <div>• Fotos íntimas</div>
-                        <div>• Informações pessoais</div>
-                        <div>• Localização em tempo real</div>
-                    </div>
+            <div class="neon-card info-glow border-l-info-blue slide-in-right threat-card-content text-center" style="animation-delay: 0.4s;">
+                <div class="icon-container pulse-icon">
+                    <i class="fas fa-eye text-blue-400"></i> <!-- Ícone original era text-blue-400 -->
+                </div>
+                <h3 class="text-blue-300">VAZAMENTO DE DADOS</h3>
+                <div class="space-y-1">
+                    <div class="description-item">• Fotos íntimas</div>
+                    <div class="description-item">• Informações pessoais</div>
+                    <div class="description-item">• Localização em tempo real</div>
                 </div>
             </div>
             
-            <div class="threat-card rounded-xl p-4 caution-purple slide-in-right" style="animation-delay: 0.5s;">
-                <div class="text-center">
-                    <div class="text-4xl mb-3 pulse-icon">
-                        <i class="fas fa-key text-purple-400"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2 text-purple-300">SENHAS FRACAS</h3>
-                    <div class="space-y-1 text-sm text-gray-300">
-                        <div>• "123456" ou "senha"</div>
-                        <div>• Mesma senha em tudo</div>
-                        <div>• Dados pessoais óbvios</div>
-                    </div>
+            <div class="neon-card purple-glow border-l-caution-purple slide-in-right threat-card-content text-center" style="animation-delay: 0.5s;">
+                <div class="icon-container pulse-icon">
+                    <i class="fas fa-key text-purple-400"></i> <!-- Ícone original era text-purple-400 -->
+                </div>
+                <h3 class="text-purple-300">SENHAS FRACAS</h3>
+                <div class="space-y-1">
+                    <div class="description-item">• "123456" ou "senha"</div>
+                    <div class="description-item">• Mesma senha em tudo</div>
+                    <div class="description-item">• Dados pessoais óbvios</div>
                 </div>
             </div>
             
-            <div class="threat-card rounded-xl p-4 critical-pink slide-in-right" style="animation-delay: 0.6s;">
-                <div class="text-center">
-                    <div class="text-4xl mb-3 pulse-icon">
-                        <i class="fas fa-heart-broken text-pink-400"></i>
-                    </div>
-                    <h3 class="font-bold text-lg mb-2 text-pink-300">CHANTAGEM SEXUAL</h3>
-                    <div class="space-y-1 text-sm text-gray-300">
-                        <div>• Sextorsion</div>
-                        <div>• Fotos/vídeos íntimos</div>
-                        <div>• Ameaças e extorsão</div>
-                    </div>
+            <div class="neon-card pink-glow border-l-critical-pink slide-in-right threat-card-content text-center" style="animation-delay: 0.6s;">
+                <div class="icon-container pulse-icon">
+                    <i class="fas fa-heart-broken text-pink-400"></i> <!-- Ícone original era text-pink-400 -->
+                </div>
+                <h3 class="text-pink-300">CHANTAGEM SEXUAL</h3>
+                <div class="space-y-1">
+                    <div class="description-item">• Sextorsion</div>
+                    <div class="description-item">• Fotos/vídeos íntimos</div>
+                    <div class="description-item">• Ameaças e extorsão</div>
                 </div>
             </div>
         </div>
         
-        <div class="mt-6 text-center">
-            <div class="inline-flex items-center bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full px-8 py-3">
-                <i class="fas fa-skull-crossbones text-white mr-3 text-xl pulse-icon"></i>
-                <span class="text-lg font-bold text-white">
-                    TODOS ESSES PERIGOS PODEM ACONTECER COM VOCÊ! 🚨
-                </span>
+        <div class="text-center slide-up final-banner" style="animation-delay: 0.8s;">
+            <!-- Usando o estilo de gradiente do banner do Slide 3 original -->
+            <div class="inline-flex items-center bg-gradient-to-r from-red-600 via-orange-500 to-yellow-500 rounded-full final-banner-content font-bold">
+                <i class="fas fa-skull-crossbones text-white pulse-icon"></i>
+                <span>TODOS ESSES PERIGOS PODEM ACONTECER COM VOCÊ! 🚨</span>
             </div>
         </div>
         
-        <div class="flex justify-center mt-4 space-x-6">
-            <div class="bg-white bg-opacity-10 rounded-lg px-4 py-2 backdrop-blur-sm">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-clock text-cyan-400"></i>
-                    <span class="text-sm font-semibold">A qualquer momento</span>
-                </div>
+        <div class="info-boxes-container slide-up" style="animation-delay: 1s;">
+            <div class="info-box">
+                <i class="fas fa-clock text-cyan-400"></i>
+                <span>A qualquer momento</span>
             </div>
-            <div class="bg-white bg-opacity-10 rounded-lg px-4 py-2 backdrop-blur-sm">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-globe text-green-400"></i>
-                    <span class="text-sm font-semibold">Em qualquer lugar</span>
-                </div>
+            <div class="info-box">
+                <i class="fas fa-globe text-green-400"></i>
+                <span>Em qualquer lugar</span>
             </div>
-            <div class="bg-white bg-opacity-10 rounded-lg px-4 py-2 backdrop-blur-sm">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-users text-purple-400"></i>
-                    <span class="text-sm font-semibold">Com qualquer pessoa</span>
-                </div>
+            <div class="info-box">
+                <i class="fas fa-users text-purple-400"></i>
+                <span>Com qualquer pessoa</span>
             </div>
         </div>
     </div>

@@ -9,194 +9,287 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Tenta centralizar verticalmente */
+            min-height: 100vh;
+            padding: 1rem; /* Adiciona padding geral */
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif; /* Definido no body */
+            color: #e2e8f0; /* Cor de texto padrão */
+        }
         .cyber-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
                         radial-gradient(circle at 20% 80%, #ff6b6b 0%, transparent 30%),
                         radial-gradient(circle at 80% 20%, #4ecdc4 0%, transparent 30%),
                         radial-gradient(circle at 40% 60%, #667eea 0%, transparent 40%);
         }
-        
+        .grid-pattern-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: linear-gradient(rgba(102, 126, 234, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+        }
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1200px; /* Max width para o conteúdo */
+            margin: auto; /* Centraliza */
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1rem, 2vh, 1.5rem); /* Espaçamento entre seções */
+        }
+
+        .header-senai { /* Movido para ser uma classe genérica de posicionamento */
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img { /* Classe específica para a imagem do logo */
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .slide-header h1 {
+            font-size: clamp(1.875rem, 4vw, 2.8rem); /* Ajustado de text-5xl Tailwind */
+            margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem); /* Ajustado de text-2xl Tailwind */
+             font-family: 'Poppins', sans-serif;
+        }
+
         .glow-text {
             text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
         }
-        
         .neon-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(102, 126, 234, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            /* box-shadow já é definido por danger-glow etc. */
+            padding: clamp(1rem, 2vh, 1.5rem);
+            border-radius: 0.75rem; /* rounded-xl */
         }
-        
-        .danger-glow {
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+        .danger-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 107, 107, 0.6); }
+        .warning-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 193, 7, 0.6); }
+        .info-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(78, 205, 196, 0.6); }
+
+        .stats-card-big .number {
+            font-size: clamp(2.25rem, 6vh, 3.75rem);
+            font-family: 'Orbitron', monospace; /* Para números destacados */
         }
-        
-        .warning-glow {
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.6);
+        .stats-card-big .title {
+            font-size: clamp(1rem, 2vh, 1.125rem);
+            margin-top: 0.5rem;
         }
-        
-        .info-glow {
-            box-shadow: 0 0 20px rgba(78, 205, 196, 0.6);
+        .stats-card-big .subtitle {
+            font-size: clamp(0.75rem, 1.5vh, 0.875rem);
         }
-        
-        .slide-up {
-            animation: slideUp 0.8s ease-out forwards;
+        .stats-card-big i.floating-icon { /* Ícone dentro do card de estatística */
+            font-size: clamp(1.875rem, 4vh, 2.25rem);
         }
-        
+
+        .chart-container-wrapper {
+            /* A altura do contêiner do canvas é definida pelo 'div' que o envolve diretamente no HTML */
+        }
+        .chart-container-wrapper h3 {
+            font-size: clamp(1rem, 2.2vh, 1.25rem);
+            margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+            font-family: 'Poppins', sans-serif;
+        }
+        .chart-canvas-container { /* Novo container para o canvas */
+             height: clamp(200px, 30vh, 280px);
+             position: relative; /* Necessário para Chart.js responsivo */
+        }
+
+
+        .side-cards-column {
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1rem, 2vh, 1rem);
+        }
+        .side-card h4 {
+            font-size: clamp(0.9rem, 1.8vh, 1.125rem);
+            margin-bottom: clamp(0.5rem, 1vh, 0.75rem);
+             font-family: 'Poppins', sans-serif;
+        }
+        .side-card .list-item, .side-card .data-point-text { /* Renomeado de .data-point */
+            font-size: clamp(0.75rem, 1.5vh, 0.875rem);
+        }
+        .side-card .data-point { /* Container do valor e texto */
+             background-color: rgba(0,0,0,0.2); /* Fundo mais sutil */
+             border-radius: 0.5rem; /* rounded-lg */
+             padding: clamp(0.5rem, 1vh, 0.75rem); /* p-2 (p-3 era muito) */
+        }
+
+        .side-card .data-value {
+            font-size: clamp(1.125rem, 2.5vh, 1.5rem);
+            font-family: 'Orbitron', monospace; /* Para números destacados */
+        }
+        .side-card i.list-icon {
+            margin-right: 0.5rem;
+            font-size: 1em; /* Para alinhar com o texto do item */
+        }
+
+        .final-banner {
+            margin-top: clamp(1rem, 2vh, 1.5rem);
+        }
+        .final-banner-content {
+            padding: clamp(0.5rem, 1.5vh, 0.75rem) clamp(1rem, 3vw, 2rem);
+            font-size: clamp(0.875rem, 1.8vh, 1.125rem);
+        }
+        .final-banner-content i {
+            font-size: clamp(1rem, 2vh, 1.25rem);
+            margin-right: 0.75rem;
+        }
+
+        .slide-up { animation: slideUp 0.8s ease-out forwards; }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        .pulse-number {
-            animation: pulseNumber 2s ease-in-out infinite;
-        }
-        
+        .pulse-number { animation: pulseNumber 2s ease-in-out infinite; }
         @keyframes pulseNumber {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        
-        .floating-icon {
-            animation: float 3s ease-in-out infinite;
-        }
-        
+        .floating-icon { animation: float 3s ease-in-out infinite; }
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
         }
     </style>
 </head>
-<body class="cyber-bg min-h-screen text-white font-sans" style="width: 1280px; min-height: 720px;">
-    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(102, 126, 234, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.3) 1px, transparent 1px); background-size: 40px 40px;"></div>
-    
-    <div class="absolute top-6 right-6 z-20">
-        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
-    </div>
-    
-    <div class="relative z-10 p-8">
-        <div class="text-center mb-8 slide-up">
-            <h1 class="text-5xl font-black mb-4 glow-text" style="font-family: 'Orbitron', monospace;">
+<body> <!-- Removido classes de estilização direta do body -->
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-up">
+            <h1 class="font-black glow-text">
                 📊 A REALIDADE DIGITAL DOS JOVENS
             </h1>
-            <h2 class="text-2xl font-semibold text-cyan-300">
+            <h2 class="font-semibold text-cyan-300">
                 Dados que você precisa conhecer sobre segurança online no Brasil
             </h2>
         </div>
-        
-        <div class="grid grid-cols-12 gap-6 max-w-7xl mx-auto">
-            <div class="col-span-8 space-y-4">
-                <div class="grid grid-cols-2 gap-4 mb-6 slide-up" style="animation-delay: 0.2s;">
-                    <div class="neon-card rounded-xl p-6 danger-glow">
+
+        <!-- Layout principal do conteúdo do slide -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 w-full">
+            <!-- Coluna Esquerda (Gráficos e Stats Grandes) -->
+            <div class="lg:col-span-8 flex flex-col gap-4 lg:gap-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 slide-up" style="animation-delay: 0.2s;">
+                    <div class="neon-card danger-glow stats-card-big">
                         <div class="flex items-center justify-between">
                             <div>
-                                <div class="text-6xl font-black text-red-400 pulse-number">60%</div>
-                                <div class="text-lg font-semibold mt-2">dos adolescentes brasileiros</div>
-                                <div class="text-sm text-gray-300">já sofreram assédio em jogos online</div>
+                                <div class="font-black text-red-400 pulse-number number">60%</div>
+                                <div class="font-semibold title">dos adolescentes brasileiros</div>
+                                <div class="text-gray-300 subtitle">já sofreram assédio em jogos online</div>
                             </div>
-                            <i class="fas fa-exclamation-triangle text-4xl text-red-400 floating-icon"></i>
+                            <i class="fas fa-exclamation-triangle text-red-400 floating-icon"></i>
                         </div>
                     </div>
-                    
-                    <div class="neon-card rounded-xl p-6 warning-glow">
+                    <div class="neon-card warning-glow stats-card-big">
                         <div class="flex items-center justify-between">
                             <div>
-                                <div class="text-6xl font-black text-yellow-400 pulse-number">32%</div>
-                                <div class="text-lg font-semibold mt-2">dos jovens 15-17 anos</div>
-                                <div class="text-sm text-gray-300">receberam conteúdo sexual online</div>
+                                <div class="font-black text-yellow-400 pulse-number number">32%</div>
+                                <div class="font-semibold title">dos jovens 15-17 anos</div>
+                                <div class="text-gray-300 subtitle">receberam conteúdo sexual online</div>
                             </div>
-                            <i class="fas fa-eye-slash text-4xl text-yellow-400 floating-icon"></i>
+                            <i class="fas fa-eye-slash text-yellow-400 floating-icon"></i>
                         </div>
                     </div>
                 </div>
-                
-                <div class="neon-card rounded-xl p-6 slide-up" style="animation-delay: 0.4s;">
-                    <h3 class="text-xl font-bold mb-4 text-center">
+                <div class="neon-card slide-up chart-container-wrapper" style="animation-delay: 0.4s;">
+                    <h3 class="font-bold text-center">
                         <i class="fas fa-chart-line text-purple-400 mr-2"></i>
                         Crescimento dos Crimes Cibernéticos no Brasil
                     </h3>
-                    <div style="height: 250px;">
+                    <div class="chart-canvas-container"> {/* Container para o canvas com altura definida */}
                         <canvas id="crimeChart"></canvas>
                     </div>
                 </div>
             </div>
-            
-            <div class="col-span-4 space-y-4">
-                <div class="neon-card rounded-xl p-4 slide-up info-glow" style="animation-delay: 0.6s;">
-                    <div class="text-center mb-3">
-                        <i class="fab fa-discord text-3xl text-blue-400 mb-2"></i>
-                        <h4 class="font-bold text-lg">Riscos no Discord</h4>
+
+            <!-- Coluna Direita (Cards Menores) -->
+            <div class="lg:col-span-4 side-cards-column">
+                <div class="neon-card info-glow slide-up side-card" style="animation-delay: 0.6s;">
+                    <div class="text-center mb-2">
+                        <i class="fab fa-discord text-blue-400 text-2xl mb-1"></i>
+                        <h4 class="font-bold">Riscos no Discord</h4>
                     </div>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-center">
-                            <i class="fas fa-shield-alt text-red-400 mr-2"></i>
-                            <span>Sem verificação de idade eficaz</span>
+                    <div class="space-y-1">
+                        <div class="flex items-center list-item"><i class="fas fa-shield-alt text-red-400 list-icon"></i><span>Sem verificação de idade eficaz</span></div>
+                        <div class="flex items-center list-item"><i class="fas fa-users text-red-400 list-icon"></i><span>Servidores com conteúdo impróprio</span></div>
+                        <div class="flex items-center list-item"><i class="fas fa-comment text-red-400 list-icon"></i><span>Mensagens privadas de desconhecidos</span></div>
+                    </div>
+                </div>
+                <div class="neon-card slide-up side-card" style="animation-delay: 0.8s;">
+                    <h4 class="font-bold text-center">
+                        <i class="fas fa-calendar-alt text-green-400 mr-2"></i>Brasil 2024
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="data-point">
+                            <div class="font-bold text-red-300 data-value">52.999</div>
+                            <div class="list-item data-point-text">denúncias de abuso sexual infantil</div>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-users text-red-400 mr-2"></i>
-                            <span>Servidores com conteúdo impróprio</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-comment text-red-400 mr-2"></i>
-                            <span>Mensagens privadas de desconhecidos</span>
+                        <div class="data-point">
+                            <div class="font-bold text-yellow-300 data-value">+13,6%</div>
+                            <div class="list-item data-point-text">aumento em golpes digitais</div>
                         </div>
                     </div>
                 </div>
-                
-                <div class="neon-card rounded-xl p-4 slide-up" style="animation-delay: 0.8s;">
-                    <h4 class="font-bold text-lg mb-3 text-center">
-                        <i class="fas fa-calendar-alt text-green-400 mr-2"></i>
-                        Brasil 2024
+                <div class="neon-card slide-up side-card" style="animation-delay: 1s;">
+                    <h4 class="font-bold text-center">
+                        <i class="fas fa-user-shield text-orange-400 mr-2"></i>Por que vocês são alvos?
                     </h4>
-                    <div class="space-y-3 text-sm">
-                        <div class="bg-red-600 bg-opacity-30 rounded-lg p-3">
-                            <div class="text-2xl font-bold text-red-300">52.999</div>
-                            <div>denúncias de abuso sexual infantil</div>
-                        </div>
-                        <div class="bg-yellow-600 bg-opacity-30 rounded-lg p-3">
-                            <div class="text-2xl font-bold text-yellow-300">+13,6%</div>
-                            <div>aumento em golpes digitais</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="neon-card rounded-xl p-4 slide-up" style="animation-delay: 1s;">
-                    <h4 class="font-bold text-lg mb-3 text-center">
-                        <i class="fas fa-user-shield text-orange-400 mr-2"></i>
-                        Por que vocês são alvos?
-                    </h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-start">
-                            <i class="fas fa-brain text-purple-400 mr-2 mt-1"></i>
-                            <span>Cérebro ainda em desenvolvimento</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-heart text-pink-400 mr-2 mt-1"></i>
-                            <span>Mais confiança em desconhecidos</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-gamepad text-blue-400 mr-2 mt-1"></i>
-                            <span>Maior tempo online (jogos/redes)</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-share text-green-400 mr-2 mt-1"></i>
-                            <span>Compartilham mais informações</span>
-                        </div>
+                    <div class="space-y-1">
+                        <div class="flex items-start list-item"><i class="fas fa-brain text-purple-400 list-icon mt-1"></i><span>Cérebro ainda em desenvolvimento</span></div>
+                        <div class="flex items-start list-item"><i class="fas fa-heart text-pink-400 list-icon mt-1"></i><span>Mais confiança em desconhecidos</span></div>
+                        <div class="flex items-start list-item"><i class="fas fa-gamepad text-blue-400 list-icon mt-1"></i><span>Maior tempo online (jogos/redes)</span></div>
+                        <div class="flex items-start list-item"><i class="fas fa-share text-green-400 list-icon mt-1"></i><span>Compartilham mais informações</span></div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <div class="mt-6 text-center slide-up" style="animation-delay: 1.2s;">
-            <div class="inline-flex items-center bg-gradient-to-r from-red-600 to-pink-600 rounded-full px-8 py-3 text-lg font-bold">
-                <i class="fas fa-bolt text-yellow-300 mr-3 text-xl"></i>
+
+        <div class="text-center slide-up final-banner" style="animation-delay: 1.2s;">
+            <div class="inline-flex items-center bg-gradient-to-r from-red-600 to-pink-600 rounded-full final-banner-content font-bold">
+                <i class="fas fa-bolt text-yellow-300"></i>
                 <span>A boa notícia: 99% dos ataques podem ser evitados com conhecimento! 🛡️</span>
             </div>
         </div>
     </div>
-    
+
     <script>
-        // Animated chart
         const ctx = document.getElementById('crimeChart').getContext('2d');
         const chart = new Chart(ctx, {
             type: 'line',
@@ -204,20 +297,24 @@
                 labels: ['2022', '2023', '2024'],
                 datasets: [{
                     label: 'Golpes Digitais',
-                    data: [100, 113.6, 125],
+                    data: [100, 113.6, 125], // Exemplo de dados
                     borderColor: '#ff6b6b',
-                    backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                    borderWidth: 3,
+                    backgroundColor: 'rgba(255, 107, 107, 0.2)', // Aumentada opacidade para melhor visualização
+                    borderWidth: 2,
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointRadius: clamp(2, 0.5vh, 4), // Ponto responsivo
+                    pointBackgroundColor: '#ff6b6b'
                 }, {
                     label: 'Assédio Online',
-                    data: [45, 55, 60],
+                    data: [45, 55, 60], // Exemplo de dados
                     borderColor: '#4ecdc4',
-                    backgroundColor: 'rgba(78, 205, 196, 0.1)',
-                    borderWidth: 3,
+                    backgroundColor: 'rgba(78, 205, 196, 0.2)', // Aumentada opacidade
+                    borderWidth: 2,
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointRadius: clamp(2, 0.5vh, 4), // Ponto responsivo
+                    pointBackgroundColor: '#4ecdc4'
                 }]
             },
             options: {
@@ -228,45 +325,63 @@
                         labels: {
                             color: '#ffffff',
                             font: {
-                                size: 14,
-                                weight: 'bold'
-                            }
+                                size: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chart-legend-font-size') || '10'), // Exemplo
+                                family: 'Poppins, sans-serif'
+                            },
+                            boxWidth: 12, // Largura da caixa da legenda
+                            padding: 10 // Espaçamento da legenda
                         }
                     }
                 },
                 scales: {
                     x: {
                         ticks: {
-                            color: '#ffffff',
+                            color: '#e2e8f0', // Cor mais clara para melhor contraste
                             font: {
-                                size: 12,
-                                weight: 'bold'
+                                size: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chart-axis-font-size') || '10'),
+                                family: 'Poppins, sans-serif'
                             }
                         },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' } // Grid mais sutil
                     },
                     y: {
                         ticks: {
-                            color: '#ffffff',
+                            color: '#e2e8f0',
                             font: {
-                                size: 12,
-                                weight: 'bold'
-                            }
+                                size: parseInt(getComputedStyle(document.documentElement).getPropertyValue('--chart-axis-font-size') || '10'),
+                                family: 'Poppins, sans-serif'
+                            },
+                            padding: 5
                         },
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.1)'
-                        }
+                        grid: { color: 'rgba(255, 255, 255, 0.08)' }
                     }
+                },
+                animation: {
+                    duration: 800, // Duração da animação
+                    easing: 'easeInOutQuart'
                 }
             }
         });
-        
-        // Animate chart on load
-        setTimeout(() => {
-            chart.update();
-        }, 1000);
+
+        // Definindo variáveis CSS para tamanhos de fonte do gráfico (para serem usadas no JS)
+        function setChartFontSizes() {
+            const legendFontSize = Math.max(10, Math.min(12, window.innerHeight * 0.015)); // entre 10px e 12px
+            const axisFontSize = Math.max(9, Math.min(10, window.innerHeight * 0.012));   // entre 9px e 10px
+            document.documentElement.style.setProperty('--chart-legend-font-size', `${legendFontSize}px`);
+            document.documentElement.style.setProperty('--chart-axis-font-size', `${axisFontSize}px`);
+
+            // Atualizar o gráfico com os novos tamanhos de fonte
+            if (chart && chart.options && chart.options.plugins.legend.labels.font && chart.options.scales) {
+                chart.options.plugins.legend.labels.font.size = legendFontSize;
+                chart.options.scales.x.ticks.font.size = axisFontSize;
+                chart.options.scales.y.ticks.font.size = axisFontSize;
+                chart.update();
+            }
+        }
+
+        window.addEventListener('resize', setChartFontSizes);
+        document.addEventListener('DOMContentLoaded', setChartFontSizes); // Define no carregamento inicial
+
     </script>
 </body>
 </html>

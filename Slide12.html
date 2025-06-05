@@ -8,447 +8,367 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        .cyber-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
-                        radial-gradient(circle at 20% 80%, #120078 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, #ff6b6b 0%, transparent 50%),
-                        radial-gradient(circle at 40% 40%, #4ecdc4 0%, transparent 50%);
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Para o efeito de fogos de artifício */
         }
-        
-        .victory-glow {
-            text-shadow: 0 0 30px rgba(102, 126, 234, 1), 0 0 60px rgba(102, 126, 234, 0.8), 0 0 90px rgba(102, 126, 234, 0.6);
-            animation: victoryPulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes victoryPulse {
-            0%, 100% { transform: scale(1); text-shadow: 0 0 30px rgba(102, 126, 234, 1); }
-            50% { transform: scale(1.05); text-shadow: 0 0 50px rgba(102, 126, 234, 1), 0 0 80px rgba(255, 255, 255, 0.5); }
-        }
-        
-        .shield-layer {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .shield-layer:hover {
-            transform: translateY(-2px) scale(1.02);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-        }
-        
-        .shield-active {
-            background: linear-gradient(45deg, rgba(46, 204, 113, 0.2), rgba(39, 174, 96, 0.1));
-            border: 2px solid rgba(46, 204, 113, 0.5);
-            animation: shieldPulse 2s ease-in-out infinite;
-        }
-        
-        @keyframes shieldPulse {
-            0%, 100% { box-shadow: 0 0 15px rgba(46, 204, 113, 0.4); }
-            50% { box-shadow: 0 0 30px rgba(46, 204, 113, 0.8); }
-        }
-        
-        .slide-up {
-            animation: slideUp 0.8s ease-out forwards;
-        }
-        
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .float-in {
-            animation: floatIn 1s ease-out forwards;
-        }
-        
-        @keyframes floatIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .cyber-shield {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #667eea, #764ba2, #ff6b6b, #4ecdc4);
+        body {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            animation: shieldRotate 8s linear infinite;
+            justify-content: center; /* Centraliza o conteúdo principal */
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
             position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
         }
-        
-        @keyframes shieldRotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+        .cyber-bg { /* Cores do Slide 12 original, mais vibrantes */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 50%, #00c9ff 100%), /* Gradiente mais forte */
+                        radial-gradient(circle at 15% 85%, #ff6b6b 0%, transparent 40%),
+                        radial-gradient(circle at 85% 15%, #feca57 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 45%);
+            animation: bgShift 15s ease-in-out infinite alternate;
         }
-        
-        .cyber-shield::before {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            border-radius: 50%;
-            background: rgba(0, 0, 0, 0.8);
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
-        
-        .cyber-shield i {
+
+        .grid-pattern-overlay { /* Overlay mais dinâmico */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.07; /* Um pouco mais visível */
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.1) 30px, rgba(255, 255, 255, 0.1) 32px),
+                              repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.1) 30px, rgba(255, 255, 255, 0.1) 32px);
+            animation: gridPulse 10s linear infinite;
+            z-index: -1;
+        }
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.07; transform: scale(1); }
+            50% { opacity: 0.12; transform: scale(1.02); }
+        }
+
+        .main-content-wrapper {
             position: relative;
             z-index: 1;
-            color: white;
-            font-size: 3rem;
+            width: 95%;
+            max-width: 1000px; /* Um pouco menor para focar na mensagem central */
+            margin: auto; /* Centraliza */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza horizontalmente os filhos diretos */
+            gap: clamp(1.5rem, 3vh, 2.5rem);
         }
-        
-        .resource-card {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .header-senai {
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .victory-header .main-shield-container { /* Wrapper para o escudo e texto */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem; /* Espaço entre escudo e texto */
+        }
+        .cyber-shield-main { /* Estilo do cyber-shield original, maior */
+            width: clamp(100px, 20vh, 140px);
+            height: clamp(100px, 20vh, 140px);
+            border-radius: 50%;
+            background: linear-gradient(45deg, #8e44ad, #c0392b, #f1c40f, #27ae60); /* Cores vibrantes */
+            display: flex; align-items: center; justify-content: center;
+            animation: shieldMainRotate 10s linear infinite, shieldMainPulse 2.5s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(102, 126, 234, 0.5);
+        }
+        @keyframes shieldMainRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes shieldMainPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .cyber-shield-main::before {
+            content: ''; position: absolute; inset: 4px; border-radius: 50%;
+            background: rgba(10, 20, 40, 0.85); /* Fundo escuro interno */
+        }
+        .cyber-shield-main i { position: relative; z-index: 1; color: #2ecc71; /* Verde vibrante */ font-size: clamp(3rem, 8vh, 4rem); }
+
+        .victory-header h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem); /* text-5xl */
+            font-family: 'Orbitron', monospace;
+            font-weight: 900; /* black */
+            text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(102, 126, 234, 0.8), 0 0 45px rgba(78, 205, 196, 0.6);
+            animation: victoryTextGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes victoryTextGlow {
+            from { text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(102, 126, 234, 0.8), 0 0 45px rgba(78, 205, 196, 0.6); }
+            to { text-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 40px rgba(102, 126, 234, 1), 0 0 60px rgba(78, 205, 196, 0.8), 0 0 5px #fff; }
+        }
+        .victory-header h2 {
+            font-size: clamp(1.25rem, 3vw, 1.75rem); /* text-2xl */
+            font-weight: 700; /* bold */
+            color: #a7f3d0; /* Verde menta claro */
+        }
+
+        .key-achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Responsivo */
+            gap: clamp(0.5rem, 1.5vh, 0.75rem);
+            width: 100%;
+            max-width: 800px; /* Para não ficar muito largo */
+        }
+        .neon-card.achievement-item { /* Adaptado do shield-layer */
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: clamp(0.6rem, 1.5vh, 1rem);
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: default; /* Não é clicável */
+            animation: achievementAppear 0.5s ease-out forwards;
+            opacity: 0; transform: translateY(10px);
+        }
+        @keyframes achievementAppear { to { opacity: 1; transform: translateY(0); } }
+        .achievement-item:hover { transform: scale(1.03); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2); }
+        .achievement-item .icon { font-size: clamp(1.5rem, 3vh, 1.75rem); margin-bottom: 0.25rem; }
+        .achievement-item .title { font-weight: 600; font-size: clamp(0.8rem, 1.5vh, 0.85rem); }
+        .achievement-item .status { font-size: clamp(0.7rem, 1.2vh, 0.75rem); color: #9ca3af; } /* cinza mais claro */
+
+        .final-message-box {
+            background: rgba(0,0,0,0.4);
+            border-radius: 0.75rem;
+            padding: clamp(1rem, 2.5vh, 1.5rem);
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.15);
+        }
+        .final-message-box .main-text {
+            font-size: clamp(1.2rem, 2.8vh, 1.5rem); /* text-2xl */
+            font-weight: 700; margin-bottom: 0.5rem;
+        }
+        .final-message-box .typing-subtitle {
+            font-family: 'Orbitron', monospace; /* Para o efeito de digitação */
+            font-size: clamp(1rem, 2vh, 1.125rem); /* text-lg */
+            color: #a7f3d0; /* Verde menta */
+            height: 1.5em; /* Para evitar pulo de layout */
+            display: inline-block; /* Necessário para o typing effect funcionar bem centralizado */
+        }
+        .typing-effect-final {
+            border-right: 3px solid #4ecdc4;
+            animation: typingFinal 3.5s steps(45, end) infinite, blinkFinal 0.75s step-end infinite;
+            white-space: nowrap; overflow: hidden;
+            width: 0; max-width: 100%; /* Garante que não estoure */
+        }
+        @keyframes typingFinal { 0%, 90%, 100% { width: 0; } 30%, 70% { width: 100%; } }
+        @keyframes blinkFinal { from, to { border-color: transparent; } 50% { border-color: #4ecdc4; } }
+
+        .resource-links-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(0.75rem, 2vw, 1rem);
+            margin-top: clamp(1rem, 2vh, 1.5rem);
+        }
+        .resource-link-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: clamp(0.5rem, 1vh, 0.6rem) clamp(0.8rem, 1.8vw, 1.2rem);
+            border-radius: 0.375rem; /* rounded-md */
+            color: #e2e8f0;
+            font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex; align-items: center;
+        }
+        .resource-link-button:hover { background: rgba(102, 126, 234, 0.3); border-color: #667eea; transform: translateY(-2px); }
+        .resource-link-button i { margin-right: 0.4rem; }
+
+        .final-call-to-action { /* Substituindo o botão amarelo */
+            background: linear-gradient(to right, #feca57, #ff8c42); /* Amarelo para laranja */
+            color: #1a1a2e; /* Texto escuro para contraste */
+            font-weight: bold;
+            font-size: clamp(1rem, 2.2vh, 1.25rem);
+            padding: clamp(0.75rem, 1.8vh, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 5px 15px rgba(255, 150, 50, 0.3);
             transition: all 0.3s ease;
             cursor: pointer;
+            animation: finalButtonPulse 2s ease-in-out infinite;
         }
+        @keyframes finalButtonPulse { 0%,100% {transform: scale(1); box-shadow: 0 5px 15px rgba(255,150,50,0.3);} 50% {transform: scale(1.03); box-shadow: 0 8px 25px rgba(255,150,50,0.5);} }
+        .final-call-to-action:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,150,50,0.4); }
+        .final-call-to-action i { margin-right: 0.6rem; }
         
-        .resource-card:hover {
-            transform: translateY(-3px);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-        
-        .firework {
+        /* Fogos de artifício */
+        .firework-particle {
             position: absolute;
-            pointer-events: none;
-            animation: firework 2s ease-out infinite;
+            background-color: white;
+            border-radius: 50%;
+            animation: fireworkExplode 0.7s ease-out forwards;
+            pointer-events: none; /* Para não interferir com cliques */
         }
-        
-        @keyframes firework {
-            0% { transform: scale(0) rotate(0deg); opacity: 1; }
-            50% { transform: scale(1) rotate(180deg); opacity: 0.8; }
-            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        @keyframes fireworkExplode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
         }
-        
-        .celebration-mode {
-            animation: celebrate 0.6s ease-out;
-        }
-        
-        @keyframes celebrate {
-            0%, 100% { transform: scale(1); }
-            25% { transform: scale(1.05) rotate(1deg); }
-            75% { transform: scale(1.05) rotate(-1deg); }
-        }
-        
-        .typing-effect {
-            font-family: 'Courier New', monospace;
-            border-right: 3px solid #4ecdc4;
-            animation: typing 4s steps(50, end) infinite, blink 0.75s step-end infinite;
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-        }
-        
-        @keyframes typing {
-            0%, 90%, 100% { width: 0; }
-            30%, 60% { width: 100%; }
-        }
-        
-        @keyframes blink {
-            from, to { border-color: transparent; }
-            50% { border-color: #4ecdc4; }
-        }
+
+        /* Animações */
+        .slide-up-final { animation: slideUpFinal 0.8s ease-out forwards; }
+        @keyframes slideUpFinal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="cyber-bg min-h-screen text-white font-sans overflow-hidden" style="width: 1280px; min-height: 720px;">
-    <!-- Animated background elements -->
-    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.3) 0%, transparent 25%), radial-gradient(circle at 75% 75%, rgba(255, 107, 107, 0.3) 0%, transparent 25%), radial-gradient(circle at 50% 50%, rgba(78, 205, 196, 0.3) 0%, transparent 30%);"></div>
-    
-    <!-- SENAI Logo -->
-    <div class="absolute top-6 right-6 z-20">
-        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
-    </div>
-    
-    <!-- Floating celebration elements -->
-    <div class="firework top-20 left-20 text-yellow-400 text-2xl">✨</div>
-    <div class="firework top-32 right-32 text-green-400 text-2xl" style="animation-delay: 0.5s;">🎉</div>
-    <div class="firework bottom-20 left-32 text-blue-400 text-2xl" style="animation-delay: 1s;">🚀</div>
-    <div class="firework bottom-32 right-20 text-purple-400 text-2xl" style="animation-delay: 1.5s;">⭐</div>
-    
-    <div class="relative z-10 p-6">
-        <!-- Victory Header -->
-        <div class="text-center mb-6 slide-up">
-            <div class="flex items-center justify-center mb-4">
-                <div class="cyber-shield mr-6">
-                    <i class="fas fa-shield-check"></i>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div id="fireworks-container" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 99;"></div>
+
+    <div class="main-content-wrapper">
+        <div class="text-center victory-header slide-up-final">
+            <div class="main-shield-container">
+                <div class="cyber-shield-main">
+                    <i class="fas fa-user-shield"></i> <!-- fas fa-shield-check -->
                 </div>
-                <div>
-                    <h1 class="text-5xl font-black victory-glow mb-2" style="font-family: 'Orbitron', monospace;">
-                        VOCÊ ESTÁ PREPARADO!
-                    </h1>
-                    <h2 class="text-2xl font-bold text-cyan-300">
-                        Seu escudo digital está ativo e funcionando! 🛡️
-                    </h2>
-                </div>
+                <h1 class="mt-2">VOCÊ ESTÁ PREPARADO!</h1>
+                <h2 class="text-cyan-300">Seu Escudo Digital está Ativo e Forte! 🛡️✨</h2>
             </div>
         </div>
         
-        <!-- Protection Layers Display -->
-        <div class="max-w-6xl mx-auto">
-            <div class="grid grid-cols-5 gap-3 mb-6">
-                <div class="shield-layer shield-active rounded-xl p-3 slide-up" style="animation-delay: 0.2s;" onclick="activateLayer(this)">
-                    <div class="text-center">
-                        <i class="fas fa-key text-2xl text-green-400 mb-1"></i>
-                        <div class="font-bold text-sm text-green-300">SENHAS FORTES</div>
-                        <div class="text-xs text-gray-300">Proteção ativa</div>
-                    </div>
-                </div>
-                
-                <div class="shield-layer shield-active rounded-xl p-3 slide-up" style="animation-delay: 0.3s;" onclick="activateLayer(this)">
-                    <div class="text-center">
-                        <i class="fas fa-user-shield text-2xl text-blue-400 mb-1"></i>
-                        <div class="font-bold text-sm text-blue-300">PRIVACIDADE</div>
-                        <div class="text-xs text-gray-300">Configurada</div>
-                    </div>
-                </div>
-                
-                <div class="shield-layer shield-active rounded-xl p-3 slide-up" style="animation-delay: 0.4s;" onclick="activateLayer(this)">
-                    <div class="text-center">
-                        <i class="fas fa-brain text-2xl text-purple-400 mb-1"></i>
-                        <div class="font-bold text-sm text-purple-300">CONHECIMENTO</div>
-                        <div class="text-xs text-gray-300">Adquirido</div>
-                    </div>
-                </div>
-                
-                <div class="shield-layer shield-active rounded-xl p-3 slide-up" style="animation-delay: 0.5s;" onclick="activateLayer(this)">
-                    <div class="text-center">
-                        <i class="fas fa-tools text-2xl text-orange-400 mb-1"></i>
-                        <div class="font-bold text-sm text-orange-300">FERRAMENTAS</div>
-                        <div class="text-xs text-gray-300">Prontas para usar</div>
-                    </div>
-                </div>
-                
-                <div class="shield-layer shield-active rounded-xl p-3 slide-up" style="animation-delay: 0.6s;" onclick="activateLayer(this)">
-                    <div class="text-center">
-                        <i class="fas fa-clipboard-check text-2xl text-pink-400 mb-1"></i>
-                        <div class="font-bold text-sm text-pink-300">PLANO DE AÇÃO</div>
-                        <div class="text-xs text-gray-300">Definido</div>
-                    </div>
-                </div>
+        <div class="key-achievements-grid slide-up-final" style="animation-delay: 0.2s;">
+            <div class="neon-card achievement-item" style="animation-delay: 0.3s;"><i class="fas fa-key text-green-400 icon"></i><div class="title text-green-300">SENHAS FORTES</div><div class="status">Dominado</div></div>
+            <div class="neon-card achievement-item" style="animation-delay: 0.4s;"><i class="fas fa-user-lock text-blue-400 icon"></i><div class="title text-blue-300">PRIVACIDADE</div><div class="status">Configurada</div></div> <!-- fas fa-user-shield -->
+            <div class="neon-card achievement-item" style="animation-delay: 0.5s;"><i class="fas fa-brain text-purple-400 icon"></i><div class="title text-purple-300">CONHECIMENTO</div><div class="status">Adquirido</div></div>
+            <div class="neon-card achievement-item" style="animation-delay: 0.6s;"><i class="fas fa-tools text-orange-400 icon"></i><div class="title text-orange-300">FERRAMENTAS</div><div class="status">Instaladas</div></div>
+            <div class="neon-card achievement-item" style="animation-delay: 0.7s;"><i class="fas fa-clipboard-check text-pink-400 icon"></i><div class="title text-pink-300">PLANO DE AÇÃO</div><div class="status">Definido</div></div>
+        </div>
+            
+        <div class="final-message-box slide-up-final" style="animation-delay: 0.8s;">
+            <div class="main-text">🎯 MISSÃO CUMPRIDA, GUARDIÃO DIGITAL!</div>
+            <div class="typing-subtitle">
+                <span class="typing-effect-final">Continue protegendo seu universo online!</span>
             </div>
             
-            <!-- Key Messages -->
-            <div class="grid grid-cols-2 gap-6 mb-4">
-                <!-- Remember -->
-                <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-4 slide-up" style="animation-delay: 0.8s;">
-                    <div class="text-center mb-3">
-                        <i class="fas fa-lightbulb text-3xl text-yellow-300 mb-2"></i>
-                        <h3 class="text-xl font-bold">🧠 LEMBRE-SE SEMPRE:</h3>
-                    </div>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-center">
-                            <i class="fas fa-pause text-cyan-400 mr-2"></i>
-                            <span>Na dúvida, PAUSE e pense</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-users text-green-400 mr-2"></i>
-                            <span>Peça ajuda quando precisar</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-shield-alt text-blue-400 mr-2"></i>
-                            <span>Segurança é responsabilidade sua</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-graduation-cap text-purple-400 mr-2"></i>
-                            <span>Continue aprendendo sempre</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Emergency Resources -->
-                <div class="bg-gradient-to-r from-red-600 to-orange-600 rounded-xl p-4 slide-up" style="animation-delay: 1s;">
-                    <div class="text-center mb-3">
-                        <i class="fas fa-phone text-3xl text-white mb-2"></i>
-                        <h3 class="text-xl font-bold">🆘 PRECISA DE AJUDA?</h3>
-                    </div>
-                    <div class="space-y-2 text-sm">
-                        <div class="resource-card rounded p-2" onclick="showContact('safernet')">
-                            <div class="font-bold">SaferNet Helpline</div>
-                            <div class="text-xs opacity-80">new.safernet.org.br</div>
-                        </div>
-                        <div class="resource-card rounded p-2" onclick="showContact('disque100')">
-                            <div class="font-bold">Disque 100</div>
-                            <div class="text-xs opacity-80">Direitos Humanos 24h</div>
-                        </div>
-                        <div class="resource-card rounded p-2" onclick="showContact('delegacia')">
-                            <div class="font-bold">Delegacia Online</div>
-                            <div class="text-xs opacity-80">delegaciaeletronica.sinesp.gov.br</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Final Message -->
-            <div class="bg-gradient-to-r from-green-600 via-blue-600 to-purple-600 rounded-xl p-4 slide-up text-center" style="animation-delay: 1.2s;">
-                <div class="flex items-center justify-center mb-3">
-                    <i class="fas fa-rocket text-3xl text-white mr-4"></i>
-                    <div>
-                        <div class="text-2xl font-bold">🎯 MISSÃO CUMPRIDA!</div>
-                        <div class="typing-effect text-lg mt-2">
-                            Agora você é um Guardião Digital! Proteja-se e ajude outros também! 🛡️✨
-                        </div>
-                    </div>
-                </div>
-                <div class="grid grid-cols-3 gap-4 mt-4 text-sm">
-                    <div class="bg-black bg-opacity-30 rounded-lg p-2">
-                        <div class="font-bold text-yellow-300">🏆 CONQUISTA</div>
-                        <div>Expert em Cybersegurança</div>
-                    </div>
-                    <div class="bg-black bg-opacity-30 rounded-lg p-2">
-                        <div class="font-bold text-cyan-300">🎖️ CERTIFICADO</div>
-                        <div>Escudo Digital Ativo</div>
-                    </div>
-                    <div class="bg-black bg-opacity-30 rounded-lg p-2">
-                        <div class="font-bold text-pink-300">🌟 PRÓXIMO NÍVEL</div>
-                        <div>Multiplicador de Segurança</div>
-                    </div>
-                </div>
+            <div class="resource-links-container">
+                <a href="https://new.safernet.org.br/helpline" target="_blank" class="resource-link-button bg-purple-600 hover:bg-purple-700"><i class="fas fa-life-ring"></i>SaferNet Helpline</a>
+                <a href="https://www.gov.br/mj/pt-br/delegacia-virtual" target="_blank" class="resource-link-button bg-red-600 hover:bg-red-700"><i class="fas fa-gavel"></i>Delegacia Virtual</a>
+                <a href="https://cartilha.cert.br/" target="_blank" class="resource-link-button bg-blue-600 hover:bg-blue-700"><i class="fas fa-book-open"></i>Cartilha CERT.br</a>
             </div>
         </div>
-        
-        <!-- Bottom Call to Action -->
-        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 float-in" style="animation-delay: 1.5s;">
-            <div class="bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full px-8 py-3 shadow-lg" onclick="startCelebration()">
-                <div class="flex items-center text-black font-bold text-lg cursor-pointer">
-                    <i class="fas fa-fist-raised mr-3"></i>
-                    <span>VAMOS JUNTOS TORNAR O MUNDO DIGITAL MAIS SEGURO! 🚀</span>
-                </div>
-            </div>
+            
+        <div class="slide-up-final" style="animation-delay: 1s;">
+            <button class="final-call-to-action" onclick="triggerFinalCelebration()">
+                <i class="fas fa-rocket"></i>
+                <span>VAMOS JUNTOS TORNAR O MUNDO DIGITAL MAIS SEGURO!</span>
+            </button>
         </div>
     </div>
     
     <script>
-        let celebrationActive = false;
-        
-        function activateLayer(element) {
-            element.classList.add('celebration-mode');
+        let finalCelebrationTriggered = false;
+
+        function createFireworkParticle(x, y, color) {
+            const particle = document.createElement('div');
+            particle.className = 'firework-particle';
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
             
-            const messages = [
-                '🎉 Camada de proteção ativada com sucesso!',
-                '⚡ Seu escudo digital está mais forte!',
-                '🛡️ Proteção máxima alcançada!',
-                '🔥 Você está se tornando um expert!',
-                '✨ Segurança digital em ação!'
-            ];
+            const size = Math.random() * 5 + 2; // 2px to 7px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = color;
+
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 50 + 50; // pixels
             
-            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${Math.cos(angle) * speed}px, ${Math.sin(angle) * speed}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 700 + Math.random() * 300, // 0.7s to 1s
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
             
+            document.getElementById('fireworks-container').appendChild(particle);
+            setTimeout(() => particle.remove(), 1000);
+        }
+
+        function launchFirework(x, y) {
+            const colors = ['#ff6b6b', '#4ecdc4', '#667eea', '#feca57', '#ff8c42', '#a7f3d0', '#f39c12'];
+            const baseColor = colors[Math.floor(Math.random() * colors.length)];
+            const numParticles = 20 + Math.floor(Math.random() * 20); // 20 to 39 particles
+
+            for (let i = 0; i < numParticles; i++) {
+                createFireworkParticle(x, y, baseColor);
+            }
+        }
+
+        function triggerFinalCelebration() {
+            if (finalCelebrationTriggered) return;
+            finalCelebrationTriggered = true;
+
+            // Launch fireworks randomly for a few seconds
+            const celebrationDuration = 3000; // 3 seconds
+            const intervalDuration = 200; // launch every 200ms
+            let elapsedTime = 0;
+
+            const intervalId = setInterval(() => {
+                if (elapsedTime >= celebrationDuration) {
+                    clearInterval(intervalId);
+                    finalCelebrationTriggered = false; // Allow re-triggering
+                    return;
+                }
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight * 0.7; // Upper 70% of screen
+                launchFirework(randomX, randomY);
+                elapsedTime += intervalDuration;
+            }, intervalDuration);
+
+            // Display a confirmation message
+            const existingPopup = document.querySelector('.feedback-popup');
+            if(existingPopup) existingPopup.remove();
+
             const feedback = document.createElement('div');
-            feedback.innerHTML = randomMessage;
-            feedback.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-green-500 text-white px-6 py-3 rounded-lg font-bold text-lg z-50';
-            document.body.appendChild(feedback);
-            
-            setTimeout(() => {
-                element.classList.remove('celebration-mode');
-                if (document.body.contains(feedback)) {
-                    document.body.removeChild(feedback);
-                }
-            }, 2000);
-        }
-        
-        function showContact(type) {
-            const contacts = {
-                safernet: {
-                    title: '🌐 SaferNet Brasil',
-                    info: 'Canal de ajuda 24h para crimes digitais\nChat online disponível\nDenúncias anônimas aceitas',
-                    action: 'Acesse: new.safernet.org.br'
-                },
-                disque100: {
-                    title: '📞 Disque 100',
-                    info: 'Disque Direitos Humanos\nAtendimento 24h gratuito\nViolações de direitos humanos',
-                    action: 'Ligue: 100 (gratuito)'
-                },
-                delegacia: {
-                    title: '🏛️ Delegacia Eletrônica',
-                    info: 'Registro de ocorrências online\nCrimes digitais e fraudes\nDocumentação oficial',
-                    action: 'Site: delegaciaeletronica.sinesp.gov.br'
-                }
-            };
-            
-            const contactData = contacts[type];
-            const popup = document.createElement('div');
-            popup.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-600 text-white px-8 py-6 rounded-xl font-bold z-50 max-w-md text-center border-2 border-cyan-400';
-            popup.innerHTML = `
-                <div class="mb-4">
-                    <h3 class="text-xl font-bold mb-3">${contactData.title}</h3>
-                    <div class="text-sm text-gray-200 mb-3 whitespace-pre-line">${contactData.info}</div>
-                    <div class="text-lg text-yellow-300">${contactData.action}</div>
+            feedback.className = 'feedback-popup success'; // Reutilize a classe de feedback
+            feedback.style.background = 'linear-gradient(45deg, #6a11cb, #2575fc)'; // Gradiente roxo/azul
+            feedback.style.border = '2px solid #feca57'; // Borda amarela
+            feedback.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-award text-3xl text-yellow-300 mb-2"></i>
+                    <div class="text-xl font-bold">MISSÃO CONCLUÍDA!</div>
+                    <div class="text-sm mt-1">Você é um verdadeiro Guardião Digital! Continue aprendendo e se protegendo!</div>
                 </div>
-                <button onclick="this.parentElement.parentElement.remove()" class="bg-white text-blue-600 px-4 py-2 rounded font-bold">
-                    Entendi!
-                </button>
             `;
-            document.body.appendChild(popup);
+            document.body.appendChild(feedback);
+            setTimeout(() => { if(feedback.parentNode) feedback.remove(); }, 4000);
         }
-        
-        function startCelebration() {
-            if (celebrationActive) return;
-            celebrationActive = true;
-            
-            // Create multiple fireworks
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    const firework = document.createElement('div');
-                    firework.className = 'firework';
-                    firework.style.left = Math.random() * 100 + '%';
-                    firework.style.top = Math.random() * 100 + '%';
-                    firework.innerHTML = ['🎉', '✨', '🌟', '💫', '🎊'][Math.floor(Math.random() * 5)];
-                    firework.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                    firework.style.color = ['#ff6b6b', '#4ecdc4', '#667eea', '#ffd93d', '#ff8c42'][Math.floor(Math.random() * 5)];
-                    document.body.appendChild(firework);
-                    
-                    setTimeout(() => {
-                        if (document.body.contains(firework)) {
-                            document.body.removeChild(firework);
-                        }
-                    }, 2000);
-                }, i * 100);
-            }
-            
-            // Show final message
-            setTimeout(() => {
-                const finalMessage = document.createElement('div');
-                finalMessage.className = 'absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-12 py-8 rounded-xl font-bold z-50 text-center border-4 border-yellow-400';
-                finalMessage.innerHTML = `
-                    <div class="text-center">
-                        <i class="fas fa-crown text-6xl text-yellow-300 mb-4"></i>
-                        <h3 class="text-3xl font-bold mb-4">🎊 PARABÉNS! 🎊</h3>
-                        <div class="text-xl text-white mb-4">
-                            Você concluiu o workshop<br>
-                            <span class="text-yellow-300">ESCUDO DIGITAL</span>
-                        </div>
-                        <div class="text-lg text-gray-200 mb-4">
-                            Agora você está oficialmente preparado para enfrentar<br>
-                            qualquer desafio no mundo digital!
-                        </div>
-                        <div class="text-2xl font-bold text-green-300">
-                            🛡️ SEU ESCUDO ESTÁ ATIVO! 🛡️
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(finalMessage);
-                
-                setTimeout(() => {
-                    if (document.body.contains(finalMessage)) {
-                        document.body.removeChild(finalMessage);
-                    }
-                    celebrationActive = false;
-                }, 5000);
-            }, 2000);
-        }
-        
-        // Auto-activate celebration after a few seconds
+
+        // Auto-trigger celebration once after a delay
         setTimeout(() => {
-            if (!celebrationActive) {
-                startCelebration();
+            if (!finalCelebrationTriggered) {
+                triggerFinalCelebration();
             }
-        }, 3000);
+        }, 2000); // Auto-celebrate after 2 seconds
     </script>
 </body>
 </html>
