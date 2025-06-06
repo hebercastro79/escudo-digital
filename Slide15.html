@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Inabalável: Proteja Seu Perfil</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+        body {
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; padding: 1rem; box-sizing: border-box; position: relative;
+            font-family: 'Poppins', sans-serif; color: #e2e8f0;
+        }
+        .cyber-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* Gradiente Instagram (roxo, rosa, laranja, amarelo) com um toque mais escuro e tecnológico */
+            background: linear-gradient(135deg, #405de6 0%, #5851db 15%, #833ab4 30%, #c13584 45%, #e1306c 60%, #fd1d1d 75%, #f56040 85%, #f77737 95%, #fcaf45 100%),
+                        radial-gradient(circle at 10% 90%, rgba(255,255,255,0.1) 0%, transparent 20%),
+                        radial-gradient(circle at 90% 10%, rgba(255,255,255,0.05) 0%, transparent 20%);
+            filter: brightness(0.8) saturate(1.2); /* Ajusta para um tom mais "cyber" */
+        }
+        .grid-pattern-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            opacity: 0.07;
+            background-image:
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05) 1px, transparent 1px, transparent 20px);
+            background-size: 40px 40px;
+        }
+
+        .main-content-wrapper {
+            position: relative; z-index: 1; width: 95%; max-width: 1200px;
+            margin: 1.5rem auto; display: flex; flex-direction: column;
+            gap: clamp(1.2rem, 2.5vh, 1.8rem);
+        }
+
+        .header-senai { position: absolute; top: clamp(1rem, 2vh, 1.5rem); right: clamp(1rem, 2vh, 1.5rem); z-index: 20; }
+        .logo-senai-img { width: clamp(80px, 10vh, 96px); height: auto; }
+
+        .slide-header .title-icon { font-size: clamp(1.8rem, 4vh, 2.25rem); margin-right: 0.75rem; }
+        .slide-header h1 {
+            font-size: clamp(1.7rem, 3.8vw, 2.25rem); margin-bottom: clamp(0.2rem, 0.4vh, 0.4rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1rem, 2.2vw, 1.25rem); font-family: 'Poppins', sans-serif;
+            color: #fbcfe8; /* Rosa claro */
+        }
+        .glow-text-instagram {
+            /* Efeito de glow com múltiplas cores do Instagram */
+            text-shadow: 0 0 5px #fff, 0 0 10px #fd1d1d, 0 0 15px #e1306c, 0 0 20px #c13584, 0 0 25px #833ab4;
+        }
+
+        .neon-card {
+            background: rgba(0,0,0, 0.25); /* Fundo escuro para destacar o gradiente do body */
+            backdrop-filter: blur(15px) saturate(150%); /* Mais blur e saturação para o efeito "vidro" */
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: clamp(1rem, 2vh, 1.5rem); border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover:not(.no-hover):not(.action-highlight-ig) {
+            transform: translateY(-3px) scale(1.01);
+            background: rgba(0,0,0, 0.35);
+            border-color: rgba(255,255,255,0.25);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+        
+        .security-feature-ig { /* Para cards de funcionalidades de segurança */
+            text-align: center;
+        }
+        .security-feature-ig .icon {
+            font-size: clamp(2.2rem, 5.5vh, 2.8rem);
+            margin-bottom: 0.75rem;
+            display: inline-block; /* Para permitir text-shadow no ícone */
+        }
+        .security-feature-ig .title {
+            font-weight: 700;
+            font-size: clamp(1rem, 2vh, 1.15rem);
+            margin-bottom: 0.35rem;
+            font-family: 'Orbitron', monospace;
+        }
+        .security-feature-ig .description {
+            font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+            color: #e5e7eb; /* Cinza claro */
+            line-height: 1.4;
+        }
+        .security-feature-ig .action-button {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            margin-top: 0.8rem;
+            font-size: clamp(0.7rem, 1.2vh, 0.75rem);
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+            border: 1px solid;
+        }
+        .security-feature-ig .action-button:hover { transform: scale(1.05); }
+
+        /* Cores temáticas Instagram para ícones/títulos */
+        .ig-purple { color: #833ab4; text-shadow: 0 0 8px #c13584; } .btn-ig-purple { border-color: #833ab4; color: #833ab4; } .btn-ig-purple:hover { background-color: #833ab4; color: white; }
+        .ig-pink { color: #e1306c; text-shadow: 0 0 8px #fd1d1d; } .btn-ig-pink { border-color: #e1306c; color: #e1306c; } .btn-ig-pink:hover { background-color: #e1306c; color: white; }
+        .ig-orange { color: #f56040; text-shadow: 0 0 8px #f77737; } .btn-ig-orange { border-color: #f56040; color: #f56040; } .btn-ig-orange:hover { background-color: #f56040; color: white; }
+        .ig-yellow { color: #fcaf45; text-shadow: 0 0 8px #f56040; } .btn-ig-yellow { border-color: #fcaf45; color: #fcaf45; } .btn-ig-yellow:hover { background-color: #fcaf45; color: black; }
+        .ig-blue { color: #405de6; text-shadow: 0 0 8px #5851db; } .btn-ig-blue { border-color: #405de6; color: #405de6; } .btn-ig-blue:hover { background-color: #405de6; color: white; }
+        .ig-green { color: #22c55e; text-shadow: 0 0 8px #16a34a; } /* Cor de "seguro" */ .btn-ig-green { border-color: #22c55e; color: #22c55e; } .btn-ig-green:hover { background-color: #22c55e; color: white; }
+
+        .action-highlight-ig { /* Card de Ação Rápida */
+            background: linear-gradient(45deg, rgba(253, 29, 29, 0.3), rgba(252, 175, 69, 0.3)); /* Vermelho para Amarelo transparente */
+            border: 1px solid #f77737;
+            text-align: center;
+        }
+        .action-highlight-ig .icon { font-size: clamp(1.8rem, 3.5vh, 2.2rem); margin-bottom: 0.5rem; color: #fff; }
+        .action-highlight-ig .title {
+            font-family: 'Orbitron', monospace; font-weight: bold;
+            font-size: clamp(1.1rem, 2.2vh, 1.3rem); color: #fff;
+        }
+        .action-highlight-ig .text {
+            font-size: clamp(0.85rem, 1.6vh, 0.95rem); margin-top: 0.3rem;
+            color: #fce7f3; /* Rosa bem claro */
+        }
+        .action-highlight-ig .quick-links a {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.15);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            margin: 0.5rem 0.3rem 0;
+            border-radius: 0.25rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: background-color 0.2s ease;
+        }
+        .action-highlight-ig .quick-links a:hover { background-color: rgba(255,255,255,0.3); }
+
+
+        .slide-in { animation: slideInInstagram 0.7s ease-out forwards; opacity: 0; }
+        @keyframes slideInInstagram {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .icon-sway-instagram { animation: iconSwayInstagramAnim 3s ease-in-out infinite; }
+        @keyframes iconSwayInstagramAnim {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-8deg); }
+            75% { transform: rotate(8deg); }
+        }
+        
+        .feedback-popup {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            color: white; padding: clamp(0.7rem,1.5vh,0.9rem) clamp(1rem,2vw,1.3rem);
+            border-radius: 0.375rem; font-weight: 600;
+            font-size: clamp(0.8rem,1.5vh,0.9rem); z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0;
+            animation: fadeInOutFeedbackInstagram 3.5s ease-in-out; /* Duração maior */
+            min-width: 300px; text-align: center;
+        }
+        .feedback-popup.success { background: linear-gradient(45deg, #833ab4, #c13584); } /* Roxo/Rosa Insta */
+        .feedback-popup.info { background: linear-gradient(45deg, #405de6, #5851db); } /* Azul Insta */
+        .feedback-popup.warning { background: linear-gradient(45deg, #fd1d1d, #f56040); } /* Vermelho/Laranja Insta */
+        @keyframes fadeInOutFeedbackInstagram {
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+            10%, 90% { opacity: 1; transform: translate(-50%, 0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-in">
+            <div class="flex items-center justify-center">
+                <i class="fab fa-instagram ig-pink icon-sway-instagram title-icon"></i>
+                <h1 class="font-black glow-text-instagram">
+                    INSTAGRAM INABALÁVEL
+                </h1>
+            </div>
+            <h2 class="font-semibold">
+                Fortaleça seu perfil contra invasões e fraudes
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
+            <div class="neon-card security-feature-ig slide-in" style="animation-delay: 0.1s;">
+                <i class="fas fa-user-shield ig-purple icon"></i>
+                <div class="title ig-purple">Autenticação de Dois Fatores (2FA)</div>
+                <div class="description">A defesa mais forte! Exige um código extra (app autenticador ou SMS) além da senha.</div>
+                <button class="action-button btn-ig-purple" onclick="showInstaInfo('2fa')">Saiba Mais</button>
+            </div>
+            <div class="neon-card security-feature-ig slide-in" style="animation-delay: 0.2s;">
+                <i class="fas fa-key ig-pink icon"></i>
+                <div class="title ig-pink">Senha Forte e Única</div>
+                <div class="description">Use uma senha complexa, longa e exclusiva para o Instagram. Evite reutilizar senhas.</div>
+                <button class="action-button btn-ig-pink" onclick="showInstaInfo('password')">Dicas de Senha</button>
+            </div>
+            <div class="neon-card security-feature-ig slide-in" style="animation-delay: 0.3s;">
+                <i class="fas fa-envelope-open-text ig-orange icon"></i>
+                <div class="title ig-orange">E-mail e Telefone de Recuperação</div>
+                <div class="description">Mantenha-os atualizados e seguros. São cruciais para reaver sua conta se perdida.</div>
+                <button class="action-button btn-ig-orange" onclick="showInstaInfo('recovery')">Verificar Agora</button>
+            </div>
+            <div class="neon-card security-feature-ig slide-in" style="animation-delay: 0.4s;">
+                <i class="fas fa-history ig-yellow icon"></i>
+                <div class="title ig-yellow">Atividade de Login</div>
+                <div class="description">Verifique regularmente os dispositivos e locais de acesso. Desconecte sessões suspeitas.</div>
+                <button class="action-button btn-ig-yellow" onclick="showInstaInfo('loginActivity')">Onde Checar?</button>
+            </div>
+            <div class="neon-card security-feature-ig slide-in" style="animation-delay: 0.5s;">
+                <i class="fas fa-unlink ig-blue icon"></i>
+                <div class="title ig-blue">Apps de Terceiros Conectados</div>
+                <div class="description">Revise e remova aplicativos e sites desnecessários que têm acesso à sua conta.</div>
+                <button class="action-button btn-ig-blue" onclick="showInstaInfo('thirdPartyApps')">Limpar Acessos</button>
+            </div>
+            <div class="neon-card security-feature-ig slide-in" style="animation-delay: 0.6s;">
+                <i class="fas fa-fish ig-green icon"></i>
+                <div class="title ig-green">Cuidado com Phishing em DMs</div>
+                <div class="description">Não clique em links suspeitos ou forneça dados em DMs, mesmo de amigos (contas podem ser invadidas).</div>
+                <button class="action-button btn-ig-green" onclick="showInstaInfo('phishingDms')">Identificar Golpes</button>
+            </div>
+        </div>
+            
+        <div class="neon-card action-highlight-ig slide-in no-hover" style="animation-delay: 0.7s;">
+            <i class="fas fa-exclamation-triangle icon"></i>
+            <div class="title">CONTA INVADIDA? AJA RÁPIDO!</div>
+            <div class="text">Se suspeitar de invasão, tente alterar a senha imediatamente e revisar as configurações de segurança.</div>
+            <div class="quick-links">
+                <a href="https://help.instagram.com/368191326593075" target="_blank" rel="noopener noreferrer">Ajuda do Instagram</a>
+                <a href="javascript:void(0)" onclick="showInstaInfo('hackedAccountSteps')">Primeiros Passos</a>
+            </div>
+        </div>
+            
+        <div class="text-center mt-1 slide-in" style="animation-delay: 0.8s;">
+            <p class="text-sm text-gray-300 italic">Lembre-se: O Instagram nunca pedirá sua senha por e-mail ou DM.</p>
+        </div>
+    </div>
+    
+    <script>
+        function showFeedback(message, type = 'info', duration = 3500) {
+            const existingPopup = document.querySelector('.feedback-popup');
+            if (existingPopup) existingPopup.remove();
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-popup ${type}`;
+            feedback.innerHTML = message;
+            document.body.appendChild(feedback);
+            setTimeout(() => { if (feedback.parentNode) feedback.remove(); }, duration);
+        }
+
+        const instaMessages = {
+            '2fa': "<strong>Ative o 2FA:</strong> Vá em Configurações > Segurança > Autenticação de dois fatores. <br><strong>Recomendado:</strong> Use um App Autenticador (Google Authenticator, Authy) em vez de SMS, é mais seguro contra clonagem de chip.",
+            'password': "<strong>Senha Forte:</strong> Use letras maiúsculas, minúsculas, números e símbolos. Mínimo 12 caracteres. <br><strong>Exclusiva:</strong> Não use a mesma senha do seu e-mail ou outros sites. <br><strong>Gerenciador:</strong> Considere um gerenciador de senhas para criar e guardar senhas fortes.",
+            'recovery': "<strong>Verifique em:</strong> Configurações > Conta > Informações pessoais. <br><strong>Importante:</strong> Se perder acesso, o Instagram usará esses dados para confirmar sua identidade. Mantenha-os privados e seguros!",
+            'loginActivity': "<strong>Local:</strong> Configurações > Segurança > Atividade de login. <br><strong>Ação:</strong> Se vir um login de um local ou dispositivo que não reconhece, clique nele e em 'Não fui eu' ou 'Sair'. Troque sua senha imediatamente.",
+            'thirdPartyApps': "<strong>Local:</strong> Configurações > Segurança > Aplicativos e sites. <br><strong>Revise:</strong> Analise a lista de apps que têm acesso à sua conta. Remova os que você não usa mais ou não confia. Menos conexões, menos riscos.",
+            'phishingDms': "<strong>Sinais de Alerta:</strong> Mensagens pedindo para clicar em links para 'verificar sua conta', 'ganhar prêmios' ou com ameaças. Erros de português, remetentes estranhos. <br><strong>Nunca:</strong> O Instagram não pede sua senha por DM. Não envie fotos de documentos por DM.",
+            'hackedAccountSteps': "<strong>1. Tente Redefinir Senha:</strong> Use a opção 'Esqueceu a senha?' na tela de login. <br><strong>2. Revogue Acessos:</strong> Se conseguir entrar, vá em Atividade de Login e Apps Conectados e remova acessos suspeitos. <br><strong>3. Avise o Suporte:</strong> Use a Central de Ajuda do Instagram para relatar a invasão. <br><strong>4. Avise Amigos:</strong> Informe que sua conta pode ter sido comprometida para evitar que caiam em golpes."
+        };
+
+        function showInstaInfo(type) {
+            const message = instaMessages[type];
+            if (message) {
+                // Determina o tipo de popup com base no conteúdo (poderia ser mais sofisticado)
+                let popupType = 'info';
+                if (type === '2fa' || type === 'password') popupType = 'success'; // Dicas proativas
+                if (type === 'hackedAccountSteps' || type === 'phishingDms') popupType = 'warning'; // Alertas
+
+                showFeedback(`<strong><i class="fab fa-instagram mr-1"></i> Dica Instagram:</strong><hr class="my-1 border-gray-400 opacity-50">${message}`, popupType, 6000); // Popup mais longo
+            }
+        }
+    </script>
+</body>
+</html>

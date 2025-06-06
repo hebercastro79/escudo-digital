@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord: Sua Segurança na Plataforma</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative; /* Necessário para feedback da pergunta */
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
+        .cyber-bg { /* Cores do Slide 4 original */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #2c2f36 0%, #36393f 50%, #40444b 100%),
+                        radial-gradient(circle at 20% 80%, #7289da 0%, transparent 30%),
+                        radial-gradient(circle at 80% 20%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 40% 40%, #4ecdc4 0%, transparent 35%);
+        }
+        .grid-pattern-overlay { /* Overlay do Slide 4 original */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05; /* Era 0.05, mantido */
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(114, 137, 218, 0.2) 20px, rgba(114, 137, 218, 0.2) 40px); /* Aumentei opacidade do rgba para melhor visibilidade */
+            z-index: -1;
+        }
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1.5rem, 3vh, 2rem);
+        }
+
+        .header-senai {
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .slide-header .title-icon { /* Ícone principal do título */
+            font-size: clamp(2.5rem, 6vh, 3.5rem); /* text-6xl */
+            margin-right: 1rem; /* mr-4 */
+        }
+        .slide-header h1 {
+            font-size: clamp(1.875rem, 4vw, 2.8rem);
+            margin-bottom: clamp(0.25rem, 0.5vh, 0.5rem); /* Reduzido para acomodar ícone */
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .glow-discord { /* Mantido do Slide 4 */
+            text-shadow: 0 0 20px rgba(114, 137, 218, 0.8);
+        }
+        .neon-card {
+            background: rgba(255, 255, 255, 0.08); /* Baseado no discord-card e neon-card */
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(114, 137, 218, 0.2); /* Cor borda do discord */
+            padding: clamp(1rem, 2vh, 1.5rem);
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover {
+            transform: translateY(-3px); /* Do discord-card hover */
+            background: rgba(114, 137, 218, 0.15); /* Do discord-card hover, adaptado */
+        }
+
+        /* Glows adaptados/novos para este slide */
+        .discord-blue-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(114, 137, 218, 0.5); }
+        .discord-red-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 107, 107, 0.6); }
+        .discord-green-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(78, 205, 196, 0.6); }
+        .discord-yellow-glow { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 20px rgba(255, 217, 61, 0.6); } /* ffd93d */
+
+        .zone-card .zone-header {
+            text-align: center;
+            margin-bottom: clamp(1rem, 2vh, 1.25rem); /* mb-4 */
+        }
+        .zone-card .zone-header i {
+            font-size: clamp(2rem, 4vh, 2.5rem); /* text-4xl */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .zone-card .zone-header h3 {
+            font-size: clamp(1.25rem, 3vh, 1.5rem); /* text-2xl */
+            font-weight: 700; /* font-bold */
+        }
+
+        .interactive-list-item { /* Baseado no .interactive-tip do Slide 4 */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: clamp(0.6rem, 1.2vh, 0.75rem); /* p-3 */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+        .interactive-list-item:hover {
+            transform: scale(1.03); /* Era 1.05, mais sutil */
+            filter: brightness(1.15); /* Era 1.2 */
+        }
+        .interactive-list-item i {
+            margin-right: 0.75rem; /* mr-3 */
+            font-size: clamp(1rem, 1.8vh, 1.1rem);
+        }
+        .interactive-list-item .item-title {
+            font-weight: 700; /* font-bold */
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem); /* text-sm */
+        }
+        .interactive-list-item .item-description {
+            font-size: clamp(0.7rem, 1.3vh, 0.75rem); /* text-xs */
+            color: #cbd5e1; /* text-gray-300 */
+        }
+        
+        /* Cores de fundo específicas para os itens da lista */
+        .bg-item-red { background-color: rgba(220, 38, 38, 0.3); } /* bg-red-600 bg-opacity-30 */
+        .bg-item-orange { background-color: rgba(234, 88, 12, 0.3); } /* bg-orange-600 bg-opacity-30 */
+        .bg-item-yellow { background-color: rgba(202, 138, 4, 0.3); } /* bg-yellow-600 bg-opacity-30 */
+        .bg-item-green { background-color: rgba(5, 150, 105, 0.3); } /* bg-green-600 bg-opacity-30 */
+        .bg-item-blue { background-color: rgba(37, 99, 235, 0.3); } /* bg-blue-600 bg-opacity-30 */
+        .bg-item-purple { background-color: rgba(124, 58, 237, 0.3); } /* bg-purple-600 bg-opacity-30 */
+
+        .stats-discord-card .number {
+            font-size: clamp(1.8rem, 4vh, 2.25rem); /* text-3xl */
+            font-family: 'Orbitron', monospace;
+        }
+        .stats-discord-card .text {
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem); /* text-sm */
+        }
+        .stats-discord-card .subtext {
+            font-size: clamp(0.7rem, 1.3vh, 0.75rem); /* text-xs */
+            margin-top: 0.25rem; /* mt-1 */
+        }
+
+        .tip-discord-card .icon {
+            font-size: clamp(1.25rem, 3vh, 1.5rem); /* text-2xl */
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .tip-discord-card .title {
+            font-weight: 700; /* font-bold */
+            font-size: clamp(1rem, 2vh, 1.125rem); /* text-lg */
+        }
+        .tip-discord-card .text {
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem); /* text-sm */
+            margin-top: 0.25rem; /* mt-1 */
+        }
+
+        .interactive-question-banner {
+            border-radius: 0.75rem; /* rounded-xl */
+            padding: clamp(1rem, 2vh, 1.5rem); /* p-4 */
+            background: linear-gradient(to right, #4f46e5, #7c3aed, #4f46e5); /* from-blue-600 via-purple-600 to-blue-600 */
+        }
+        .interactive-question-banner .question-icon {
+            font-size: clamp(1.5rem, 3.5vh, 2rem); /* text-3xl */
+            margin-right: 1rem; /* mr-4 */
+        }
+        .interactive-question-banner .question-title {
+            font-weight: 700; /* font-bold */
+            font-size: clamp(1rem, 2vh, 1.125rem); /* text-lg */
+        }
+        .interactive-question-banner .question-text {
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem); /* text-sm */
+            opacity: 0.9;
+        }
+        .interactive-question-banner .action-button {
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: clamp(0.5rem, 1vh, 0.6rem) clamp(0.75rem, 1.5vw, 1rem); /* px-4 py-2 */
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+            font-weight: 500;
+        }
+        .interactive-question-banner .action-button i {
+            margin-right: 0.5rem; /* mr-2 */
+        }
+
+        /* Animações */
+        .slide-up { animation: slideUp 0.6s ease-out forwards; }
+        .slide-left { animation: slideLeft 0.8s ease-out forwards; }
+        .slide-right { animation: slideRight 0.8s ease-out forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes slideLeft { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes slideRight { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+        
+        .pulse-warning-glow { /* Aplicado ao card com animação de glow vermelho */
+            animation: pulseWarningGlow 2s ease-in-out infinite;
+        }
+        @keyframes pulseWarningGlow {
+            0%, 100% { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 15px rgba(255, 107, 107, 0.5); }
+            50% { box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 30px rgba(255, 107, 107, 0.9); }
+        }
+        .bounce-icon { animation: bounceIcon 2s ease-in-out infinite; }
+        @keyframes bounceIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* Feedback da Pergunta Interativa */
+        .feedback-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #22c55e; /* green-500 */
+            color: white;
+            padding: clamp(1rem, 2vh, 1.25rem) clamp(1.5rem, 3vw, 2rem);
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 700; /* font-bold */
+            font-size: clamp(0.9rem, 1.8vh, 1.1rem); /* text-lg */
+            z-index: 50;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            opacity: 0;
+            animation: fadeInOut 2s ease-in-out;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.9); }
+            10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="absolute top-16 left-16 bounce-icon text-blue-400 opacity-20 z-0" style="font-size: clamp(2rem, 4vh, 2.5rem);">
+        <i class="fab fa-discord"></i>
+    </div>
+    <div class="absolute bottom-16 right-16 bounce-icon text-purple-400 opacity-20 z-0" style="animation-delay: 1s; font-size: clamp(1.5rem, 3vh, 2rem);">
+        <i class="fas fa-shield-alt"></i>
+    </div>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-up">
+            <div class="flex items-center justify-center">
+                <i class="fab fa-discord text-blue-400 bounce-icon title-icon"></i>
+                <h1 class="font-black glow-discord">
+                    DISCORD SEGURO
+                </h1>
+            </div>
+            <h2 class="font-semibold text-cyan-300">
+                Como se proteger na plataforma favorita dos gamers
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 w-full">
+            <!-- Coluna Esquerda -->
+            <div class="flex flex-col gap-6">
+                <div class="neon-card discord-red-glow pulse-warning-glow zone-card slide-left">
+                    <div class="zone-header">
+                        <i class="fas fa-exclamation-triangle text-red-400"></i>
+                        <h3 class="text-red-300">⚠️ ZONA DE PERIGO</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="interactive-list-item bg-item-red">
+                            <i class="fas fa-users text-red-400"></i>
+                            <div>
+                                <div class="item-title">Servidores Suspeitos</div>
+                                <div class="item-description">Conteúdo violento, sexual ou extremista</div>
+                            </div>
+                        </div>
+                        <div class="interactive-list-item bg-item-orange">
+                            <i class="fas fa-comment text-orange-400"></i>
+                            <div>
+                                <div class="item-title">DMs de Estranhos</div>
+                                <div class="item-description">Mensagens privadas não solicitadas</div>
+                            </div>
+                        </div>
+                        <div class="interactive-list-item bg-item-yellow">
+                            <i class="fas fa-gift text-yellow-400"></i>
+                            <div>
+                                <div class="item-title">Links e Downloads</div>
+                                <div class="item-description">Arquivos maliciosos ou sites falsos</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="neon-card discord-blue-glow stats-discord-card text-center slide-left" style="animation-delay: 0.2s;">
+                    <div class="font-black text-blue-400 number">65 MIL</div>
+                    <div class="text-gray-300 text">contas brasileiras banidas em 2024</div>
+                    <div class="text-blue-300 subtext">por violações de política</div>
+                </div>
+            </div>
+            
+            <!-- Coluna Direita -->
+            <div class="flex flex-col gap-6">
+                <div class="neon-card discord-green-glow zone-card slide-right">
+                    <div class="zone-header">
+                        <i class="fas fa-shield-alt text-green-400"></i> <!-- Era fa-shield-check, mas fa-shield-alt é mais comum -->
+                        <h3 class="text-green-300">🛡️ COMO SE PROTEGER</h3>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="interactive-list-item bg-item-green">
+                            <i class="fas fa-cog text-green-400"></i>
+                            <div>
+                                <div class="item-title">Configurações de Privacidade</div>
+                                <div class="item-description">Desabilite DMs de não-amigos</div>
+                            </div>
+                        </div>
+                        <div class="interactive-list-item bg-item-blue">
+                            <i class="fas fa-users-cog text-blue-400"></i> <!-- fas fa-family não existe, usei fa-users-cog -->
+                            <div>
+                                <div class="item-title">Central da Família</div>
+                                <div class="item-description">Ative com seus pais/responsáveis</div>
+                            </div>
+                        </div>
+                        <div class="interactive-list-item bg-item-purple">
+                            <i class="fas fa-flag text-purple-400"></i>
+                            <div>
+                                <div class="item-title">Denuncie Sempre</div>
+                                <div class="item-description">Conteúdo impróprio ou comportamento suspeito</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="neon-card discord-yellow-glow tip-discord-card text-center slide-right" style="animation-delay: 0.2s;">
+                    <i class="fas fa-lightbulb text-yellow-400 icon"></i>
+                    <div class="title text-yellow-300">DICA DE OURO</div>
+                    <div class="text-gray-300 text">
+                        Nunca compartilhe informações pessoais, mesmo com "amigos" online
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slide-up interactive-question-banner mx-auto max-w-4xl w-full" style="animation-delay: 0.4s;">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center text-center sm:text-left">
+                    <i class="fas fa-question-circle text-white question-icon"></i>
+                    <div>
+                        <div class="question-title">PERGUNTA INTERATIVA</div>
+                        <div class="question-text">O que você faria se recebesse uma DM suspeita?</div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-center sm:justify-end gap-2 sm:gap-3">
+                    <button class="action-button bg-green-500 hover:bg-green-600 interactive-action">
+                        <i class="fas fa-flag"></i>Denunciar
+                    </button>
+                    <button class="action-button bg-red-500 hover:bg-red-600 interactive-action">
+                        <i class="fas fa-ban"></i>Bloquear
+                    </button>
+                    <button class="action-button bg-blue-500 hover:bg-blue-600 interactive-action">
+                        <i class="fas fa-comment"></i>Contar aos pais
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.querySelectorAll('.interactive-list-item').forEach(tip => {
+            tip.addEventListener('click', function() {
+                this.style.transform = 'scale(0.97)'; // Pequeno "click"
+                setTimeout(() => {
+                    this.style.transform = 'scale(1.03)'; // Hover effect
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)'; // Volta ao normal
+                    }, 150);
+                }, 100);
+            });
+        });
+        
+        document.querySelectorAll('.interactive-action').forEach(button => {
+            button.addEventListener('click', function() {
+                const responses = {
+                    'Denunciar': '✅ Correto! Denunciar ajuda a proteger a comunidade!',
+                    'Bloquear': '✅ Boa! Bloquear impede contatos indesejados!',
+                    'Contar aos pais': '✅ Excelente! Conversar com responsáveis é fundamental!'
+                };
+                
+                let actionText = this.textContent.trim();
+                if (actionText.includes('Contar')) actionText = 'Contar aos pais';
+
+
+                const feedbackMsg = responses[actionText] || 'Ótima escolha!';
+                
+                // Remove o popup anterior se existir
+                const existingPopup = document.querySelector('.feedback-popup');
+                if (existingPopup) {
+                    existingPopup.remove();
+                }
+
+                const feedback = document.createElement('div');
+                feedback.className = 'feedback-popup';
+                feedback.innerHTML = feedbackMsg;
+                document.body.appendChild(feedback);
+                
+                // O popup se auto-remove pela animação, mas para garantir:
+                setTimeout(() => {
+                    if (feedback.parentNode) {
+                        feedback.remove();
+                    }
+                }, 2000);
+
+                 // Efeito de click no botão
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+            });
+        });
+    </script>
+</body>
+</html>

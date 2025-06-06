@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu E-mail: A Chave do Reino Digital</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto; }
+        body {
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            min-height: 100vh; padding: 1rem; box-sizing: border-box; position: relative;
+            font-family: 'Poppins', sans-serif; color: #e2e8f0;
+        }
+        .cyber-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
+            /* Tons de azul profundo, prata e ciano para e-mail/comunicação segura */
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0c4a6e 100%), /* Azul escuro/médio */
+                        radial-gradient(circle at 25% 75%, #93c5fd 0%, transparent 30%), /* Azul claro/Ciano */
+                        radial-gradient(circle at 75% 25%, #e5e7eb 0%, transparent 25%); /* Prata/Cinza claro */
+        }
+        .grid-pattern-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
+            opacity: 0.07;
+            /* Padrão de "envelope" ou malha fina */
+            background-image:
+                linear-gradient(rgba(147, 197, 253, 0.1) 0.5px, transparent 0.5px),
+                linear-gradient(90deg, rgba(147, 197, 253, 0.1) 0.5px, transparent 0.5px);
+            background-size: 15px 15px;
+        }
+
+        .main-content-wrapper {
+            position: relative; z-index: 1; width: 95%; max-width: 1200px;
+            margin: 1.5rem auto; display: flex; flex-direction: column;
+            gap: clamp(1.2rem, 2.5vh, 1.8rem);
+        }
+
+        .header-senai { position: absolute; top: clamp(1rem, 2vh, 1.5rem); right: clamp(1rem, 2vh, 1.5rem); z-index: 20; }
+        .logo-senai-img { width: clamp(80px, 10vh, 96px); height: auto; }
+
+        .slide-header .title-icon { font-size: clamp(1.8rem, 4vh, 2.25rem); margin-right: 0.75rem; }
+        .slide-header h1 {
+            font-size: clamp(1.7rem, 3.8vw, 2.25rem); margin-bottom: clamp(0.2rem, 0.4vh, 0.4rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1rem, 2.2vw, 1.25rem); font-family: 'Poppins', sans-serif;
+            color: #93c5fd; /* Azul claro */
+        }
+        .glow-text-email { text-shadow: 0 0 10px #93c5fd, 0 0 20px #3b82f6, 0 0 30px #1e3a8a; }
+
+        .neon-card {
+            background: rgba(30, 58, 138, 0.55); /* Azul médio do bg, mais opaco */
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(147, 197, 253, 0.3); /* Borda azul clara */
+            padding: clamp(1rem, 2vh, 1.5rem); border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover:not(.no-hover):not(.phishing-warning-card) {
+            transform: translateY(-3px);
+            background: rgba(30, 58, 138, 0.7);
+            border-color: rgba(147,197,253,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 15px rgba(147,197,253,0.4);
+        }
+        
+        .email-security-point { /* Para cards de pontos de segurança de e-mail */
+            position: relative; /* Para o número do passo */
+            padding-left: 2.5rem; /* Espaço para o número */
+        }
+        .email-security-point .step-number {
+            position: absolute;
+            left: 0;
+            top: 0.1rem; /* Ajuste fino vertical */
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(1.5rem, 3vh, 1.8rem);
+            font-weight: 700;
+            line-height: 1;
+            opacity: 0.7;
+        }
+        .email-security-point .content .title {
+            font-weight: 700;
+            font-size: clamp(1rem, 2vh, 1.15rem);
+            margin-bottom: 0.3rem;
+        }
+        .email-security-point .content .description {
+            font-size: clamp(0.8rem, 1.5vh, 0.9rem);
+            color: #dbeafe; /* Azul bem claro */
+            line-height: 1.45;
+        }
+        .email-security-point .content .action-prompt {
+            display: block; /* Ocupa a linha toda */
+            font-size: clamp(0.75rem, 1.3vh, 0.8rem);
+            font-style: italic;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+            cursor: pointer;
+        }
+        .email-security-point .content .action-prompt:hover { opacity: 1; text-decoration: underline; }
+
+        /* Cores para números/títulos dos pontos */
+        .point-color-purple { color: #c084fc; }
+        .point-color-green { color: #4ade80; }
+        .point-color-red { color: #f87171; }
+        .point-color-yellow { color: #facc15; }
+        .point-color-orange { color: #fb923c; }
+        .point-color-teal { color: #2dd4bf; }
+
+        .phishing-warning-card { /* Card de Alerta de Phishing */
+            background: linear-gradient(135deg, #7f1d1d, #b91c1c); /* Vermelho escuro alerta */
+            border: 2px solid #fca5a5; /* Borda vermelha clara */
+            color: white;
+        }
+        .phishing-warning-card .header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .phishing-warning-card .header .icon { font-size: clamp(2.2rem, 5vh, 2.8rem); }
+        .phishing-warning-card .header .title {
+            font-family: 'Orbitron', monospace; font-weight: 900;
+            font-size: clamp(1.3rem, 2.6vh, 1.6rem);
+        }
+        .phishing-warning-card .symptom-list { list-style-type: disc; margin-left: 1.2rem; font-size: clamp(0.85rem, 1.6vh, 0.95rem); }
+        .phishing-warning-card .symptom-list li { margin-bottom: 0.25rem; }
+        .phishing-warning-card .final-advice { font-weight: 600; margin-top: 0.8rem; text-align: center; }
+
+        .key-takeaway-banner {
+            background: linear-gradient(to right, #0ea5e9, #3b82f6, #60a5fa); /* Gradiente azul */
+            color: white;
+            padding: clamp(1rem, 2vh, 1.3rem);
+            border-radius: 0.5rem;
+            text-align: center;
+        }
+        .key-takeaway-banner .icon { font-size: clamp(1.6rem, 3.2vh, 2rem); margin-right: 0.75rem; vertical-align: middle;}
+        .key-takeaway-banner .text {
+            font-size: clamp(1rem, 2vh, 1.2rem);
+            font-weight: 700;
+            font-family: 'Poppins', sans-serif;
+            display: inline; vertical-align: middle;
+        }
+
+        .slide-in { animation: slideInEmail 0.7s ease-out forwards; opacity: 0; }
+        @keyframes slideInEmail {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .icon-key-rotate { animation: iconKeyRotateAnim 4s linear infinite; }
+        @keyframes iconKeyRotateAnim {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .feedback-popup {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            color: white; padding: clamp(0.7rem,1.5vh,0.9rem) clamp(1rem,2vw,1.3rem);
+            border-radius: 0.375rem; font-weight: 600;
+            font-size: clamp(0.8rem,1.5vh,0.9rem); z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); opacity: 0;
+            animation: fadeInOutFeedbackEmail 4.5s ease-in-out;
+            min-width: 320px; text-align: left;
+        }
+        .feedback-popup h5 { font-family: 'Orbitron', monospace; font-size: 1.05em; margin-bottom: 0.3rem; text-align: center; }
+        .feedback-popup hr { border-color: rgba(255,255,255,0.3); margin: 0.4rem 0; }
+        .feedback-popup.success { background-color: #059669; } /* Verde esmeralda */
+        .feedback-popup.info { background-color: #0284c7; } /* Azul céu */
+        .feedback-popup.warning { background-color: #c2410c; } /* Laranja queimado */
+        @keyframes fadeInOutFeedbackEmail {
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+            7%, 93% { opacity: 1; transform: translate(-50%, 0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-in">
+            <div class="flex items-center justify-center">
+                <!-- Ícone de chave ou cadeado com e-mail -->
+                <i class="fas fa-key text-blue-300 icon-key-rotate title-icon"></i> 
+                <h1 class="font-black glow-text-email">
+                    SEU E-MAIL: A CHAVE MESTRA
+                </h1>
+            </div>
+            <h2 class="font-semibold">
+                Protegê-lo é proteger seu reino digital
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5 w-full">
+            <div class="neon-card email-security-point slide-in" style="animation-delay: 0.1s;">
+                <div class="step-number point-color-purple">01</div>
+                <div class="content">
+                    <div class="title point-color-purple">Autenticação de Dois Fatores (2FA)</div>
+                    <div class="description">ABSOLUTAMENTE ESSENCIAL! Ative no seu provedor (Gmail, Outlook, etc.). Use um app autenticador para máxima segurança.</div>
+                    <span class="action-prompt point-color-purple" onclick="showEmailInfo('2faEmail')">Por que é tão vital?</span>
+                </div>
+            </div>
+            <div class="neon-card email-security-point slide-in" style="animation-delay: 0.2s;">
+                <div class="step-number point-color-green">02</div>
+                <div class="content">
+                    <div class="title point-color-green">Senha Robusta e Única</div>
+                    <div class="description">Sua senha de e-mail deve ser a MAIS FORTE de todas: longa, complexa e NUNCA REUTILIZADA em outros serviços.</div>
+                    <span class="action-prompt point-color-green" onclick="showEmailInfo('passwordEmail')">Como criar a senha perfeita?</span>
+                </div>
+            </div>
+            <div class="neon-card email-security-point slide-in" style="animation-delay: 0.4s;"> <!-- Pulando 0.3 para o card de Phishing -->
+                <div class="step-number point-color-yellow">03</div>
+                <div class="content">
+                    <div class="title point-color-yellow">Cuidado com Anexos Perigosos</div>
+                    <div class="description">Não abra anexos de remetentes desconhecidos ou inesperados, especialmente .exe, .zip, .docm. Use antivírus para escanear.</div>
+                    <span class="action-prompt point-color-yellow" onclick="showEmailInfo('attachmentsEmail')">Quais são os riscos?</span>
+                </div>
+            </div>
+            <div class="neon-card email-security-point slide-in" style="animation-delay: 0.5s;">
+                <div class="step-number point-color-orange">04</div>
+                <div class="content">
+                    <div class="title point-color-orange">Revise Atividades e Permissões</div>
+                    <div class="description">Verifique logins recentes, encaminhamentos automáticos e apps com acesso à sua conta. Remova o que for suspeito.</div>
+                    <span class="action-prompt point-color-orange" onclick="showEmailInfo('activityEmail')">Onde encontrar essas opções?</span>
+                </div>
+            </div>
+             <div class="neon-card email-security-point slide-in md:col-span-2" style="animation-delay: 0.6s;"> <!-- Ocupa 2 colunas em md -->
+                <div class="step-number point-color-teal">05</div>
+                <div class="content">
+                    <div class="title point-color-teal">E-mails e Telefones de Recuperação Seguros</div>
+                    <div class="description">Mantenha seus métodos de recuperação (outro e-mail, telefone) atualizados e também protegidos com senhas fortes e 2FA, se possível. Eles são sua segunda chance!</div>
+                    <span class="action-prompt point-color-teal" onclick="showEmailInfo('recoveryMethodsEmail')">Por que isso é importante?</span>
+                </div>
+            </div>
+        </div>
+            
+        <div class="neon-card phishing-warning-card slide-in no-hover" style="animation-delay: 0.3s;"> <!-- Inserido entre os cards normais -->
+            <div class="header">
+                <i class="fas fa-fish-bones icon"></i> <!-- fas fa-fish -> fas fa-fish-bones -->
+                <div class="title">MESTRE ANTI-PHISHING: NÃO CAIA NESSA!</div>
+            </div>
+            <p class="mb-2 text-sm">Phishing é a tentativa de te enganar para roubar seus dados. Fique atento a:</p>
+            <ul class="symptom-list">
+                <li>E-mails com senso de URGÊNCIA ou AMEAÇAS.</li>
+                <li>ERROS de português ou design estranho.</li>
+                <li>REMETENTES desconhecidos ou com endereços levemente alterados.</li>
+                <li>Pedidos de DADOS pessoais, senhas ou informações bancárias.</li>
+                <li>LINKS suspeitos (passe o mouse em cima para ver o destino real ANTES de clicar).</li>
+            </ul>
+            <p class="final-advice">Na dúvida, NÃO CLIQUE! Apague o e-mail e contate a empresa/pessoa por um canal oficial.</p>
+        </div>
+            
+        <div class="key-takeaway-banner slide-in" style="animation-delay: 0.7s;">
+            <p><i class="fas fa-shield-alt icon"></i><span class="text">Seu e-mail é o portão de entrada para sua vida digital. Tranque-o bem!</span></p>
+        </div>
+    </div>
+    
+    <script>
+        function showFeedback(message, type = 'info', duration = 4500) {
+            const existingPopup = document.querySelector('.feedback-popup');
+            if (existingPopup) existingPopup.remove();
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-popup ${type}`;
+            
+            let titleText = "";
+            if (type === 'success') titleText = "Prática de Segurança Essencial!";
+            else if (type === 'info') titleText = "Informação Chave!";
+            else if (type === 'warning') titleText = "Alerta de Segurança!";
+            
+            feedback.innerHTML = `<h5>${titleText}</h5><hr/>${message}`;
+            document.body.appendChild(feedback);
+            setTimeout(() => { if (feedback.parentNode) feedback.remove(); }, duration);
+        }
+
+        const emailMessages = {
+            '2faEmail': "<strong>Vitalidade do 2FA:</strong> Se sua senha vazar, o 2FA impede o acesso não autorizado, pois o invasor precisaria também do seu segundo fator (código do app, SMS, chave física). É a barreira mais forte.",
+            'passwordEmail': "<strong>Senha Perfeita:</strong> <br>• Use um Gerenciador de Senhas para criar e lembrar. <br>• Mínimo 16 caracteres. <br>• Combine letras (maiúsculas/minúsculas), números e símbolos (`!@#$%^&*`). <br>• Ex: `Vid@DigitalS&gura#2o24!` <br>• NÃO use palavras comuns, datas ou sequências.",
+            'attachmentsEmail': "<strong>Riscos:</strong> Anexos podem conter vírus, ransomware (que sequestra seus arquivos) ou spyware (que espiona suas atividades). Arquivos compactados (.zip, .rar) podem esconder executáveis maliciosos. PDFs e documentos Office também podem conter macros perigosas.",
+            'activityEmail': "<strong>Onde Achar:</strong> <br>• <strong>Gmail:</strong> Clique na sua foto de perfil > Gerenciar sua Conta do Google > Segurança > Seus dispositivos / Atividade recente de segurança. <br>• <strong>Outlook/Hotmail:</strong> Clique na sua foto > Minha conta Microsoft > Segurança > Atividade de entrada. <br>Revogue acessos desconhecidos e troque a senha se vir algo suspeito.",
+            'recoveryMethodsEmail': "<strong>Importância:</strong> Se você esquecer sua senha ou sua conta for invadida, esses métodos são como o Instagram, Facebook, bancos e outros serviços irão verificar sua identidade para te ajudar a recuperar o acesso. Se eles estiverem desatualizados ou comprometidos, a recuperação fica muito difícil."
+        };
+
+        function showEmailInfo(type) {
+            const message = emailMessages[type];
+            if (message) {
+                let popupType = 'info';
+                if (type === '2faEmail' || type === 'passwordEmail') popupType = 'success';
+                if (type === 'attachmentsEmail') popupType = 'warning';
+                
+                showFeedback(message, popupType, 8000); // Popups bem longos para e-mail
+            }
+        }
+    </script>
+</body>
+</html>

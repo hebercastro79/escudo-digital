@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celular Seguro: Sua Fortaleza Digital</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%; /* Garante que o html e body tentem usar a altura do seu container (iframe) */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Previne rolagem horizontal */
+            overflow-y: auto;   /* Permite rolagem vertical SE o conteúdo for maior que a altura */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Conteúdo alinhado ao topo */
+            min-height: 100%; /* Garante que o body preencha no mínimo a altura do html (que é 100% do iframe) */
+            /* Removido min-height: 100vh; pois pode ser problemático em iframes */
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
+        .cyber-bg {
+            position: fixed; /* Fixo para não rolar com o conteúdo do body */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%),
+                        radial-gradient(circle at 20% 80%, #0ea5e9 0%, transparent 30%),
+                        radial-gradient(circle at 80% 30%, #8b5cf6 0%, transparent 30%);
+        }
+        .grid-pattern-overlay {
+            position: fixed; /* Fixo */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.06;
+            background-image:
+                linear-gradient(rgba(0, 128, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 128, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+        }
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1200px;
+            margin: 1.5rem auto; /* Centraliza e dá espaço no topo/fundo */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza filhos horizontalmente */
+            gap: clamp(1.2rem, 2.5vh, 1.8rem);
+            /* Sem min-height aqui, ele deve crescer com o conteúdo */
+        }
+
+        .header-senai {
+            position: absolute; /* Relativo ao body do slide */
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .slide-header .title-icon {
+            font-size: clamp(1.8rem, 4vh, 2.25rem);
+            margin-right: 0.75rem;
+        }
+        .slide-header h1 {
+            font-size: clamp(1.7rem, 3.8vw, 2.25rem);
+            margin-bottom: clamp(0.2rem, 0.4vh, 0.4rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1rem, 2.2vw, 1.25rem);
+            font-family: 'Poppins', sans-serif;
+            color: #94a3b8;
+        }
+        .glow-text-celular { text-shadow: 0 0 15px rgba(14, 165, 233, 0.7), 0 0 25px rgba(14, 165, 233, 0.5); }
+
+        .neon-card {
+            background: rgba(51, 65, 85, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            padding: clamp(1rem, 2vh, 1.5rem);
+            border-radius: 0.75rem;
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover:not(.no-hover):not(.critical-alert-card) {
+            transform: translateY(-3px);
+            background: rgba(51, 65, 85, 0.6);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3), 0 0 15px rgba(14, 165, 233, 0.4);
+        }
+        
+        .tip-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .tip-card .icon {
+            font-size: clamp(2rem, 5vh, 2.5rem);
+            margin-bottom: 0.75rem;
+            line-height: 1;
+        }
+        .tip-card .title {
+            font-weight: 700;
+            font-size: clamp(0.9rem, 1.8vh, 1.1rem);
+            margin-bottom: 0.3rem;
+        }
+        .tip-card .description {
+            font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+            color: #cbd5e1;
+            line-height: 1.4;
+        }
+
+        .text-icon-green { color: #22c55e; }
+        .text-icon-blue { color: #3b82f6; }
+        .text-icon-purple { color: #a855f7; }
+        .text-icon-red { color: #ef4444; }
+        .text-icon-yellow { color: #eab308; }
+        .text-icon-orange { color: #f97316; }
+
+        .interactive-checklist .check-item {
+            display: flex;
+            align-items: center;
+            padding: clamp(0.5rem, 1vh, 0.75rem) clamp(0.75rem, 1.5vw, 1rem);
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 0.5rem;
+            margin-bottom: 0.6rem;
+            cursor: pointer;
+            user-select: none;
+            transition: background-color 0.2s ease, transform 0.2s ease;
+        }
+        .interactive-checklist .check-item:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+        .interactive-checklist .check-item.completed {
+            background-color: rgba(34, 197, 94, 0.2);
+            border-left: 4px solid #22c55e;
+        }
+        .interactive-checklist .check-item.completed .icon-status {
+            color: #22c55e;
+            transform: scale(1.2);
+        }
+        .interactive-checklist .check-item .icon-status {
+            margin-right: 0.75rem;
+            font-size: 1.1em;
+            transition: transform 0.2s ease, color 0.2s ease;
+        }
+        .interactive-checklist .check-item .item-text {
+            font-size: clamp(0.85rem, 1.6vh, 0.95rem);
+        }
+
+        .critical-alert-card {
+            background: linear-gradient(45deg, #ef4444, #b91c1c);
+            border: 1px solid #f87171;
+            text-align: center;
+            padding: clamp(1rem, 2vh, 1.5rem);
+        }
+        .critical-alert-card .icon {
+            font-size: clamp(1.8rem, 3.5vh, 2.2rem);
+            margin-bottom: 0.5rem;
+        }
+        .critical-alert-card .title {
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: clamp(1.1rem, 2.2vh, 1.3rem);
+        }
+        .critical-alert-card .text {
+            font-size: clamp(0.85rem, 1.6vh, 0.95rem);
+            margin-top: 0.3rem;
+            color: #fef2f2;
+        }
+
+        .action-button-celular {
+            display: inline-block;
+            background: linear-gradient(to right, #0ea5e9, #3b82f6);
+            color: white;
+            font-family: 'Orbitron', monospace;
+            font-weight: bold;
+            font-size: clamp(0.9rem, 1.8vh, 1.1rem);
+            padding: clamp(0.6rem, 1.2vh, 0.8rem) clamp(1.2rem, 2.5vw, 1.8rem);
+            border-radius: 9999px;
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .action-button-celular:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+        .action-button-celular i { margin-right: 0.5rem; }
+
+        .slide-in { animation: slideInCelular 0.7s ease-out forwards; opacity: 0; }
+        @keyframes slideInCelular {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .icon-pulse-celular { animation: iconPulseCelularAnim 2s ease-in-out infinite; }
+        @keyframes iconPulseCelularAnim {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .feedback-popup {
+            position: fixed; /* Fixo na tela do slide */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            padding: clamp(0.7rem, 1.5vh, 0.9rem) clamp(1rem, 2vw, 1.3rem);
+            border-radius: 0.375rem;
+            font-weight: 600;
+            font-size: clamp(0.8rem, 1.5vh, 0.9rem);
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            opacity: 0;
+            animation: fadeInOutFeedbackCelular 3s ease-in-out;
+            min-width: 280px;
+            text-align: center;
+        }
+        .feedback-popup.success { background-color: #16a34a; }
+        .feedback-popup.info { background-color: #2563eb; }
+        .feedback-popup.warning { background-color: #ca8a04; }
+        @keyframes fadeInOutFeedbackCelular {
+            0%, 100% { opacity: 0; transform: translate(-50%, -20px); }
+            10%, 90% { opacity: 1; transform: translate(-50%, 0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-in">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-mobile-shield text-cyan-400 icon-pulse-celular title-icon"></i>
+                <h1 class="font-black glow-text-celular">
+                    CELULAR SEGURO
+                </h1>
+            </div>
+            <h2 class="font-semibold">
+                Sua fortaleza digital contra golpes e ameaças
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5 w-full">
+            <div class="neon-card tip-card slide-in" style="animation-delay: 0.1s;" onclick="showDetailInfo('downloads')">
+                <i class="fas fa-cloud-download-alt text-icon-green icon"></i>
+                <div class="title text-icon-green">Downloads Conscientes</div>
+                <div class="description">Baixe apps apenas de lojas oficiais. Verifique permissões e avaliações.</div>
+            </div>
+            <div class="neon-card tip-card slide-in" style="animation-delay: 0.2s;" onclick="showDetailInfo('updates')">
+                <i class="fas fa-sync-alt text-icon-blue icon"></i>
+                <div class="title text-icon-blue">Sistema e Apps Atualizados</div>
+                <div class="description">Mantenha tudo atualizado para corrigir falhas de segurança.</div>
+            </div>
+            <div class="neon-card tip-card slide-in" style="animation-delay: 0.3s;" onclick="showDetailInfo('screenlock')">
+                <i class="fas fa-fingerprint text-icon-purple icon"></i>
+                <div class="title text-icon-purple">Bloqueio de Tela Forte</div>
+                <div class="description">Use senhas, PINs complexos ou biometria. Configure bloqueio automático.</div>
+            </div>
+            <div class="neon-card tip-card slide-in" style="animation-delay: 0.4s;" onclick="showDetailInfo('publicwifi')">
+                <i class="fas fa-wifi-slash text-icon-red icon"></i>
+                <div class="title text-icon-red">Cuidado com Wi-Fi Público</div>
+                <div class="description">Evite transações sensíveis. Use VPN se precisar de acesso seguro.</div>
+            </div>
+            <div class="neon-card tip-card slide-in" style="animation-delay: 0.5s;" onclick="showDetailInfo('smishing')">
+                <i class="fas fa-comment-alt-exclamation text-icon-yellow icon"></i>
+                <div class="title text-icon-yellow">SMS/Mensagens Suspeitas</div>
+                <div class="description">Não clique em links de desconhecidos ou ofertas irreais (phishing/smishing).</div>
+            </div>
+            <div class="neon-card tip-card slide-in" style="animation-delay: 0.6s;" onclick="showDetailInfo('simpin')">
+                <i class="fas fa-sim-card text-icon-orange icon"></i>
+                <div class="title text-icon-orange">Proteção do SIM Card (Chip)</div>
+                <div class="description">Ative o PIN do chip para dificultar clonagem em caso de perda/roubo.</div>
+            </div>
+        </div>
+            
+        <div class="neon-card slide-in no-hover" style="animation-delay: 0.7s;">
+            <h3 class="text-xl font-semibold text-cyan-300 mb-4 text-center" style="font-family: 'Orbitron', monospace;">
+                <i class="fas fa-tasks mr-2"></i>CHECKLIST DE SEGURANÇA RÁPIDA
+            </h3>
+            <div class="interactive-checklist">
+                <div class="check-item" onclick="toggleChecklistItem(this, 'Bloqueio de tela ativo e forte?')">
+                    <i class="far fa-circle icon-status"></i>
+                    <span class="item-text">Bloqueio de tela ativo e forte?</span>
+                </div>
+                <div class="check-item" onclick="toggleChecklistItem(this, 'Atualizações automáticas habilitadas?')">
+                    <i class="far fa-circle icon-status"></i>
+                    <span class="item-text">Atualizações automáticas habilitadas (ou verificadas)?</span>
+                </div>
+                <div class="check-item" onclick="toggleChecklistItem(this, 'PIN do SIM Card configurado?')">
+                    <i class="far fa-circle icon-status"></i>
+                    <span class="item-text">PIN do SIM Card configurado?</span>
+                </div>
+                <div class="check-item" onclick="toggleChecklistItem(this, 'Verifica permissões de apps regularmente?')">
+                    <i class="far fa-circle icon-status"></i>
+                    <span class="item-text">Verifica permissões de apps regularmente?</span>
+                </div>
+            </div>
+        </div>
+            
+        <div class="critical-alert-card neon-card slide-in no-hover" style="animation-delay: 0.8s;">
+            <i class="fas fa-shield-virus text-white icon"></i>
+            <div class="title text-white">ANTIVÍRUS É ALIADO!</div>
+            <div class="text">Considere um bom app antivírus para Android. O iOS tem segurança robusta, mas atenção a links e downloads é sempre vital.</div>
+        </div>
+            
+        <div class="text-center mt-2 slide-in" style="animation-delay: 0.9s;"> <!-- Reduzido o margin-top para economizar espaço se necessário -->
+            <a href="javascript:void(0);" onclick="showFinalRecap()" class="action-button-celular">
+                <i class="fas fa-lightbulb-on"></i>
+                <span>DICAS FINAIS PARA MÁXIMA PROTEÇÃO</span>
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Seu JavaScript existente (showFeedback, toggleChecklistItem, detailMessages, showDetailInfo, getColorForType, showFinalRecap)
+        // permanece o mesmo.
+        function showFeedback(message, type = 'info', duration = 3000) {
+            const existingPopup = document.querySelector('.feedback-popup');
+            if (existingPopup) existingPopup.remove();
+
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-popup ${type}`;
+            feedback.innerHTML = message;
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                if (feedback.parentNode) feedback.remove();
+            }, duration);
+        }
+
+        function toggleChecklistItem(element, message) {
+            const icon = element.querySelector('.icon-status');
+            const isCompleted = element.classList.toggle('completed');
+            
+            if (isCompleted) {
+                icon.classList.remove('far', 'fa-circle');
+                icon.classList.add('fas', 'fa-check-circle');
+                showFeedback(`✅ ${message} - Verificado!`, 'success', 2000);
+            } else {
+                icon.classList.remove('fas', 'fa-check-circle');
+                icon.classList.add('far', 'fa-circle');
+                showFeedback(`📝 ${message} - Lembre-se de verificar.`, 'info', 2000);
+            }
+        }
+        
+        const detailMessages = {
+            downloads: "<strong>Lojas Oficiais:</strong> Google Play e App Store são mais seguras. <br><strong>Permissões:</strong> Um app de lanterna não precisa de acesso aos seus contatos. Desconfie! <br><strong>Avaliações:</strong> Leia comentários de outros usuários.",
+            updates: "<strong>Correções Críticas:</strong> Atualizações trazem novas funcionalidades e, mais importante, corrigem brechas de segurança que hackers exploram. <br><strong>Automático:</strong> Configure para atualizar automaticamente quando em Wi-Fi.",
+            screenlock: "<strong>Tipos:</strong> PIN (6+ dígitos), senha alfanumérica, padrão complexo, biometria (digital/rosto). <br><strong>Tempo:</strong> Configure para bloquear após pouco tempo de inatividade (ex: 1 minuto).",
+            publicwifi: "<strong>Riscos:</strong> Redes abertas podem ser interceptadas facilmente. <br><strong>VPN:</strong> Uma Rede Privada Virtual cria um túnel seguro para seus dados. <br><strong>Alternativa:</strong> Use seus dados móveis (3G/4G/5G) para transações importantes.",
+            smishing: "<strong>Sinais de Alerta:</strong> Erros de português, links encurtados, senso de urgência, ofertas milagrosas, pedidos de dados pessoais. <br><strong>Ação:</strong> NUNCA clique. Apague a mensagem. Se for de um banco/empresa, contate-os por canais oficiais.",
+            simpin: "<strong>Como Ativar:</strong> Geralmente em Configurações > Segurança > Bloqueio do SIM. <br><strong>Importância:</strong> Se seu celular for roubado, impede que usem seu chip em outro aparelho para receber códigos de recuperação de contas ou fazer ligações."
+        };
+
+        function showDetailInfo(type) {
+            const titleElement = document.querySelector(`.tip-card[onclick="showDetailInfo('${type}')"] .title`);
+            const titleText = titleElement ? titleElement.textContent : "Dica"; // Pega o título do card
+            const message = detailMessages[type];
+            if (message) {
+                // Usando o estilo de popup já definido para este slide
+                showFeedback(`<strong><i class="fas fa-info-circle mr-2"></i> Detalhe: ${titleText}</strong><hr class="my-1 border-gray-500">${message}`, 'info', 7000);
+            }
+        }
+
+        function showFinalRecap() {
+            const recapHtml = `
+                <div class="text-left">
+                    <div class="text-lg font-bold mb-2 text-center text-cyan-300" style="font-family: 'Orbitron', monospace;">🛡️ RECAPITULANDO A FORTALEZA 🛡️</div>
+                    <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li><strong>Backup Regular:</strong> Salve seus dados importantes na nuvem ou externamente.</li>
+                        <li><strong>Localização Remota:</strong> Ative "Encontre Meu Dispositivo" (Android) ou "Buscar iPhone" (iOS).</li>
+                        <li><strong>Cuidado com QR Codes:</strong> Verifique a origem antes de escanear.</li>
+                        <li><strong>Autenticação de Dois Fatores (2FA):</strong> Em todas as contas possíveis, especialmente e-mail e redes sociais.</li>
+                        <li><strong>Consciência Digital:</strong> Pense antes de clicar, baixar ou compartilhar.</li>
+                    </ul>
+                    <div class="mt-3 text-center text-yellow-300 font-semibold text-xs">Sua vigilância é a primeira linha de defesa!</div>
+                </div>
+            `;
+            showFeedback(recapHtml, 'info', 10000);
+        }
+    </script>
+</body>
+</html>

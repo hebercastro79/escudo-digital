@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escudo Digital: Proteja seu mundo online</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100%;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
+        .cyber-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%),
+                        radial-gradient(circle at 20% 80%, #120078 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, #ff6b6b 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, #4ecdc4 0%, transparent 50%);
+        }
+        .overlay-black {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        .grid-pattern-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: linear-gradient(rgba(102, 126, 234, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.3) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0;
+        }
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1100px;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 20px rgba(102, 126, 234, 0.8), 0 0 40px rgba(102, 126, 234, 0.6);
+        }
+        .pulse-glow {
+            animation: pulse-glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes pulse-glow {
+            from { box-shadow: 0 0 20px rgba(102, 126, 234, 0.4); }
+            to { box-shadow: 0 0 40px rgba(102, 126, 234, 0.8), 0 0 60px rgba(102, 126, 234, 0.4); }
+        }
+        .floating-icon-element {
+            animation: floating-anim 3s ease-in-out infinite;
+            position: fixed;
+            opacity: 0.6;
+            z-index: 0;
+        }
+        @keyframes floating-anim {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .slide-in {
+            animation: slideIn 1s ease-out;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .typing-effect {
+            overflow: hidden;
+            border-right: 3px solid #667eea;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+            display: inline-block;
+        }
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #667eea; }
+        }
+        .neon-border {
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, #667eea, #764ba2, #ff6b6b, #4ecdc4) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: subtract;
+            mask-composite: subtract;
+            padding: clamp(0.75rem, 2vh, 1.5rem);
+        }
+
+        .logo-senai-header {
+            position: absolute;
+            top: clamp(1rem, 3vh, 1.5rem);
+            right: clamp(1rem, 3vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-header img {
+            width: clamp(100px, 12vh, 128px);
+            height: auto;
+        }
+
+        .main-shield-icon-container {
+            margin-bottom: clamp(1rem, 4vh, 2rem);
+        }
+        .main-shield-icon-bg {
+            padding: clamp(1rem, 3vh, 2rem);
+        }
+        .main-shield-icon {
+            font-size: clamp(4rem, 10vh, 5rem);
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 4.5rem);
+            margin-bottom: clamp(0.75rem, 3vh, 1.5rem);
+        }
+        h2 {
+            font-size: clamp(1.875rem, 5vw, 2.25rem);
+            margin-bottom: clamp(1rem, 4vh, 2rem);
+        }
+
+        .info-cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(1rem, 3vw, 2rem);
+            margin-bottom: clamp(1.5rem, 6vh, 3rem);
+        }
+        .info-card span {
+            font-size: clamp(0.875rem, 2.5vh, 1.25rem);
+        }
+        .info-card i {
+            font-size: clamp(1.25rem, 3vh, 1.5rem);
+        }
+
+        .topic-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(clamp(120px, 15vw, 180px), 1fr));
+            gap: clamp(0.5rem, 2vw, 1rem);
+            width: 100%;
+            max-width: 900px;
+        }
+        .topic-card {
+            padding: clamp(0.5rem, 2vh, 1rem);
+        }
+        .topic-card i {
+            font-size: clamp(1.5rem, 4vh, 1.875rem);
+            margin-bottom: clamp(0.25rem, 1vh, 0.5rem);
+        }
+        .topic-card div {
+            font-size: clamp(0.75rem, 1.8vh, 0.875rem);
+        }
+
+        .final-typing-text {
+            margin-top: clamp(1.5rem, 6vh, 3rem);
+            font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+        }
+
+        .bottom-banner-container {
+            width: auto;
+            max-width: 90%;
+            margin-top: clamp(1.5rem, 4vh, 2.5rem);
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .bottom-banner {
+            padding: clamp(0.5rem, 1.5vh, 0.75rem) clamp(1rem, 2.5vw, 1.5rem);
+        }
+        .bottom-banner span {
+            font-size: clamp(0.75rem, 1.8vh, 0.875rem);
+        }
+        .bottom-banner i {
+             font-size: clamp(0.875rem, 2vh, 1rem);
+        }
+
+        .f-icon-1 { top: 10%; left: 5%; font-size: clamp(1.5rem, 4vh, 2.25rem); }
+        .f-icon-2 { top: 15%; right: 5%; font-size: clamp(1.25rem, 3.5vh, 1.875rem); animation-delay: 1s; }
+        .f-icon-3 { bottom: 15%; left: 8%; font-size: clamp(1.25rem, 3.5vh, 1.875rem); animation-delay: 2s; }
+        .f-icon-4 { bottom: 10%; right: 8%; font-size: clamp(1rem, 3vh, 1.25rem); animation-delay: 0.5s; }
+
+        .ping-container {
+             position: fixed;
+             inset: 0;
+             pointer-events: none;
+             z-index: 0;
+        }
+
+    </style>
+</head>
+<body class="text-white">
+    <div class="cyber-bg"></div>
+    <div class="overlay-black"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <div class="floating-icon-element f-icon-1">
+        <i class="fas fa-shield-alt text-blue-400"></i>
+    </div>
+    <div class="floating-icon-element f-icon-2">
+        <i class="fas fa-lock text-purple-400"></i>
+    </div>
+    <div class="floating-icon-element f-icon-3">
+        <i class="fas fa-wifi text-green-400"></i>
+    </div>
+    <div class="floating-icon-element f-icon-4">
+        <i class="fas fa-eye text-orange-400"></i>
+    </div>
+
+    <div class="logo-senai-header slide-in">
+        <img src="senai.png" alt="Logo SENAI">
+    </div>
+
+    <div class="main-content-wrapper">
+        <div class="main-shield-icon-container slide-in">
+            <div class="inline-block rounded-full bg-gradient-to-br from-blue-500 to-purple-600 pulse-glow main-shield-icon-bg">
+                <i class="fas fa-shield-alt text-white main-shield-icon"></i>
+            </div>
+        </div>
+
+        <h1 class="font-black glow-text slide-in" style="font-family: 'Orbitron', monospace;">
+            ESCUDO DIGITAL
+        </h1>
+
+        <h2 class="font-bold text-cyan-300 slide-in" style="animation-delay: 0.5s;">
+            Proteja seu mundo online
+        </h2>
+
+       
+
+
+        <div class="topic-cards-container slide-in" style="animation-delay: 1.5s;">
+            <div class="bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg transform hover:scale-105 transition-transform topic-card">
+                <i class="fab fa-discord text-blue-300"></i>
+                <div class="font-semibold">Riscos no Discord</div>
+            </div>
+            <div class="bg-gradient-to-br from-purple-600 to-purple-800 rounded-lg transform hover:scale-105 transition-transform topic-card">
+                <i class="fas fa-key text-purple-300"></i>
+                <div class="font-semibold">Senhas Seguras</div>
+            </div>
+            <div class="bg-gradient-to-br from-red-600 to-red-800 rounded-lg transform hover:scale-105 transition-transform topic-card">
+                <i class="fas fa-fish text-red-300"></i>
+                <div class="font-semibold">Golpes Phishing</div>
+            </div>
+            <div class="bg-gradient-to-br from-green-600 to-green-800 rounded-lg transform hover:scale-105 transition-transform topic-card">
+                <i class="fas fa-user-secret text-green-300"></i>
+                <div class="font-semibold">Privacidade</div>
+            </div>
+        </div>
+
+        <div class="slide-in final-typing-text" style="animation-delay: 2s;">
+            <div class="font-bold text-yellow-300 typing-effect">
+                Vamos juntos construir um mundo digital mais seguro! 🛡️
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-banner-container slide-in" style="animation-delay: 2.5s;">
+        <div class="bg-red-600 bg-opacity-80 rounded-full backdrop-blur-sm bottom-banner">
+            <div class="flex items-center space-x-2 justify-center">
+                <i class="fas fa-exclamation-triangle text-yellow-300"></i>
+                <span class="font-semibold">60% dos adolescentes já sofreram assédio online no Brasil</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="ping-container">
+        <div class="absolute animate-ping top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full opacity-50"></div>
+        <div class="absolute animate-ping top-3/4 right-1/4 w-3 h-3 bg-purple-400 rounded-full opacity-50" style="animation-delay: 1s;"></div>
+        <div class="absolute animate-ping top-1/2 right-1/3 w-1 h-1 bg-green-400 rounded-full opacity-50" style="animation-delay: 2s;"></div>
+    </div>
+</body>
+</html>

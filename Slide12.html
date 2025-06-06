@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Você Está Preparado! - Escudo Digital Ativo</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Para o efeito de fogos de artifício */
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Centraliza o conteúdo principal */
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
+        .cyber-bg { /* Cores do Slide 12 original, mais vibrantes */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 50%, #00c9ff 100%), /* Gradiente mais forte */
+                        radial-gradient(circle at 15% 85%, #ff6b6b 0%, transparent 40%),
+                        radial-gradient(circle at 85% 15%, #feca57 0%, transparent 40%),
+                        radial-gradient(circle at 50% 50%, #4ecdc4 0%, transparent 45%);
+            animation: bgShift 15s ease-in-out infinite alternate;
+        }
+        @keyframes bgShift {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        .grid-pattern-overlay { /* Overlay mais dinâmico */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.07; /* Um pouco mais visível */
+            background-image: repeating-linear-gradient(45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.1) 30px, rgba(255, 255, 255, 0.1) 32px),
+                              repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.1) 30px, rgba(255, 255, 255, 0.1) 32px);
+            animation: gridPulse 10s linear infinite;
+            z-index: -1;
+        }
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.07; transform: scale(1); }
+            50% { opacity: 0.12; transform: scale(1.02); }
+        }
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1000px; /* Um pouco menor para focar na mensagem central */
+            margin: auto; /* Centraliza */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centraliza horizontalmente os filhos diretos */
+            gap: clamp(1.5rem, 3vh, 2.5rem);
+        }
+
+        .header-senai {
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .victory-header .main-shield-container { /* Wrapper para o escudo e texto */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem; /* Espaço entre escudo e texto */
+        }
+        .cyber-shield-main { /* Estilo do cyber-shield original, maior */
+            width: clamp(100px, 20vh, 140px);
+            height: clamp(100px, 20vh, 140px);
+            border-radius: 50%;
+            background: linear-gradient(45deg, #8e44ad, #c0392b, #f1c40f, #27ae60); /* Cores vibrantes */
+            display: flex; align-items: center; justify-content: center;
+            animation: shieldMainRotate 10s linear infinite, shieldMainPulse 2.5s ease-in-out infinite;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 40px rgba(102, 126, 234, 0.5);
+        }
+        @keyframes shieldMainRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes shieldMainPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+        .cyber-shield-main::before {
+            content: ''; position: absolute; inset: 4px; border-radius: 50%;
+            background: rgba(10, 20, 40, 0.85); /* Fundo escuro interno */
+        }
+        .cyber-shield-main i { position: relative; z-index: 1; color: #2ecc71; /* Verde vibrante */ font-size: clamp(3rem, 8vh, 4rem); }
+
+        .victory-header h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem); /* text-5xl */
+            font-family: 'Orbitron', monospace;
+            font-weight: 900; /* black */
+            text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(102, 126, 234, 0.8), 0 0 45px rgba(78, 205, 196, 0.6);
+            animation: victoryTextGlow 2s ease-in-out infinite alternate;
+        }
+        @keyframes victoryTextGlow {
+            from { text-shadow: 0 0 15px rgba(255,255,255,0.5), 0 0 30px rgba(102, 126, 234, 0.8), 0 0 45px rgba(78, 205, 196, 0.6); }
+            to { text-shadow: 0 0 20px rgba(255,255,255,0.7), 0 0 40px rgba(102, 126, 234, 1), 0 0 60px rgba(78, 205, 196, 0.8), 0 0 5px #fff; }
+        }
+        .victory-header h2 {
+            font-size: clamp(1.25rem, 3vw, 1.75rem); /* text-2xl */
+            font-weight: 700; /* bold */
+            color: #a7f3d0; /* Verde menta claro */
+        }
+
+        .key-achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* Responsivo */
+            gap: clamp(0.5rem, 1.5vh, 0.75rem);
+            width: 100%;
+            max-width: 800px; /* Para não ficar muito largo */
+        }
+        .neon-card.achievement-item { /* Adaptado do shield-layer */
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: clamp(0.6rem, 1.5vh, 1rem);
+            border-radius: 0.5rem;
+            text-align: center;
+            cursor: default; /* Não é clicável */
+            animation: achievementAppear 0.5s ease-out forwards;
+            opacity: 0; transform: translateY(10px);
+        }
+        @keyframes achievementAppear { to { opacity: 1; transform: translateY(0); } }
+        .achievement-item:hover { transform: scale(1.03); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2); }
+        .achievement-item .icon { font-size: clamp(1.5rem, 3vh, 1.75rem); margin-bottom: 0.25rem; }
+        .achievement-item .title { font-weight: 600; font-size: clamp(0.8rem, 1.5vh, 0.85rem); }
+        .achievement-item .status { font-size: clamp(0.7rem, 1.2vh, 0.75rem); color: #9ca3af; } /* cinza mais claro */
+
+        .final-message-box {
+            background: rgba(0,0,0,0.4);
+            border-radius: 0.75rem;
+            padding: clamp(1rem, 2.5vh, 1.5rem);
+            text-align: center;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.15);
+        }
+        .final-message-box .main-text {
+            font-size: clamp(1.2rem, 2.8vh, 1.5rem); /* text-2xl */
+            font-weight: 700; margin-bottom: 0.5rem;
+        }
+        .final-message-box .typing-subtitle {
+            font-family: 'Orbitron', monospace; /* Para o efeito de digitação */
+            font-size: clamp(1rem, 2vh, 1.125rem); /* text-lg */
+            color: #a7f3d0; /* Verde menta */
+            height: 1.5em; /* Para evitar pulo de layout */
+            display: inline-block; /* Necessário para o typing effect funcionar bem centralizado */
+        }
+        .typing-effect-final {
+            border-right: 3px solid #4ecdc4;
+            animation: typingFinal 3.5s steps(45, end) infinite, blinkFinal 0.75s step-end infinite;
+            white-space: nowrap; overflow: hidden;
+            width: 0; max-width: 100%; /* Garante que não estoure */
+        }
+        @keyframes typingFinal { 0%, 90%, 100% { width: 0; } 30%, 70% { width: 100%; } }
+        @keyframes blinkFinal { from, to { border-color: transparent; } 50% { border-color: #4ecdc4; } }
+
+        .resource-links-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: clamp(0.75rem, 2vw, 1rem);
+            margin-top: clamp(1rem, 2vh, 1.5rem);
+        }
+        .resource-link-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: clamp(0.5rem, 1vh, 0.6rem) clamp(0.8rem, 1.8vw, 1.2rem);
+            border-radius: 0.375rem; /* rounded-md */
+            color: #e2e8f0;
+            font-size: clamp(0.75rem, 1.4vh, 0.85rem);
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex; align-items: center;
+        }
+        .resource-link-button:hover { background: rgba(102, 126, 234, 0.3); border-color: #667eea; transform: translateY(-2px); }
+        .resource-link-button i { margin-right: 0.4rem; }
+
+        .final-call-to-action { /* Substituindo o botão amarelo */
+            background: linear-gradient(to right, #feca57, #ff8c42); /* Amarelo para laranja */
+            color: #1a1a2e; /* Texto escuro para contraste */
+            font-weight: bold;
+            font-size: clamp(1rem, 2.2vh, 1.25rem);
+            padding: clamp(0.75rem, 1.8vh, 1rem) clamp(1.5rem, 4vw, 2.5rem);
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 5px 15px rgba(255, 150, 50, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            animation: finalButtonPulse 2s ease-in-out infinite;
+        }
+        @keyframes finalButtonPulse { 0%,100% {transform: scale(1); box-shadow: 0 5px 15px rgba(255,150,50,0.3);} 50% {transform: scale(1.03); box-shadow: 0 8px 25px rgba(255,150,50,0.5);} }
+        .final-call-to-action:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(255,150,50,0.4); }
+        .final-call-to-action i { margin-right: 0.6rem; }
+        
+        /* Fogos de artifício */
+        .firework-particle {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: fireworkExplode 0.7s ease-out forwards;
+            pointer-events: none; /* Para não interferir com cliques */
+        }
+        @keyframes fireworkExplode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(0); opacity: 0; }
+        }
+
+        /* Animações */
+        .slide-up-final { animation: slideUpFinal 0.8s ease-out forwards; }
+        @keyframes slideUpFinal { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div id="fireworks-container" style="position: fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index: 99;"></div>
+
+    <div class="main-content-wrapper">
+        <div class="text-center victory-header slide-up-final">
+            <div class="main-shield-container">
+                <div class="cyber-shield-main">
+                    <i class="fas fa-user-shield"></i> <!-- fas fa-shield-check -->
+                </div>
+                <h1 class="mt-2">VOCÊ ESTÁ PREPARADO!</h1>
+                <h2 class="text-cyan-300">Seu Escudo Digital está Ativo e Forte! 🛡️✨</h2>
+            </div>
+        </div>
+        
+        <div class="key-achievements-grid slide-up-final" style="animation-delay: 0.2s;">
+            <div class="neon-card achievement-item" style="animation-delay: 0.3s;"><i class="fas fa-key text-green-400 icon"></i><div class="title text-green-300">SENHAS FORTES</div><div class="status">Dominado</div></div>
+            <div class="neon-card achievement-item" style="animation-delay: 0.4s;"><i class="fas fa-user-lock text-blue-400 icon"></i><div class="title text-blue-300">PRIVACIDADE</div><div class="status">Configurada</div></div> <!-- fas fa-user-shield -->
+            <div class="neon-card achievement-item" style="animation-delay: 0.5s;"><i class="fas fa-brain text-purple-400 icon"></i><div class="title text-purple-300">CONHECIMENTO</div><div class="status">Adquirido</div></div>
+            <div class="neon-card achievement-item" style="animation-delay: 0.6s;"><i class="fas fa-tools text-orange-400 icon"></i><div class="title text-orange-300">FERRAMENTAS</div><div class="status">Instaladas</div></div>
+            <div class="neon-card achievement-item" style="animation-delay: 0.7s;"><i class="fas fa-clipboard-check text-pink-400 icon"></i><div class="title text-pink-300">PLANO DE AÇÃO</div><div class="status">Definido</div></div>
+        </div>
+            
+        <div class="final-message-box slide-up-final" style="animation-delay: 0.8s;">
+            <div class="main-text">🎯 MISSÃO CUMPRIDA, GUARDIÃO DIGITAL!</div>
+            <div class="typing-subtitle">
+                <span class="typing-effect-final">Continue protegendo seu universo online!</span>
+            </div>
+            
+            <div class="resource-links-container">
+                <a href="https://new.safernet.org.br/helpline" target="_blank" class="resource-link-button bg-purple-600 hover:bg-purple-700"><i class="fas fa-life-ring"></i>SaferNet Helpline</a>
+                <a href="https://www.gov.br/mj/pt-br/delegacia-virtual" target="_blank" class="resource-link-button bg-red-600 hover:bg-red-700"><i class="fas fa-gavel"></i>Delegacia Virtual</a>
+                <a href="https://cartilha.cert.br/" target="_blank" class="resource-link-button bg-blue-600 hover:bg-blue-700"><i class="fas fa-book-open"></i>Cartilha CERT.br</a>
+            </div>
+        </div>
+            
+        <div class="slide-up-final" style="animation-delay: 1s;">
+            <button class="final-call-to-action" onclick="triggerFinalCelebration()">
+                <i class="fas fa-rocket"></i>
+                <span>VAMOS JUNTOS TORNAR O MUNDO DIGITAL MAIS SEGURO!</span>
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        let finalCelebrationTriggered = false;
+
+        function createFireworkParticle(x, y, color) {
+            const particle = document.createElement('div');
+            particle.className = 'firework-particle';
+            particle.style.left = `${x}px`;
+            particle.style.top = `${y}px`;
+            
+            const size = Math.random() * 5 + 2; // 2px to 7px
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.backgroundColor = color;
+
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 50 + 50; // pixels
+            
+            particle.animate([
+                { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+                { transform: `translate(${Math.cos(angle) * speed}px, ${Math.sin(angle) * speed}px) scale(0)`, opacity: 0 }
+            ], {
+                duration: 700 + Math.random() * 300, // 0.7s to 1s
+                easing: 'ease-out',
+                fill: 'forwards'
+            });
+            
+            document.getElementById('fireworks-container').appendChild(particle);
+            setTimeout(() => particle.remove(), 1000);
+        }
+
+        function launchFirework(x, y) {
+            const colors = ['#ff6b6b', '#4ecdc4', '#667eea', '#feca57', '#ff8c42', '#a7f3d0', '#f39c12'];
+            const baseColor = colors[Math.floor(Math.random() * colors.length)];
+            const numParticles = 20 + Math.floor(Math.random() * 20); // 20 to 39 particles
+
+            for (let i = 0; i < numParticles; i++) {
+                createFireworkParticle(x, y, baseColor);
+            }
+        }
+
+        function triggerFinalCelebration() {
+            if (finalCelebrationTriggered) return;
+            finalCelebrationTriggered = true;
+
+            // Launch fireworks randomly for a few seconds
+            const celebrationDuration = 3000; // 3 seconds
+            const intervalDuration = 200; // launch every 200ms
+            let elapsedTime = 0;
+
+            const intervalId = setInterval(() => {
+                if (elapsedTime >= celebrationDuration) {
+                    clearInterval(intervalId);
+                    finalCelebrationTriggered = false; // Allow re-triggering
+                    return;
+                }
+                const randomX = Math.random() * window.innerWidth;
+                const randomY = Math.random() * window.innerHeight * 0.7; // Upper 70% of screen
+                launchFirework(randomX, randomY);
+                elapsedTime += intervalDuration;
+            }, intervalDuration);
+
+            // Display a confirmation message
+            const existingPopup = document.querySelector('.feedback-popup');
+            if(existingPopup) existingPopup.remove();
+
+            const feedback = document.createElement('div');
+            feedback.className = 'feedback-popup success'; // Reutilize a classe de feedback
+            feedback.style.background = 'linear-gradient(45deg, #6a11cb, #2575fc)'; // Gradiente roxo/azul
+            feedback.style.border = '2px solid #feca57'; // Borda amarela
+            feedback.innerHTML = `
+                <div class="text-center">
+                    <i class="fas fa-award text-3xl text-yellow-300 mb-2"></i>
+                    <div class="text-xl font-bold">MISSÃO CONCLUÍDA!</div>
+                    <div class="text-sm mt-1">Você é um verdadeiro Guardião Digital! Continue aprendendo e se protegendo!</div>
+                </div>
+            `;
+            document.body.appendChild(feedback);
+            setTimeout(() => { if(feedback.parentNode) feedback.remove(); }, 4000);
+        }
+
+        // Auto-trigger celebration once after a delay
+        setTimeout(() => {
+            if (!finalCelebrationTriggered) {
+                triggerFinalCelebration();
+            }
+        }, 2000); // Auto-celebrate after 2 seconds
+    </script>
+</body>
+</html>

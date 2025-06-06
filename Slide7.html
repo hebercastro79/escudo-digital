@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phishing e Golpes Online</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
+        .cyber-bg { /* Cores do Slide 7 original */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
+                        radial-gradient(circle at 80% 20%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 20% 80%, #4ecdc4 0%, transparent 25%),
+                        radial-gradient(circle at 60% 60%, #667eea 0%, transparent 30%);
+        }
+        .grid-pattern-overlay { /* Overlay do Slide 7 original */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: repeating-linear-gradient(90deg, transparent, transparent 15px, rgba(255, 107, 107, 0.15) 15px, rgba(255, 107, 107, 0.15) 16px); /* Aumentei opacidade */
+            z-index: -1;
+        }
+
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1200px;
+            margin: 1.5rem auto; /* Reduzi margem para mais conteúdo */
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1rem, 2vh, 1.5rem); /* Reduzido */
+        }
+
+        .header-senai {
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+
+        .slide-header .title-icon {
+            font-size: clamp(1.8rem, 4vh, 2.25rem); /* text-3xl */
+            margin-right: 0.75rem; /* mr-3 */
+        }
+        .slide-header h1 {
+            font-size: clamp(1.7rem, 3.8vw, 2.25rem); /* text-3xl */
+            margin-bottom: clamp(0.2rem, 0.4vh, 0.4rem);
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1rem, 2.2vw, 1.25rem); /* text-lg */
+            font-family: 'Poppins', sans-serif;
+        }
+        .glow-text { text-shadow: 0 0 20px rgba(102, 126, 234, 0.8); }
+
+        .neon-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(102, 126, 234, 0.2);
+            padding: clamp(0.8rem, 1.5vh, 1.2rem);
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: all 0.3s ease;
+        }
+        .neon-card:hover:not(.no-hover) {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2), 0 0 12px rgba(102, 126, 234, 0.25);
+        }
+        
+        .email-comparison-card { /* Estilo base do .fake-email e .real-email */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-family: 'Courier New', monospace;
+        }
+        .email-comparison-card .header {
+            text-align: center;
+            margin-bottom: 0.5rem; /* mb-2 */
+        }
+        .email-comparison-card .header i {
+            font-size: clamp(1.25rem, 2.5vh, 1.5rem); /* text-2xl */
+        }
+        .email-comparison-card .header h3 {
+            font-size: clamp(1rem, 2vh, 1.125rem); /* text-lg */
+            font-weight: 700;
+        }
+        .email-content-box {
+            background: rgba(0,0,0,0.45); /* bg-black bg-opacity-40 */
+            border-radius: 0.375rem; /* rounded */
+            padding: clamp(0.5rem, 1vh, 0.75rem); /* p-2 */
+            font-size: clamp(0.7rem, 1.3vh, 0.75rem); /* text-xs */
+            line-height: 1.4;
+        }
+        .email-content-box strong { font-weight: bold; color: #e0e0e0; }
+        .email-content-box .highlight-fake { color: #ff8a80; } /* text-red-300 mais suave */
+        .email-content-box .highlight-real { color: #a5d6a7; } /* text-green-300 mais suave */
+        .email-content-box .link { text-decoration: underline; cursor: pointer; }
+
+        .red-flags-summary { margin-top: 0.5rem; font-size: clamp(0.7rem, 1.3vh, 0.75rem); }
+        .red-flags-summary .title { font-weight: bold; }
+        .red-flags-summary div { margin-bottom: 0.1rem; }
+
+        .warning-pulse-glow { animation: warningPulseGlow 2s ease-in-out infinite; }
+        @keyframes warningPulseGlow {
+            0%, 100% { box-shadow: 0 0 8px rgba(255, 107, 107, 0.3); border-color: rgba(255, 107, 107, 0.3); }
+            50% { box-shadow: 0 0 18px rgba(255, 107, 107, 0.7); border-color: rgba(255, 107, 107, 0.7); }
+        }
+        .safe-border { border: 2px solid rgba(46, 204, 113, 0.4); }
+
+        .red-flag-icon { color: #ff6b6b; animation: flagWave 1.2s ease-in-out infinite alternate; }
+        @keyframes flagWave { from { transform: rotate(-3deg); } to { transform: rotate(3deg); } }
+        
+        .phishing-tip-card { cursor: pointer; user-select: none; }
+        .phishing-tip-card .icon { font-size: clamp(1.1rem, 2.2vh, 1.25rem); margin-bottom: 0.25rem; }
+        .phishing-tip-card .title { font-weight: bold; font-size: clamp(0.7rem, 1.3vh, 0.75rem); }
+        .phishing-tip-card .description { font-size: clamp(0.65rem, 1.2vh, 0.7rem); color: #bdc3c7; }
+
+        .quiz-banner {
+            background: linear-gradient(to right, #6a11cb, #2575fc, #00c9ff); /* from-purple-600 via-blue-600 to-cyan-600 */
+            border-radius: 0.75rem;
+            padding: clamp(0.8rem, 1.5vh, 1.2rem);
+        }
+        .quiz-banner h3 {
+            font-size: clamp(1rem, 2vh, 1.125rem); /* text-lg */
+            font-weight: 700;
+            margin-bottom: 0.5rem; /* mb-2 */
+            text-align: center;
+        }
+        .quiz-option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: clamp(0.5rem, 1vh, 0.75rem); /* p-2 */
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: clamp(0.7rem, 1.3vh, 0.75rem);
+        }
+        .quiz-option:hover {
+            border-color: rgba(102, 126, 234, 0.6);
+            background: rgba(102, 126, 234, 0.25);
+            transform: scale(1.02);
+        }
+        .quiz-option .title { font-weight: 600; margin-bottom: 0.25rem; }
+        .quiz-option.correct { border-color: #2ecc71; background: rgba(46, 204, 113, 0.25); }
+        .quiz-option.wrong { border-color: #e74c3c; background: rgba(255, 107, 107, 0.25); }
+
+        .final-tip-banner {
+            background: linear-gradient(to right, #c0392b, #e74c3c); /* from-red-500 to-orange-500 */
+            border-radius: 9999px; /* rounded-full */
+            padding: clamp(0.4rem, 1vh, 0.5rem) clamp(1rem, 2.5vw, 1.5rem); /* px-6 py-2 */
+            margin-top: clamp(1rem, 2vh, 1.5rem);
+        }
+        .final-tip-banner .content {
+            display: flex;
+            align-items: center;
+            font-size: clamp(0.75rem, 1.4vh, 0.875rem); /* text-sm */
+            font-weight: 700;
+        }
+        .final-tip-banner .content i { margin-right: 0.5rem; font-size: 1.1em; }
+
+        /* Animações */
+        .slide-in { animation: slideIn 0.6s ease-out forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .bounce-fish { animation: bounceFish 2.2s ease-in-out infinite; }
+        @keyframes bounceFish {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-7px) rotate(3deg); }
+        }
+
+        /* Feedback Popup */
+        .feedback-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            padding: clamp(0.8rem, 1.8vh, 1rem) clamp(1.2rem, 2.5vw, 1.5rem);
+            border-radius: 0.5rem;
+            font-weight: 700;
+            font-size: clamp(0.8rem, 1.6vh, 1rem);
+            z-index: 50;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+            opacity: 0;
+            animation: fadeInOutFeedback 2.5s ease-in-out;
+            max-width: 90%;
+            text-align: center;
+        }
+        .feedback-popup.success { background-color: #16a34a; }
+        .feedback-popup.warning { background-color: #dc2626; }
+        .feedback-popup.info { background-color: #2563eb; }
+        @keyframes fadeInOutFeedback {
+            0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+            10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
+
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
+
+    <div class="absolute top-12 left-12 bounce-fish text-red-400 opacity-30 z-0" style="font-size: clamp(1.8rem, 3.5vh, 2.2rem);">
+        <i class="fas fa-fish"></i>
+    </div>
+    <div class="absolute bottom-12 right-12 bounce-fish text-yellow-400 opacity-30 z-0" style="animation-delay: 0.8s; font-size: clamp(1.8rem, 3.5vh, 2.2rem);">
+        <i class="fas fa-exclamation-triangle"></i>
+    </div>
+
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-in">
+            <div class="flex items-center justify-center">
+                <i class="fas fa-fish text-red-400 bounce-fish title-icon"></i>
+                <h1 class="font-black glow-text">
+                    PHISHING & GOLPES
+                </h1>
+            </div>
+            <h2 class="font-semibold text-cyan-300">
+                Aprenda a identificar e evitar as "iscas" digitais
+            </h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+            <div class="neon-card email-comparison-card warning-pulse-glow slide-in no-hover">
+                <div class="header">
+                    <i class="fas fa-skull-crossbones text-red-400"></i>
+                    <h3 class="text-red-300">🎣 EMAIL FALSO</h3>
+                </div>
+                <div class="email-content-box">
+                    <div><strong>De:</strong> <span class="highlight-fake">nao-responda@banc0-brasil.com.br</span> <i class="fas fa-flag red-flag-icon"></i></div>
+                    <div><strong>Para:</strong> voce@email.com</div>
+                    <div class="mb-1"><strong>Assunto:</strong> <span class="highlight-fake">🚨 URGENTE! Sua conta será bloqueada!</span></div>
+                    <div>
+                        Prezado cliente, detectamos atividade suspeita em sua conta. 
+                        <span class="highlight-fake font-bold">CLIQUE AQUI IMEDIATAMENTE</span> para evitar o bloqueio.
+                        <br>
+                        <span class="text-blue-400 link" onclick="showLinkWarning()">
+                            www.banc0-brasil-seguro.net/urgente
+                        </span>
+                    </div>
+                </div>
+                <div class="red-flags-summary text-red-300">
+                    <div class="title">🚩 Red Flags:</div>
+                    <div>• URL suspeita (banc<span class="font-bold text-lg">0</span> com zero)</div>
+                    <div>• Pressão de urgência</div>
+                    <div>• Pedido de clique suspeito</div>
+                </div>
+            </div>
+            
+            <div class="neon-card email-comparison-card safe-border slide-in no-hover" style="animation-delay: 0.1s;">
+                <div class="header">
+                    <i class="fas fa-shield-alt text-green-400"></i> <!-- shield-alt -->
+                    <h3 class="text-green-300">✅ EMAIL LEGÍTIMO</h3>
+                </div>
+                <div class="email-content-box">
+                    <div><strong>De:</strong> <span class="highlight-real">noreply@bb.com.br</span> <i class="fas fa-check text-green-400"></i></div>
+                    <div><strong>Para:</strong> voce@email.com</div>
+                    <div class="mb-1"><strong>Assunto:</strong> Extrato mensal disponível</div>
+                    <div>
+                        Olá! Seu extrato mensal está disponível no app. 
+                        Para acessar, faça login normalmente no aplicativo oficial.
+                        <br>
+                        <span class="text-gray-400">
+                            Em caso de dúvidas, ligue: 4004-0001
+                        </span>
+                    </div>
+                </div>
+                <div class="red-flags-summary text-green-300">
+                    <div class="title">✅ Sinais Legítimos:</div>
+                    <div>• Domínio oficial (bb.com.br)</div>
+                    <div>• Sem urgência exagerada</div>
+                    <div>• Não pede cliques suspeitos</div>
+                </div>
+            </div>
+        </div>
+            
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 w-full">
+            <div class="neon-card phishing-tip-card text-center slide-in" style="animation-delay: 0.2s;" onclick="showTipHighlight(this, 'urgencia')">
+                <i class="fas fa-clock text-xl text-red-400 icon"></i>
+                <div class="title text-red-300">URGÊNCIA FALSA</div>
+                <div class="description">"Clique AGORA!"</div>
+            </div>
+            <div class="neon-card phishing-tip-card text-center slide-in" style="animation-delay: 0.3s;" onclick="showTipHighlight(this, 'link')">
+                <i class="fas fa-link text-xl text-yellow-400 icon"></i>
+                <div class="title text-yellow-300">LINKS SUSPEITOS</div>
+                <div class="description">URLs estranhas</div>
+            </div>
+            <div class="neon-card phishing-tip-card text-center slide-in" style="animation-delay: 0.4s;" onclick="showTipHighlight(this, 'dados')">
+                <i class="fas fa-key text-xl text-purple-400 icon"></i>
+                <div class="title text-purple-300">PEDIDO DE DADOS</div>
+                <div class="description">Senhas/CPF</div>
+            </div>
+            <div class="neon-card phishing-tip-card text-center slide-in" style="animation-delay: 0.5s;" onclick="showTipHighlight(this, 'premio')">
+                <i class="fas fa-gift text-xl text-green-400 icon"></i>
+                <div class="title text-green-300">PRÊMIOS FALSOS</div>
+                <div class="description">"Você ganhou!"</div>
+            </div>
+            <div class="neon-card phishing-tip-card text-center slide-in" style="animation-delay: 0.6s;" onclick="showTipHighlight(this, 'erro')">
+                <i class="fas fa-spell-check text-xl text-orange-400 icon"></i>
+                <div class="title text-orange-300">ERROS DE PORTUGUÊS</div>
+                <div class="description">Textos mal escritos</div>
+            </div>
+        </div>
+            
+        <div class="quiz-banner slide-in" style="animation-delay: 0.7s;">
+            <h3>🎯 QUIZ RÁPIDO: É GOLPE OU NÃO?</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="quiz-option" onclick="handleQuizAnswer(this, false)">
+                    <div class="title">📧 Mensagem do WhatsApp:</div>
+                    <div>"Oi! Sou eu, Maria. Meu celular quebrou, preciso que você me empreste R$ 200 via PIX urgente!"</div>
+                </div>
+                <div class="quiz-option" onclick="handleQuizAnswer(this, false)">
+                    <div class="title">📱 SMS recebido:</div>
+                    <div>"Parabéns! Você ganhou um iPhone 15! Clique: bit.ly/premio123 e forneça seus dados para retirar"</div>
+                </div>
+                <div class="quiz-option" onclick="handleQuizAnswer(this, true)">
+                    <div class="title">✉️ Email do banco:</div>
+                    <div>"Seu cartão foi bloqueado por segurança. Compareça à agência com documento para desbloqueio"</div>
+                </div>
+                <div class="quiz-option" onclick="handleQuizAnswer(this, false)">
+                    <div class="title">💻 Pop-up no site:</div>
+                    <div>"VÍRUS DETECTADO! Baixe nosso antivírus GRÁTIS agora para limpar seu computador!"</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center slide-in final-tip-banner" style="animation-delay: 0.9s;">
+            <div class="content text-yellow-200">
+                <i class="fas fa-shield-alt"></i>
+                <span>Na dúvida, SEMPRE verifique diretamente com a empresa ou pessoa! 🔍</span>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function showFeedback(message, type = 'info') {
+            const existingPopup = document.querySelector('.feedback-popup');
+            if (existingPopup) existingPopup.remove();
+
+            const feedback = document.createElement('div');
+            feedback.className = `feedback-popup ${type}`;
+            feedback.innerHTML = message;
+            document.body.appendChild(feedback);
+
+            setTimeout(() => {
+                if (feedback.parentNode) feedback.remove();
+            }, 2500);
+        }
+
+        function showLinkWarning() {
+            showFeedback('🚨 CUIDADO! Este link é FALSO e pode roubar seus dados!', 'warning');
+        }
+        
+        function showTipHighlight(element, type) {
+            // Remove highlight de outros
+            document.querySelectorAll('.phishing-tip-card.highlighted').forEach(el => {
+                el.classList.remove('highlighted');
+                el.style.transform = 'scale(1)';
+                el.style.background = ''; // Volta ao neon-card normal
+            });
+            
+            // Adiciona highlight ao clicado
+            element.classList.add('highlighted');
+            element.style.transform = 'scale(1.08)'; // Destaca mais
+            element.style.background = 'rgba(102, 126, 234, 0.2)'; // Cor de hover/ativação
+
+            const messages = {
+                urgencia: '⏰ Golpistas criam senso de pressa para você não pensar direito!',
+                link: '🔗 Sempre verifique URLs! Passe o mouse por cima (sem clicar) para ver o destino real.',
+                dados: '🔐 Empresas sérias NUNCA pedem sua senha ou dados sensíveis por email/mensagem!',
+                premio: '🎁 Se parece bom demais para ser verdade, provavelmente é um golpe!',
+                erro: '📝 Textos com muitos erros de português ou formatação estranha são suspeitos!'
+            };
+            showFeedback(messages[type] || 'Fique atento a este sinal!', 'info');
+            
+            // Remove o highlight visual após um tempo
+            setTimeout(() => {
+                element.classList.remove('highlighted');
+                element.style.transform = 'scale(1)';
+                element.style.background = ''; 
+            }, 2000);
+        }
+        
+        let quizActive = true;
+        function handleQuizAnswer(element, isLegit) {
+            if (!quizActive) return;
+            quizActive = false; // Previne múltiplos cliques
+
+            element.classList.add(isLegit ? 'correct' : 'wrong');
+            
+            const message = isLegit ? '✅ CORRETO! Esta mensagem parece legítima. Não pede cliques ou dados urgentes.' 
+                                  : '❌ GOLPE! Esta mensagem tem vários sinais de alerta. Desconfie sempre!';
+            const type = isLegit ? 'success' : 'warning';
+            showFeedback(message, type);
+            
+            setTimeout(() => {
+                element.classList.remove('correct', 'wrong');
+                quizActive = true;
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
