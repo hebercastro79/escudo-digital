@@ -109,34 +109,63 @@
         }
 
         /* Estilos para o modo Tela Cheia */
-        #fullscreenWrapper:fullscreen {
-            width: 100vw;
-            height: 100vh;
-            padding: 20px; /* Adiciona um pouco de espaço ao redor */
+        #fullscreenWrapper:fullscreen,
+        #fullscreenWrapper:-webkit-full-screen,
+        #fullscreenWrapper:-moz-full-screen,
+        #fullscreenWrapper:-ms-fullscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw !important;
+            height: 100vh !important;
+            padding: 10px;
             box-sizing: border-box;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); /* Fundo para tela cheia */
-            justify-content: center; /* Centraliza o conteúdo verticalmente */
+            background: #0f172a;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 2147483647 !important;
+            overflow: hidden;
         }
 
-        #fullscreenWrapper:fullscreen .header-title {
-             display: none; /* Opcional: esconder o título principal em tela cheia */
+        #fullscreenWrapper:fullscreen .header-title,
+        #fullscreenWrapper:-webkit-full-screen .header-title,
+        #fullscreenWrapper:-moz-full-screen .header-title,
+        #fullscreenWrapper:-ms-fullscreen .header-title {
+             display: none;
         }
 
-        #fullscreenWrapper:fullscreen .presentation-container {
-            width: calc(100vh * (1280 / 720)); /* Calcula largura baseada na altura para manter proporção */
-            max-width: 95vw; /* Limita pela largura da viewport */
-            height: auto; /* Altura se ajusta pela proporção */
-            max-height: 85vh; /* Ajustado para dar espaço aos controles */
-            border-width: 2px; /* Borda mais fina em tela cheia */
+        #fullscreenWrapper:fullscreen .presentation-container,
+        #fullscreenWrapper:-webkit-full-screen .presentation-container,
+        #fullscreenWrapper:-moz-full-screen .presentation-container,
+        #fullscreenWrapper:-ms-fullscreen .presentation-container {
+            border: 2px solid #4a5568;
+            flex-grow: 1;
+            width: 100%;
+            height: auto;
+            max-height: calc(100% - 70px); /* Ajuste este valor se necessário (altura dos controles + margem) */
+            display: flex;
         }
-         /* Garante que o iframe dentro do presentation-container se ajuste corretamente */
-        #fullscreenWrapper:fullscreen .presentation-container iframe {
+
+        #fullscreenWrapper:fullscreen .presentation-container iframe,
+        #fullscreenWrapper:-webkit-full-screen .presentation-container iframe,
+        #fullscreenWrapper:-moz-full-screen .presentation-container iframe,
+        #fullscreenWrapper:-ms-fullscreen .presentation-container iframe {
             width: 100%;
             height: 100%;
+            aspect-ratio: 1280 / 720;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto; /* Adicionado para centralizar o iframe se aspect-ratio criar espaços */
         }
 
-        #fullscreenWrapper:fullscreen .controls {
-            margin-top: 10px; /* Espaçamento dos controles em tela cheia */
+        #fullscreenWrapper:fullscreen .controls,
+        #fullscreenWrapper:-webkit-full-screen .controls,
+        #fullscreenWrapper:-moz-full-screen .controls,
+        #fullscreenWrapper:-ms-fullscreen .controls {
+            margin-top: 10px;
+            flex-shrink: 0;
         }
 
     </style>
@@ -145,14 +174,13 @@
     <div id="fullscreenWrapper">
         <h1 class="header-title">Apresentação: Escudo Digital</h1>
         <div class="presentation-container" id="presentationContainer">
-            <!-- MODIFICADO AQUI: Começa com Slide1.html -->
-            <iframe id="slideFrame" src="Slide1.html" title="Slide da Apresentação"></iframe>
+            <iframe id="slideFrame" src="SlideInicio.html" title="Slide da Apresentação"></iframe>
         </div>
 
         <div class="controls">
             <button id="prevButton" class="nav-button"><i class="fas fa-arrow-left mr-2"></i> Anterior</button>
             <select id="slideSelector"></select>
-            <span id="slide-info">Slide 1 / 13</span> <!-- Ajustado o total se Slide0 foi removido -->
+            <span id="slide-info">Slide 1 / N</span> <!-- Será atualizado pelo JS -->
             <button id="nextButton" class="nav-button">Próximo <i class="fas fa-arrow-right ml-2"></i></button>
             <button id="fullscreenButton" class="nav-button fullscreen-button"><i class="fas fa-expand mr-2"></i> Tela Cheia</button>
         </div>
@@ -160,27 +188,26 @@
 
     <script>
         const slideFiles = [
-            "SlideInicio.html" 
-            "Slide1.html",  // Título
-            "Slide2.html",  // Realidade Digital
-            "Slide3.html",  // Perigos
-            "Slide4.html",  // Discord
-            "Slide5.html",  // Senhas
-            "Slide6.html",  // Privacidade Redes
-            "Slide7.html",  // Phishing
-            "Slide8.html",  // Cyberbullying
-            "Slide9.html",  // Ferramentas
-            "Slide10.html", // Casos Reais
-            "Slide11.html", // Plano de Ação
-            "Slide12.html", // Você está Preparado
-            "Slide13.html", // Encerramento
-			"Slide14.html",
-			"Slide15.html",
-			"Slide16.html",
-			"Slide17.html",
-			"Slide18.html",
-			"SlideFinal.html"
-			
+            "SlideInicio.html", // Adicionado
+            "Slide1.html",      // Título
+            "Slide2.html",      // Realidade Digital
+            "Slide3.html",      // Perigos
+            "Slide4.html",      // Discord
+            "Slide5.html",      // Senhas
+            "Slide6.html",      // Privacidade Redes
+            "Slide7.html",      // Phishing
+            "Slide8.html",      // Cyberbullying
+            "Slide9.html",      // Ferramentas
+            "Slide10.html",     // Casos Reais
+            "Slide11.html",     // Plano de Ação
+            "Slide12.html",     // Você está Preparado
+            "Slide13.html",     // Encerramento do conteúdo principal
+            "Slide14.html",     // Adicionado
+            "Slide15.html",     // Adicionado
+            "Slide16.html",     // Adicionado
+            "Slide17.html",     // Adicionado
+            "Slide18.html",     // Adicionado
+            "SlideFinal.html"   // Adicionado
         ];
 
         let currentSlideIndex = 0;
@@ -194,7 +221,7 @@
 
         function loadSlide(index) {
             if (index >= 0 && index < slideFiles.length) {
-                slideFrame.src = slideFiles[index]; // Ou "./" + slideFiles[index] se necessário
+                slideFrame.src = slideFiles[index];
                 currentSlideIndex = index;
                 updateControls();
                 slideSelector.value = index;
@@ -204,21 +231,27 @@
         function updateControls() {
             prevButton.disabled = currentSlideIndex === 0;
             nextButton.disabled = currentSlideIndex === slideFiles.length - 1;
-            slideInfo.textContent = `Slide ${currentSlideIndex + 1} / ${slideFiles.length}`; // O total será atualizado automaticamente
+            slideInfo.textContent = `Slide ${currentSlideIndex + 1} / ${slideFiles.length}`;
         }
 
         function populateSlideSelector() {
+            slideSelector.innerHTML = ''; // Limpa opções anteriores
             slideFiles.forEach((file, index) => {
                 const option = document.createElement('option');
                 option.value = index;
-                let displayName = file.replace('.html', '').replace('Slide', 'Slide ');
-                // MODIFICADO AQUI: Ajusta nomes se Slide1 é o primeiro
-                if (index === 0) displayName = "Capa"; // Assumindo que Slide1.html é a capa
-                else if (index === slideFiles.length -1) displayName = "Encerramento";
+                let displayName = file.replace('.html', '').replace('Slide', ' '); // Limpeza genérica
+                
+                // Nomes personalizados para slides específicos
+                if (file === "SlideInicio.html") displayName = " Início";
+                else if (file === "Slide1.html") displayName = " Capa";
+                else if (file === "SlideFinal.html") displayName = " Final";
+                else if (file === "Slide13.html") displayName = " Contato SENAI"; // Se Slide13 for o contato
+                // Adicione mais 'else if' para outros nomes personalizados se desejar
 
-                option.textContent = `${index + 1}. ${displayName}`;
+                option.textContent = `${index + 1}.${displayName}`;
                 slideSelector.appendChild(option);
             });
+            slideSelector.value = currentSlideIndex; // Garante que o select mostre o slide atual
         }
 
         prevButton.addEventListener('click', () => {
@@ -234,41 +267,74 @@
         });
 
         fullscreenButton.addEventListener('click', () => {
-            if (!document.fullscreenElement) {
+            if (!document.fullscreenElement &&
+                !document.webkitFullscreenElement && // Safari
+                !document.mozFullScreenElement &&    // Firefox
+                !document.msFullscreenElement) {     // IE/Edge
                 if (fullscreenWrapper.requestFullscreen) {
                     fullscreenWrapper.requestFullscreen();
-                } // ... resto do código de fullscreen ...
-                 else if (fullscreenWrapper.mozRequestFullScreen) { fullscreenWrapper.mozRequestFullScreen(); }
-                 else if (fullscreenWrapper.webkitRequestFullscreen) { fullscreenWrapper.webkitRequestFullscreen(); }
-                 else if (fullscreenWrapper.msRequestFullscreen) { fullscreenWrapper.msRequestFullscreen(); }
+                } else if (fullscreenWrapper.mozRequestFullScreen) {
+                    fullscreenWrapper.mozRequestFullScreen();
+                } else if (fullscreenWrapper.webkitRequestFullscreen) {
+                    fullscreenWrapper.webkitRequestFullscreen();
+                } else if (fullscreenWrapper.msRequestFullscreen) {
+                    fullscreenWrapper.msRequestFullscreen();
+                }
             } else {
-                 if (document.exitFullscreen) { document.exitFullscreen(); }
-                 else if (document.mozCancelFullScreen) { document.mozCancelFullScreen(); }
-                 else if (document.webkitExitFullscreen) { document.webkitExitFullscreen(); }
-                 else if (document.msExitFullscreen) { document.msExitFullscreen(); }
+                 if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if (document.mozCancelFullScreen) {
+                    document.mozCancelFullScreen();
+                } else if (document.webkitExitFullscreen) {
+                    document.webkitExitFullscreen();
+                } else if (document.msExitFullscreen) {
+                    document.msExitFullscreen();
+                }
             }
         });
         
         document.addEventListener('keydown', (event) => {
             if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA' || event.target.tagName === 'SELECT') return;
+            
+            let slideChanged = false;
             if (event.key === 'ArrowRight' || event.key === 'PageDown' || event.key === ' ') {
-                event.preventDefault(); 
-                if (currentSlideIndex < slideFiles.length - 1) loadSlide(currentSlideIndex + 1);
+                if (currentSlideIndex < slideFiles.length - 1) {
+                    loadSlide(currentSlideIndex + 1);
+                    slideChanged = true;
+                }
             } else if (event.key === 'ArrowLeft' || event.key === 'PageUp') {
-                event.preventDefault();
-                if (currentSlideIndex > 0) loadSlide(currentSlideIndex - 1);
+                if (currentSlideIndex > 0) {
+                    loadSlide(currentSlideIndex - 1);
+                    slideChanged = true;
+                }
             } else if (event.key === 'Home') {
-                event.preventDefault(); loadSlide(0);
+                loadSlide(0);
+                slideChanged = true;
             } else if (event.key === 'End') {
-                event.preventDefault(); loadSlide(slideFiles.length - 1);
+                loadSlide(slideFiles.length - 1);
+                slideChanged = true;
             } else if (event.key === 'f' || event.key === 'F') {
-                event.preventDefault(); fullscreenButton.click();
+                fullscreenButton.click();
+                slideChanged = true; 
+            }
+            
+            if (slideChanged) {
+                event.preventDefault(); 
             }
         });
 
         // Initial load
         populateSlideSelector();
-        loadSlide(0); // Agora carrega o primeiro slide da lista modificada (Slide1.html)
+        // Garante que o iframe comece com o primeiro slide da lista
+        if (slideFiles.length > 0) {
+            slideFrame.src = slideFiles[0];
+            loadSlide(0); // Para inicializar os controles e o currentSlideIndex
+        } else {
+            // Lida com o caso de não haver slides
+            slideInfo.textContent = "Nenhum slide para exibir";
+            prevButton.disabled = true;
+            nextButton.disabled = true;
+        }
     </script>
 </body>
 </html>
