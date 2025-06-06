@@ -9,176 +9,282 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        .cyber-bg {
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 1rem;
+            box-sizing: border-box;
+            position: relative;
+            font-family: 'Poppins', sans-serif;
+            color: #e2e8f0;
+        }
+        .cyber-bg { /* Do Slide 3 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%),
-                        radial-gradient(circle at 20% 80%, #ff6b6b 0%, transparent 30%),
-                        radial-gradient(circle at 80% 20%, #4ecdc4 0%, transparent 30%),
-                        radial-gradient(circle at 40% 60%, #667eea 0%, transparent 40%);
+                        radial-gradient(circle at 30% 70%, #ff6b6b 0%, transparent 25%),
+                        radial-gradient(circle at 70% 30%, #4ecdc4 0%, transparent 25%);
+        }
+        .grid-pattern-overlay { /* Do Slide 3 (adaptado do Slide 2) */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: linear-gradient(rgba(102, 126, 234, 0.2) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.2) 1px, transparent 1px);
+            background-size: 30px 30px; /* Tamanho do grid do Slide 3 */
+            z-index: -1;
+        }
+        .main-content-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 95%;
+            max-width: 1200px; /* Similar ao max-w-6xl ou 7xl */
+            margin: 2rem auto;
+            display: flex;
+            flex-direction: column;
+            gap: clamp(1.5rem, 3vh, 2rem);
+        }
+        .header-senai {
+            position: absolute;
+            top: clamp(1rem, 2vh, 1.5rem);
+            right: clamp(1rem, 2vh, 1.5rem);
+            z-index: 20;
+        }
+        .logo-senai-img {
+            width: clamp(80px, 10vh, 96px);
+            height: auto;
+        }
+        .slide-header h1 {
+            font-size: clamp(2.2rem, 5vw, 3.125rem); /* text-5xl do Slide 2 */
+            margin-bottom: clamp(0.75rem, 1.5vh, 1rem); /* mb-4 do Slide 2 */
+            font-family: 'Orbitron', monospace;
+        }
+        .slide-header h2 {
+            font-size: clamp(1.25rem, 3vw, 1.5rem); /* text-2xl do Slide 2 */
+            font-family: 'Poppins', sans-serif;
         }
         .glow-text {
             text-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
         }
-        .neon-card {
-            background: rgba(255, 255, 255, 0.1);
+        .threat-card { /* Estilo do Slide 3 para os cards */
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(102, 126, 234, 0.3);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: clamp(1rem, 2vh, 1.5rem);
+            border-radius: 0.75rem; /* rounded-xl */
+            transition: all 0.3s ease;
+            text-align: center; /* Centralizar conteúdo dos cards */
         }
-        .danger-glow {
-            box-shadow: 0 0 20px rgba(255, 107, 107, 0.6);
+        .threat-card:hover {
+            transform: translateY(-5px) scale(1.03);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
         }
-        .warning-glow {
-            box-shadow: 0 0 20px rgba(255, 193, 7, 0.6);
+        .final-banner {
+            margin-top: clamp(1rem, 2vh, 1.5rem);
         }
-        .info-glow {
-            box-shadow: 0 0 20px rgba(78, 205, 196, 0.6);
+        .final-banner-content {
+            padding: clamp(0.75rem, 1.8vh, 1rem) clamp(1.5rem, 4vw, 2rem);
+            font-size: clamp(0.9rem, 2vh, 1.125rem); /* text-lg */
         }
-        .slide-up {
-            animation: slideUp 0.8s ease-out forwards;
+        .final-banner-content i {
+            font-size: clamp(1.1rem, 2.2vh, 1.25rem); /* text-xl */
+            margin-right: 0.75rem;
         }
+
+        /* Cores de borda/glow específicas para os cards de estatísticas */
+        .border-l-stat-red { border-left: 4px solid #ff6b6b; box-shadow: 0 0 20px rgba(255, 107, 107, 0.5); }
+        .border-l-stat-yellow { border-left: 4px solid #ffd93d; box-shadow: 0 0 20px rgba(255, 193, 7, 0.5); }
+        .border-l-stat-blue { border-left: 4px solid #667eea; box-shadow: 0 0 20px rgba(102, 126, 234, 0.5); }
+        .border-l-stat-green { border-left: 4px solid #4ecdc4; box-shadow: 0 0 20px rgba(78, 205, 196, 0.5); }
+        .border-l-stat-purple { border-left: 4px solid #a29bfe; box-shadow: 0 0 20px rgba(162, 155, 254, 0.5); }
+        .border-l-stat-orange { border-left: 4px solid #ff8c42; box-shadow: 0 0 20px rgba(255, 140, 66, 0.5); }
+
+
+        .stat-number { /* text-6xl do Slide 2 */
+            font-size: clamp(2.5rem, 6vw, 3.75rem);
+            font-weight: 900; /* font-black */
+        }
+        .stat-description-main { /* text-lg do Slide 2 */
+            font-size: clamp(1rem, 2vh, 1.125rem);
+            font-weight: 600; /* font-semibold */
+            margin-top: 0.5rem;
+        }
+        .stat-description-sub { /* text-sm do Slide 2 */
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem);
+            color: #cbd5e1; /* text-gray-300 */
+        }
+        .chart-title { /* text-xl do Slide 2 */
+            font-size: clamp(1.1rem, 2.2vh, 1.25rem);
+            font-weight: 700; /* font-bold */
+            margin-bottom: 1rem;
+        }
+        .list-card-title { /* text-lg font-bold do Slide 2 */
+            font-size: clamp(1rem, 2vh, 1.125rem);
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+        .list-card-item { /* text-sm do Slide 2 */
+            font-size: clamp(0.8rem, 1.5vh, 0.875rem);
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem; /* space-y-2 */
+        }
+        .list-card-item i {
+            margin-right: 0.5rem;
+        }
+        .data-highlight-box { /* Estilo das caixas de "Brasil 2024" */
+            border-radius: 0.5rem; /* rounded-lg */
+            padding: 0.75rem; /* p-3 */
+            margin-bottom: 0.75rem; /* space-y-3 */
+        }
+        .data-highlight-box .value { /* text-2xl font-bold */
+            font-size: clamp(1.25rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+        }
+
+
+        /* Animações */
+        .slide-up { animation: slideUp 0.8s ease-out forwards; }
         @keyframes slideUp {
-            from { opacity: 0; transform: translateY(50px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        .pulse-number {
-            animation: pulseNumber 2s ease-in-out infinite;
+        .pulse-icon { animation: pulseIcon 2s ease-in-out infinite; } /* Do Slide 3 */
+        @keyframes pulseIcon {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
         }
+        .pulse-number { animation: pulseNumber 2s ease-in-out infinite; } /* Do Slide 2 */
         @keyframes pulseNumber {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        .floating-icon {
-            animation: float 3s ease-in-out infinite;
-        }
+        .floating-icon { animation: float 3s ease-in-out infinite; } /* Do Slide 2 */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-5px); }
         }
     </style>
 </head>
-<body class="cyber-bg min-h-screen text-white font-sans" style="width: 1280px; min-height: 720px;">
-    <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(102, 126, 234, 0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(102, 126, 234, 0.3) 1px, transparent 1px); background-size: 40px 40px;"></div>
+<body>
+    <div class="cyber-bg"></div>
+    <div class="grid-pattern-overlay"></div>
 
-    <div class="absolute top-6 right-6 z-20">
-        <img src="senai.png" alt="Logo SENAI" class="w-24 h-auto">
-    </div>
+    <header class="header-senai">
+        <img src="senai.png" alt="Logo SENAI" class="logo-senai-img">
+    </header>
 
-    <div class="relative z-10 p-8">
-        <div class="text-center mb-8 slide-up">
-            <h1 class="text-5xl font-black mb-4 glow-text" style="font-family: 'Orbitron', monospace;">
+    <div class="main-content-wrapper">
+        <div class="text-center slide-header slide-up">
+            <h1 class="glow-text">
                 📊 A REALIDADE DIGITAL DOS JOVENS
             </h1>
-            <h2 class="text-2xl font-semibold text-cyan-300">
+            <h2 class="text-cyan-300">
                 Dados que você precisa conhecer sobre segurança online no Brasil
             </h2>
         </div>
 
-        <div class="grid grid-cols-12 gap-6 max-w-7xl mx-auto">
-            <div class="col-span-8 space-y-4">
-                <div class="grid grid-cols-2 gap-4 mb-6 slide-up" style="animation-delay: 0.2s;">
-                    <div class="neon-card rounded-xl p-6 danger-glow">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <div class="text-6xl font-black text-red-400 pulse-number">60%</div>
-                                <div class="text-lg font-semibold mt-2">dos adolescentes brasileiros</div>
-                                <div class="text-sm text-gray-300">já sofreram assédio em jogos online</div>
-                            </div>
-                            <i class="fas fa-exclamation-triangle text-4xl text-red-400 floating-icon"></i>
-                        </div>
-                    </div>
+        <!-- Grid Principal Adaptado -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full">
 
-                    <div class="neon-card rounded-xl p-6 warning-glow">
-                        <div class="flex items-center justify-between">
-                            <div>
-                                <div class="text-6xl font-black text-yellow-400 pulse-number">32%</div>
-                                <div class="text-lg font-semibold mt-2">dos jovens 15-17 anos</div>
-                                <div class="text-sm text-gray-300">receberam conteúdo sexual online</div>
-                            </div>
-                            <i class="fas fa-eye-slash text-4xl text-yellow-400 floating-icon"></i>
-                        </div>
-                    </div>
+            <!-- Card: 60% Assédio -->
+            <div class="threat-card border-l-stat-red slide-up" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-center mb-2">
+                    <i class="fas fa-exclamation-triangle text-3xl text-red-400 mr-3 pulse-icon"></i>
+                    <div class="stat-number text-red-400 pulse-number">60%</div>
                 </div>
+                <div class="stat-description-main">dos adolescentes brasileiros</div>
+                <div class="stat-description-sub">já sofreram assédio em jogos online</div>
+            </div>
 
-                <div class="neon-card rounded-xl p-6 slide-up" style="animation-delay: 0.4s;">
-                    <h3 class="text-xl font-bold mb-4 text-center">
-                        <i class="fas fa-chart-line text-purple-400 mr-2"></i>
-                        Crescimento dos Crimes Cibernéticos no Brasil
-                    </h3>
-                    <div style="height: 250px;">
-                        <canvas id="crimeChart"></canvas>
+            <!-- Card: 32% Conteúdo Sexual -->
+            <div class="threat-card border-l-stat-yellow slide-up" style="animation-delay: 0.2s;">
+                 <div class="flex items-center justify-center mb-2">
+                    <i class="fas fa-eye-slash text-3xl text-yellow-400 mr-3 pulse-icon"></i>
+                    <div class="stat-number text-yellow-400 pulse-number">32%</div>
+                </div>
+                <div class="stat-description-main">dos jovens 15-17 anos</div>
+                <div class="stat-description-sub">receberam conteúdo sexual online</div>
+            </div>
+
+            <!-- Card: Gráfico (ocupa mais espaço em telas maiores) -->
+            <div class="threat-card border-l-stat-purple lg:col-span-1 md:col-span-2 slide-up" style="animation-delay: 0.3s;">
+                <h3 class="chart-title text-center text-purple-300">
+                    <i class="fas fa-chart-line mr-2"></i>
+                    Crimes Cibernéticos (Brasil)
+                </h3>
+                <div style="height: 180px; min-height: 150px;"> <!-- Altura ajustada para card menor -->
+                    <canvas id="crimeChart"></canvas>
+                </div>
+            </div>
+
+
+            <!-- Card: Riscos no Discord -->
+            <div class="threat-card border-l-stat-blue slide-up" style="animation-delay: 0.4s;">
+                <div class="text-center mb-2">
+                    <i class="fab fa-discord text-3xl text-blue-400 mb-1 pulse-icon"></i>
+                    <h4 class="list-card-title text-blue-300">Riscos no Discord</h4>
+                </div>
+                <div>
+                    <div class="list-card-item"><i class="fas fa-shield-alt text-red-400"></i><span>Sem verificação de idade eficaz</span></div>
+                    <div class="list-card-item"><i class="fas fa-users text-red-400"></i><span>Servidores com conteúdo impróprio</span></div>
+                    <div class="list-card-item"><i class="fas fa-comment text-red-400"></i><span>Mensagens privadas de desconhecidos</span></div>
+                </div>
+            </div>
+
+            <!-- Card: Brasil 2024 -->
+            <div class="threat-card border-l-stat-green slide-up" style="animation-delay: 0.5s;">
+                <div class="text-center mb-2">
+                    <i class="fas fa-calendar-alt text-3xl text-green-400 mb-1 pulse-icon"></i>
+                    <h4 class="list-card-title text-green-300">Brasil 2024</h4>
+                </div>
+                <div>
+                    <div class="data-highlight-box bg-red-700 bg-opacity-30">
+                        <div class="value text-red-300">52.999</div>
+                        <div class="stat-description-sub">denúncias de abuso sexual infantil</div>
+                    </div>
+                    <div class="data-highlight-box bg-yellow-700 bg-opacity-30">
+                        <div class="value text-yellow-300">+13,6%</div>
+                        <div class="stat-description-sub">aumento em golpes digitais</div>
                     </div>
                 </div>
             </div>
 
-            <div class="col-span-4 space-y-4">
-                <div class="neon-card rounded-xl p-4 slide-up info-glow" style="animation-delay: 0.6s;">
-                    <div class="text-center mb-3">
-                        <i class="fab fa-discord text-3xl text-blue-400 mb-2"></i>
-                        <h4 class="font-bold text-lg">Riscos no Discord</h4>
-                    </div>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-center">
-                            <i class="fas fa-shield-alt text-red-400 mr-2"></i>
-                            <span>Sem verificação de idade eficaz</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-users text-red-400 mr-2"></i>
-                            <span>Servidores com conteúdo impróprio</span>
-                        </div>
-                        <div class="flex items-center">
-                            <i class="fas fa-comment text-red-400 mr-2"></i>
-                            <span>Mensagens privadas de desconhecidos</span>
-                        </div>
-                    </div>
+            <!-- Card: Por que são alvos? -->
+            <div class="threat-card border-l-stat-orange slide-up" style="animation-delay: 0.6s;">
+                <div class="text-center mb-2">
+                    <i class="fas fa-user-shield text-3xl text-orange-400 mb-1 pulse-icon"></i>
+                    <h4 class="list-card-title text-orange-300">Por que vocês são alvos?</h4>
                 </div>
-
-                <div class="neon-card rounded-xl p-4 slide-up" style="animation-delay: 0.8s;">
-                    <h4 class="font-bold text-lg mb-3 text-center">
-                        <i class="fas fa-calendar-alt text-green-400 mr-2"></i>
-                        Brasil 2024
-                    </h4>
-                    <div class="space-y-3 text-sm">
-                        <div class="bg-red-600 bg-opacity-30 rounded-lg p-3">
-                            <div class="text-2xl font-bold text-red-300">52.999</div>
-                            <div>denúncias de abuso sexual infantil</div>
-                        </div>
-                        <div class="bg-yellow-600 bg-opacity-30 rounded-lg p-3">
-                            <div class="text-2xl font-bold text-yellow-300">+13,6%</div>
-                            <div>aumento em golpes digitais</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="neon-card rounded-xl p-4 slide-up" style="animation-delay: 1s;">
-                    <h4 class="font-bold text-lg mb-3 text-center">
-                        <i class="fas fa-user-shield text-orange-400 mr-2"></i>
-                        Por que vocês são alvos?
-                    </h4>
-                    <div class="space-y-2 text-sm">
-                        <div class="flex items-start">
-                            <i class="fas fa-brain text-purple-400 mr-2 mt-1"></i>
-                            <span>Cérebro ainda em desenvolvimento</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-heart text-pink-400 mr-2 mt-1"></i>
-                            <span>Mais confiança em desconhecidos</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-gamepad text-blue-400 mr-2 mt-1"></i>
-                            <span>Maior tempo online (jogos/redes)</span>
-                        </div>
-                        <div class="flex items-start">
-                            <i class="fas fa-share text-green-400 mr-2 mt-1"></i>
-                            <span>Compartilham mais informações</span>
-                        </div>
-                    </div>
+                <div>
+                    <div class="list-card-item"><i class="fas fa-brain text-purple-400"></i><span>Cérebro ainda em desenvolvimento</span></div>
+                    <div class="list-card-item"><i class="fas fa-heart text-pink-400"></i><span>Mais confiança em desconhecidos</span></div>
+                    <div class="list-card-item"><i class="fas fa-gamepad text-blue-400"></i><span>Maior tempo online (jogos/redes)</span></div>
+                    <div class="list-card-item"><i class="fas fa-share text-green-400"></i><span>Compartilham mais informações</span></div>
                 </div>
             </div>
         </div>
-
-        <div class="mt-6 text-center slide-up" style="animation-delay: 1.2s;">
-            <div class="inline-flex items-center bg-gradient-to-r from-red-600 to-pink-600 rounded-full px-8 py-3 text-lg font-bold">
-                <i class="fas fa-bolt text-yellow-300 mr-3 text-xl"></i>
+        
+        <div class="text-center slide-up final-banner" style="animation-delay: 0.8s;">
+             <div class="inline-flex items-center bg-gradient-to-r from-red-600 to-pink-600 rounded-full final-banner-content font-bold">
+                <i class="fas fa-bolt text-yellow-300 pulse-icon"></i>
                 <span>A boa notícia: 99% dos ataques podem ser evitados com conhecimento! 🛡️</span>
             </div>
         </div>
@@ -186,9 +292,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Animated chart
             const ctx = document.getElementById('crimeChart');
-            // Verifica se o elemento canvas existe antes de tentar obter o contexto
             if (ctx) {
                 const chart = new Chart(ctx.getContext('2d'), {
                     type: 'line',
@@ -199,7 +303,8 @@
                             data: [100, 113.6, 125],
                             borderColor: '#ff6b6b',
                             backgroundColor: 'rgba(255, 107, 107, 0.1)',
-                            borderWidth: 3,
+                            borderWidth: 2, // Mais fino para card menor
+                            pointRadius: 3,
                             fill: true,
                             tension: 0.4
                         }, {
@@ -207,7 +312,8 @@
                             data: [45, 55, 60],
                             borderColor: '#4ecdc4',
                             backgroundColor: 'rgba(78, 205, 196, 0.1)',
-                            borderWidth: 3,
+                            borderWidth: 2, // Mais fino para card menor
+                            pointRadius: 3,
                             fill: true,
                             tension: 0.4
                         }]
@@ -219,10 +325,7 @@
                             legend: {
                                 labels: {
                                     color: '#ffffff',
-                                    font: {
-                                        size: 14,
-                                        weight: 'bold'
-                                    }
+                                    font: { size: 10 } // Fonte menor para legenda
                                 }
                             }
                         },
@@ -230,26 +333,16 @@
                             x: {
                                 ticks: {
                                     color: '#ffffff',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    }
+                                    font: { size: 9 } // Fonte menor para eixos
                                 },
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                }
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
                             },
                             y: {
                                 ticks: {
                                     color: '#ffffff',
-                                    font: {
-                                        size: 12,
-                                        weight: 'bold'
-                                    }
+                                    font: { size: 9 } // Fonte menor para eixos
                                 },
-                                grid: {
-                                    color: 'rgba(255, 255, 255, 0.1)'
-                                }
+                                grid: { color: 'rgba(255, 255, 255, 0.05)' }
                             }
                         }
                     }
